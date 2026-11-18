@@ -25,7 +25,7 @@ jobs:
       - run: pip install numpy pandas tabulate
       - run: python ncaab_grade.py selftest
       - name: restore ledger
-        run: gh release download ledger -p ncaab.sqlite || echo "no ledger yet"
+        run: gh release download ledger -p ncaab.sqlite --clobber || echo "no ledger yet"
       - name: sync
         run: python ncaab_grade.py sync ${{ inputs.backfill_from && format('--backfill-from {0}', inputs.backfill_from) || '' }}
       - name: save ledger
@@ -36,5 +36,7 @@ jobs:
         run: |
           git config user.name ncaab-bot
           git config user.email ncaab-bot@users.noreply.github.com
+          echo ncaab.sqlite >> .git/info/exclude              # the ledger lives in the release, never in git
+          git rm --cached -q --ignore-unmatch ncaab.sqlite
           git add -A
           git diff --cached --quiet || (git commit -m "sync $(date -u +%F)" && git push)
