@@ -47,6 +47,7 @@ the name says `nélkül` (without).
 | `TEAM_TOTAL` | one team's points | same |
 | `1X2`, `DNB` | 3-way / draw-no-bet, mostly halves | regulation or that half; tie = draw / push |
 | `ODD_EVEN` | odd/even points | counted points |
+| `RACE` | first to N points: full game 2-way, first half 3-way with "neither" | ESPN play-by-play (`RACE` line in the results file); no play-by-play = not graded |
 | `UNPARSED` | quarters (college has none), half/full-time doubles, bands, races, anything unknown | stored, never graded |
 
 The script types a market by the site's own selection codes (home/draw/away, over/under, handicap, odd/even); the
@@ -168,6 +169,12 @@ continuity, a fitted spread-to-win curve for blowouts.
 `report` runs the bandit over every bet type × scope × side and these hypotheses fixed in advance: favourite /
 underdog to win; home / away side on the handicap; big favourites (−15 or more) / big underdogs (+15 or more);
 short legs (book ≥70%) / longshots (<30%).
+
+Added 2026-11-18, before any NCAAB game was graded: handicap at the line nearest to even (favourite / underdog);
+first-half handicap (favourite / underdog); handicap where the model differs from the book by 5+ points (for /
+against); race favourite / underdog, split at targets ≤25 and ≥30; first-half race "neither"; race where the model
+likes a side by 5+ points. The "model" arms are the test of whether prediction pays: they need positive `belief`,
+not just a good-looking `seen`.
 
 - Start belief: the book's price is right (prior mean = the return its own no-vig price implies, SD 4 points).
 - Evidence: mean return per game, with its standard error.

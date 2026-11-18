@@ -1,5 +1,22 @@
 # Changelog
 
+## ncaab-0.5 (2026-11-18)
+- **Race markets are typed and graded** (`RACE`): "Ki ér el elsőként 20 pontot" (full game, 2-way) and
+  "1.félidő - verseny a(z) N pontért" (first half, 3-way with "Egyik sem" = neither). A half race with only two
+  live selections is priced with an assumed margin and never pooled.
+- Settlement needs the order of scoring, so `results --pbp` reads ESPN's play-by-play for each game and writes a
+  `RACE 5:H1 10:A1 ...` line (who reached each multiple of 5 first, and in which period). Written only when the
+  play-by-play is monotone and ends on the final score. The workflow uses `--pbp` for the last 3 days only.
+  Play-by-play field layout read off the live feed (one game); the fetch itself is untested until the job runs.
+- v0 race model (unfitted, weight 0): chance of leading after the share of the game it takes to reach N points;
+  half races add the chance that neither gets there. Against the book on 59 boards: correlation 0.93-0.98, mean
+  gap 5-6 points.
+- Bandit: 14 new arms fixed before any NCAAB game was graded - handicap (line nearest to even: favourite /
+  underdog; first half: favourite / underdog; model likes / dislikes by 5+ points) and race (favourite / underdog;
+  to 25 or less; to 30 or more; neither; model likes by 5+ points).
+- The book's cut, 59 boards: to win 4.3%, first-half draw-no-bet 4.4%, handicap 7.5% over the ladder, totals 7.9%,
+  first to 20 7.5%, first-half races **10.2%** (the most expensive market on the board).
+
 ## ncaab-0.4 (2026-11-18)
 First real NCAAB boards (59 games, capture 2026-11-18 11:31). Found and fixed:
 - **Silent wrong type:** `1.félidő - verseny a(z) N pontért` (race to N points) with two selections was read as a

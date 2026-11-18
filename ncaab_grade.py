@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.4"
+MODEL_VERSION = "ncaab-0.5"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
@@ -44,6 +44,8 @@ HCA, SD_MARGIN, SD_TOTAL = 3.2, 11.0, 17.0                     # unfitted starti
 MIN_TEAM_GAMES, RIDGE, HALF_LIFE = 4, 0.15, 150.0             # fit: fewest games to rate a team, shrinkage, days
 #   ridge / half-life chosen 2026-11-18 on 7,205 real games (walk-forward, Jan-Feb and Nov): see CHANGELOG
 HOME, DRAW, AWAY, OVER, UNDER, HCP_H, HCP_A, ODD, EVEN = 1, 2, 3, 12, 13, 1714, 1715, 70, 72   # site's own codes
+NEITHER = 7                                                    # "Egyik sem" in a race market
+RACE = re.compile(r"verseny a\(z\) \d+ pontért|ki ér el elsőként \d+ pontot")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS predictions (night TEXT, capture TEXT, row_key TEXT, game TEXT, home TEXT, away TEXT,
@@ -114,6 +116,8 @@ def classify(name: str, tids: set, teams: tuple[str, str]) -> tuple[str, str, in
     ot = int(scope == "G" and "nélkül" not in low)             # full-game basketball markets include overtime
     if (scope == "G" and re.match(r"\s*\d\s*\.", low)) or scope not in ("G", "H1", "H2"):
         return "UNPARSED", scope, ot, team                     # quarters, numbered parts that are not halves
+    if RACE.search(low):                                       # who gets to N points first (half: + 'neither')
+        return ("RACE" if scope in ("G", "H1") and tids and tids <= {HOME, AWAY, NEITHER} else "UNPARSED"), scope, ot, None
     if re.search(r" és | & |pontos|multi|tartomány|különbség|melyik|hányadik|első|utolsó|ki ér el|verseny|félidő/", bare):
         return "UNPARSED", scope, ot, team
     if tids == {HOME, AWAY}:
@@ -168,6 +172,11 @@ def board_rows(path) -> list[dict]:
                 side, subject = ("over" if t == OVER else "under"), team
             elif typ == "ODD_EVEN":
                 side, subject, line = ("odd" if t == ODD else "even"), team, None
+            elif typ == "RACE":
+                side, subject = {HOME: "home", AWAY: "away", NEITHER: "neither"}.get(t), cid.get(o.get("competitorId"))
+                tgt = re.search(r"(\d+) pont", name)
+                line = float(tgt.group(1)) if tgt else None
+                side = side if line is not None else None
             ty = typ if (side is not None or typ == "UNPARSED") else "UNPARSED"
             key = hashlib.md5(f"{away}@{home}|{ty}|{scope}|{subject}|{side}|{line}|{name}|{nm if ty == 'UNPARSED' else ''}".encode()).hexdigest()[:16]
             rows.append(dict(row_key=key, game=f"{away}@{home}", home=home, away=away, market=name, type=ty, scope=scope,
@@ -182,11 +191,12 @@ def devig(B: pd.DataFrame) -> pd.DataFrame:
     B = B.copy()
     B["imp"] = 1 / B.odds
     ln = np.where((B.type == "HANDICAP") & (B.side == "away"), -B.line.fillna(0), B.line.fillna(0))
-    lined = B.type.isin(["TOTAL", "TEAM_TOTAL", "HANDICAP"])
+    lined = B.type.isin(["TOTAL", "TEAM_TOTAL", "HANDICAP", "RACE"])
     B["grp"] = B.mid.astype(str) + np.where(lined, "|" + pd.Series(ln, index=B.index).round(2).astype(str), "")
     g = B.groupby("grp")
     B["overround"], n, sides = g.imp.transform("sum"), g.imp.transform("size"), g.side.transform("nunique")
-    need = np.where(B.type == "1X2", 3, 2)
+    need = np.where((B.type == "1X2") | ((B.type == "RACE") & (B.scope != "G")), 3, 2)   # a half race needs 'neither'
+
     ok = (n == need) & (sides == need) & B.overround.between(1.0, 1.25) & (B.type != "UNPARSED")
     med = B.loc[ok, "overround"].median() if ok.any() else 1.07
     B["p_book"] = np.where(ok, B.imp / B.overround, np.minimum(B.imp / med, 0.999))
@@ -228,6 +238,16 @@ def model_p(r, ph: float, pa: float) -> float | None:
     m, tot, sdm, sdt = (ph - pa) * k, (ph + pa) * k, SD_MARGIN * math.sqrt(k), SD_TOTAL * math.sqrt(k)
     sd_team = math.sqrt(sdm ** 2 + sdt ** 2) / 2
     t, s, L = r.type, r.side, r.line
+    if t == "RACE":                                            # v0, unfitted: the lead after the share of the game
+        if L is None or L != L:                                # it takes the leader to reach L points
+            return None
+        frac = min(L / ((ph + pa) / 2), 1.0 if r.scope == "G" else 0.5)
+        first = ncdf((ph - pa) * math.sqrt(frac) / SD_MARGIN)
+        if r.scope == "G":
+            return first if s == "home" else 1 - first if s == "away" else None
+        sh = math.sqrt(SD_MARGIN ** 2 + SD_TOTAL ** 2) / 2 / math.sqrt(2)
+        none = ncdf((L - 0.5 - ph / 2) / sh) * ncdf((L - 0.5 - pa / 2) / sh)
+        return none if s == "neither" else (1 - none) * (first if s == "home" else 1 - first)
     if t in ("ML", "DNB"):
         p = ncdf(m / sdm)
         return p if s == "home" else 1 - p
@@ -312,6 +332,8 @@ def read_results(path: str) -> tuple[dict, list[str]]:
     """GAME <away>@<home>   (team names exactly as on the board)
        H <team>: h1 h2 [ot1 ot2 ...]      one line per team
        NEUTRAL                            optional: neutral court (used by `fit` and by the model, not by grading)
+       RACE 10:H1 15:A1 20:A1 ...         optional, from play-by-play: target points : H/A = the home/away team of
+                                          the GAME line got there first, then the period (1, 2, 3+ = overtime)
     Rejected: a tie without overtime, overtime without a regulation tie, unequal period counts, unknown team."""
     return parse_results(Path(path).read_text(encoding="utf-8"))
 
@@ -334,9 +356,13 @@ def parse_results(text: str) -> tuple[dict, list[str]]:
                 g = ln[5:].strip()
                 a, h = (ALIAS.get(norm_team(x), norm_team(x)) for x in g.split("@"))
                 g = f"{a}@{h}"
-                games[g] = dict(home=h, away=a, per={}, neutral=False, ok=True)
+                games[g] = dict(home=h, away=a, per={}, neutral=False, ok=True, race={})
             elif ln == "NEUTRAL":
                 games[g]["neutral"] = True
+            elif ln.startswith("RACE "):                       # RACE 10:H1 15:A1 ...  = target:who got there first + period
+                for tok in ln[5:].split():
+                    n_, w_ = tok.split(":")
+                    games[g]["race"][int(n_)] = (games[g]["home" if w_[0] == "H" else "away"], int(w_[1:]))
             elif ln.startswith("H "):
                 t, v = ln[2:].rsplit(":", 1)
                 t = ALIAS.get(norm_team(t), norm_team(t))
@@ -387,6 +413,15 @@ def settle(r, d: dict) -> tuple[str | None, float | None]:
     if t == "ODD_EVEN":
         x = hg + ag if not r.subject else (hg if r.subject == d["home"] else ag)
         return yn((x % 2 == 1) == (s == "odd")), x
+    if t == "RACE":
+        if not d.get("race") or L is None:                     # no play-by-play for this game: unknown, not graded
+            return None, None
+        who, per = d["race"].get(int(L), (None, 0))
+        if r.scope == "H1" and per != 1:
+            who = None                                         # nobody got there before half-time
+        if who is None and r.scope == "G":
+            return None, None                                  # nobody reached it in the whole game: left ungraded
+        return yn(s == ("neither" if who is None else "home" if who == d["home"] else "away")), float(per)
     return None, None
 
 
@@ -433,6 +468,11 @@ def decided(con, last_only: bool = True) -> pd.DataFrame:
     d["book_ret"] = d.p_book * d.odds - 1
     d["cluster"] = d.night + "|" + d.game
     d["family"] = [family(t, s) for t, s in zip(d.type, d.scope)]
+    d["dist"] = (d.p_book - 0.5).abs()
+    d["mid_line"] = d.dist == d.groupby(["cluster", "type", "scope"]).dist.transform("min")     # the line nearest to even
+    two = d.p_book.where(d.side.isin(["home", "away"]))
+    d["race_fav"] = (d.type == "RACE") & (two == two.groupby([d.cluster, d.market]).transform("max"))
+    d["edge"] = d.p_model - d.p_book
     return d
 
 
@@ -461,6 +501,21 @@ def bandit(d: pd.DataFrame) -> pd.DataFrame:
                  "* Big underdog +15 or more, handicap": x[(x.type == "HANDICAP") & (x.scope == "G") & (x.line >= 15)],
                  "* Short legs (book 70%+)": x[x.p_book >= 0.7], "* Longshot legs (book under 30%)": x[x.p_book < 0.3],
                  "* Favourite side, any market": x[fav & x.type.isin(["ML", "HANDICAP"])]})
+    hc, rc = x[x.type == "HANDICAP"], x[(x.type == "RACE") & x.side.isin(["home", "away"])]
+    arms.update({                                              # set 2026-11-18, before any NCAAB game was graded
+        "* Handicap, line nearest to even: favourite": hc[hc.mid_line & (hc.scope == "G") & (hc.line < 0)],
+        "* Handicap, line nearest to even: underdog": hc[hc.mid_line & (hc.scope == "G") & (hc.line > 0)],
+        "* Handicap, 1st half: favourite": hc[(hc.scope == "H1") & (hc.line < 0)],
+        "* Handicap, 1st half: underdog": hc[(hc.scope == "H1") & (hc.line > 0)],
+        "* Handicap, model likes it by 5+ pts": hc[hc.edge >= 0.05],
+        "* Handicap, model against it by 5+ pts": hc[hc.edge <= -0.05],
+        "* Race: favourite": rc[rc.race_fav], "* Race: underdog": rc[~rc.race_fav],
+        "* Race to 25 or less: favourite": rc[rc.race_fav & (rc.line <= 25)],
+        "* Race to 25 or less: underdog": rc[~rc.race_fav & (rc.line <= 25)],
+        "* Race to 30 or more: favourite": rc[rc.race_fav & (rc.line >= 30)],
+        "* Race to 30 or more: underdog": rc[~rc.race_fav & (rc.line >= 30)],
+        "* Race, 1st half: neither gets there": x[(x.type == "RACE") & (x.side == "neither")],
+        "* Race, model likes it by 5+ pts": rc[rc.edge >= 0.05]})
     rows = []
     for name, a in arms.items():
         g = a.groupby("cluster").ret.mean()
@@ -567,7 +622,36 @@ def report(con) -> None:
 
 
 # ------------------------------------------------------------------ ESPN public scoreboard: results and slate
-def fetch_results(date: str, out: str, slate: bool = False) -> int:
+def race_line(event_id: str, hp: int, ap: int) -> str | None:
+    """ESPN play-by-play -> 'RACE 5:H1 10:A1 ...' (who reached each multiple of 5 first, and in which period). None
+    when the play-by-play is missing, runs backwards, or does not end on the final score: unknown, never guessed."""
+    import urllib.request
+    url = f"https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/summary?event={event_id}"
+    js = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read())
+    return race_from_plays(js.get("plays") or [], hp, ap)
+
+
+def race_from_plays(plays: list, hp: int, ap: int) -> str | None:
+    got, h0, a0 = {}, 0, 0
+    for pl in plays:
+        try:
+            h, a, per = int(pl["homeScore"]), int(pl["awayScore"]), int(pl["period"]["number"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if h < h0 or a < a0:
+            return None
+        for n in range(5, 201, 5):
+            if n not in got and (h >= n or a >= n) and not (h0 >= n or a0 >= n):
+                if h >= n and a >= n:
+                    return None                                # both crossed on one line of the feed: order unknown
+                got[n] = f"{n}:{'H' if h >= n else 'A'}{per}"
+        h0, a0 = h, a
+    if (h0, a0) != (hp, ap) or not got:
+        return None
+    return "RACE " + " ".join(got[n] for n in sorted(got))
+
+
+def fetch_results(date: str, out: str, slate: bool = False, pbp: bool = False) -> int:
     """Finished games of a US Eastern date, score by half (slate=True: every game on the card, no scores, to learn
     which are on a neutral court before tip). Team names are ESPN's 'displayName' ('Baylor Bears'); where the board
     spells a team differently, add a line to results_aliases.csv (espn,board) next to this file. A game whose
@@ -582,7 +666,7 @@ def fetch_results(date: str, out: str, slate: bool = False) -> int:
     nm = lambda x: alias.get(x["team"]["displayName"], x["team"]["displayName"])
     per = lambda x: " ".join(str(int(float(p.get("value", p.get("displayValue", 0))))) for p in x.get("linescores", []))
     L = [f"# NCAAB {'slate' if slate else 'results'} {date} (US Eastern date) from ESPN scoreboard, fetched {pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}Z"]
-    n = skip = 0
+    n = skip = races = 0
     for ev in js.get("events", []):
         c = ev["competitions"][0]
         t = {x.get("homeAway"): x for x in c.get("competitors", [])}
@@ -598,11 +682,20 @@ def fetch_results(date: str, out: str, slate: bool = False) -> int:
                 L += ["", f"# SKIPPED: {errs[0]}"] + ["# " + b for b in blk]
                 skip += 1
                 continue
+            if pbp:
+                try:
+                    import time
+                    time.sleep(0.15)
+                    rl = race_line(ev["id"], *(sum(int(x) for x in per(t[k]).split()) for k in ("home", "away")))
+                except Exception:
+                    rl = None
+                blk += [rl] if rl else []
+                races += bool(rl)
         L += [""] + blk
         n += 1
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     Path(out).write_text("\n".join(L) + "\n", encoding="utf-8")
-    print(f"{out}: {n} games written, {skip} skipped as inconsistent")
+    print(f"{out}: {n} games written, {skip} skipped as inconsistent" + (f", {races} with play-by-play races" if pbp else ""))
     return n
 
 
@@ -741,6 +834,13 @@ def picks(night: str, capture: str | None, con) -> None:
               "\nThe middle line of each game. A gap is more often the model missing news than the book being wrong."]
     else:
         L.append("No model prices (no ratings yet, or the teams are not in them).")
+    rc = P[(P.type == "RACE") & P.side.isin(["home", "away"])]
+    if len(rc):
+        rc = rc.loc[rc.groupby(["game", "line"]).p_book.idxmax()].sort_values("p_book", ascending=False)
+        L += ["\n## First to 20 points, full game (book's favourite in each race)\n",
+              pd.DataFrame(dict(game=rc.game, first_to=rc.line.astype(int), team=rc.subject, odds=rc.odds, book=rc.p_book.map(f),
+                                model=rc.p_model.map(f), exp_return=rc.exp_ret.map(lambda v: f(v, True)))).to_markdown(index=False),
+              "\nFirst-half races (to 20-60, with 'neither') are in the ledger; their cut is about 10%, the highest on the board."]
     out = Path(DB).with_name("ncaab_picks.md")
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L[:6 if len(W) else 5])[:6000])
@@ -833,6 +933,10 @@ def selftest() -> None:
     M("1. félidő - pontok száma", [("70,5 felett", 12, 1.90, None, "70.5"), ("70,5 alatt", 13, 1.90, None, "70.5")])
     M("1. félidő - 1X2", [(H, 1, 1.50, 1, None), ("Döntetlen", 2, 12.0, None, None), (A, 3, 3.20, 2, None)])
     M("Félidő/végeredmény", [("x/y", 900, 5.0, None, None)])
+    M("1.félidő - verseny a(z) 20 pontért", [(H, 1, 1.65, 1, "20"), ("Egyik sem", 7, 81.0, None, "20"), (A, 3, 2.10, 2, "20")])
+    M("1.félidő - verseny a(z) 45 pontért", [(H, 1, 8.0, 1, "45"), ("Egyik sem", 7, 1.11, None, "45"), (A, 3, 12.0, 2, "45")])
+    M("1.félidő - verseny a(z) 30 pontért", [(H, 1, 1.60, 1, "30"), (A, 3, 2.20, 2, "30")])          # 'neither' missing
+    M("Ki ér el elsőként 20 pontot (hosszabbítást beleértve)?", [(H, 1, 1.62, 1, "20"), (A, 3, 2.15, 2, "20")])
     M("1. negyed - pontok száma", [("30,5 felett", 12, 1.9, None, "30.5"), ("30,5 alatt", 13, 1.9, None, "30.5")])
     ev = dict(markets=mk, odds=od, competitors=[dict(id=1, name=H), dict(id=2, name=A)])
     tmp = Path(tempfile.mkdtemp())
@@ -843,7 +947,7 @@ def selftest() -> None:
         (tmp / cap / "BAY-JKST.net.json").write_text(json.dumps([dict(url="GetEventDetails", body=e2)]))
     (tmp / "teams.csv").write_text(f"team,adj_o,adj_d,tempo\n{H},118,95,68\n{A},100,108,70\nOther,108,104,68\n")
     # Baylor 40+38 = 78, Jackson State 36+42 = 78 -> overtime 11:6 -> final 89:84
-    (tmp / "res.txt").write_text(f"GAME {A}@{H}\nH {H}: 40 38 11\nH {A}: 36 42 6\n")
+    (tmp / "res.txt").write_text(f"GAME {A}@{H}\nH {H}: 40 38 11\nH {A}: 36 42 6\nRACE 10:H1 20:A1 30:H1 40:H1 45:A2 50:A2\n")
     global DB
     DB = str(tmp / "t.sqlite")
     con = connect()
@@ -858,7 +962,10 @@ def selftest() -> None:
             ("TOTAL", "G", "over", 150.5): "won",                                                 # 173 with overtime
             ("TEAM_TOTAL", "G", "over", 80.5): "won",                                             # Baylor 89
             ("HANDICAP", "H1", "home", -5.5): "lost", ("HANDICAP", "H1", "away", 5.5): "won",     # 40:36
-            ("TOTAL", "H1", "over", 70.5): "won", ("1X2", "H1", "home", None): "won", ("1X2", "H1", "draw", None): "lost"}
+            ("TOTAL", "H1", "over", 70.5): "won", ("1X2", "H1", "home", None): "won", ("1X2", "H1", "draw", None): "lost",
+            ("RACE", "H1", "away", 20.0): "won", ("RACE", "H1", "home", 20.0): "lost", ("RACE", "H1", "neither", 20.0): "lost",
+            ("RACE", "H1", "neither", 45.0): "won", ("RACE", "H1", "away", 45.0): "lost",        # 45 reached only after half-time
+            ("RACE", "G", "away", 20.0): "won", ("RACE", "G", "home", 20.0): "lost", ("RACE", "H1", "home", 30.0): "won"}
     bad = [(k, v, R.get(k)) for k, v in want.items() if R.get(k) != v]
     d = decided(con)
     (tmp / "bad.txt").write_text(f"GAME {A}@{H}\nH {H}: 40 38\nH {A}: 36 42\n")
@@ -868,7 +975,16 @@ def selftest() -> None:
               ("handicap lines pair up", (g[g.type == "HANDICAP"].p_method == "no_vig").all(), None),
               ("model favours Baylor", float(g[(g.type == "ML") & (g.side == "home")].p_model.iloc[0]) > 0.8, None),
               ("only the last capture is pooled", set(d.capture) == {"1730"} and d.cluster.nunique() == 1, None),
-              ("tie without overtime rejected", bool(read_results(str(tmp / "bad.txt"))[1]), None)]
+              ("tie without overtime rejected", bool(read_results(str(tmp / "bad.txt"))[1]), None),
+              ("race: 3-way and 2-way priced, 2 of 3 not pooled", (g[(g.type == "RACE") & (g.line != 30)].p_method == "no_vig").all()
+               and (g[(g.type == "RACE") & (g.line == 30)].p_method != "no_vig").all()
+               and abs(g[(g.type == "RACE") & (g.line == 45)].p_book.sum() - 1) < 1e-9, None),
+              ("race model: sums to 1, favours Baylor", abs(g[(g.type == "RACE") & (g.line == 20) & (g.scope == "H1")].p_model.sum() - 1) < 1e-9
+               and float(g[(g.type == "RACE") & (g.scope == "G") & (g.side == "home")].p_model.iloc[0]) > 0.6, None),
+              ("play-by-play -> race line", race_from_plays(
+                  [dict(homeScore=h, awayScore=a, period=dict(number=q)) for h, a, q in
+                   ((0, 0, 1), (3, 0, 1), (3, 5, 1), (9, 5, 1), (9, 11, 1), (12, 11, 2))], 12, 11) == "RACE 5:A1 10:A1"
+               and race_from_plays([dict(homeScore=3, awayScore=0, period=dict(number=1))], 70, 60) is None, None)]
     report(con)
     txt = Path(DB).with_name("ncaab_report.md").read_text()
     checks.append(("open-vs-close section filled", "price shortened" in txt, None))
@@ -919,6 +1035,7 @@ def main():
     s.add_argument("--capture"); s.add_argument("--teams"); s.add_argument("--slate")
     s = sub.add_parser("results"); s.add_argument("--date", required=True); s.add_argument("--out", required=True)
     s.add_argument("--to", help="last date of a range; --out is then a folder, one file per date")
+    s.add_argument("--pbp", action="store_true", help="also read each game's play-by-play (needed to grade race markets)")
     s = sub.add_parser("slate"); s.add_argument("--date", required=True); s.add_argument("--out", required=True)
     s = sub.add_parser("fit"); s.add_argument("--results", default="results"); s.add_argument("--out", default="ratings")
     s.add_argument("--as-of", help="use only games before this date"); s.add_argument("--ridge", type=float, default=RIDGE)
@@ -942,10 +1059,10 @@ def main():
         if a.to:
             import time
             for d in pd.date_range(a.date, a.to):
-                fetch_results(f"{d:%Y-%m-%d}", str(Path(a.out) / f"{d:%Y-%m-%d}.txt"))
+                fetch_results(f"{d:%Y-%m-%d}", str(Path(a.out) / f"{d:%Y-%m-%d}.txt"), pbp=a.pbp)
                 time.sleep(0.4)
         else:
-            fetch_results(a.date, a.out)
+            fetch_results(a.date, a.out, pbp=a.pbp)
     elif a.cmd == "slate":
         fetch_results(a.date, a.out, slate=True)
     elif a.cmd == "fit":
