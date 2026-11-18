@@ -31,7 +31,8 @@ jobs:
             age=$(( ( $(date -ud "$TODAY" +%s) - $(date -ud "$d" +%s) ) / 86400 ))
             # a day is fetched once; the last 3 days are fetched again (late finishes, corrections)
             if [[ ! -s "results/$d.txt" || $age -le 3 ]]; then
-              if python ncaab_grade.py results --date "$d" --out "results/$d.txt"; then
+              pbp=""; [[ $age -le 3 ]] && pbp="--pbp"       # play-by-play (race markets) for the recent days only
+              if python ncaab_grade.py results --date "$d" --out "results/$d.txt" $pbp; then
                 fetched=$((fetched + 1))
               else
                 failed=$((failed + 1)); echo "could not fetch $d"
