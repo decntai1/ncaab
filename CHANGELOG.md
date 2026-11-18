@@ -1,5 +1,22 @@
 # Changelog
 
+## ncaab-0.4 (2026-11-18)
+First real NCAAB boards (59 games, capture 2026-11-18 11:31). Found and fixed:
+- **Silent wrong type:** `1.félidő - verseny a(z) N pontért` (race to N points) with two selections was read as a
+  first-half draw-no-bet and would have been graded wrongly. Now UNPARSED.
+- **Duplicate markets:** 48 of 59 boards list every market twice; the doubled rows broke the two-way pairing, so
+  only 10 games had a usable to-win price. Markets are now de-duplicated by id (49 games with a to-win price).
+- **Names:** 20 of 59 games did not match ESPN (`UConn` vs `Connecticut`, ...). `results_aliases.csv` (espn,board)
+  is now applied when results / slate files are read, so already-scraped files are covered. 21 names added.
+- **Home/away order:** on neutral courts the board and ESPN can disagree (2 of 59). Results, slate and grading now
+  match a game by its two teams, and grading uses the board's home/away.
+- `sync` fits once before pricing so the fitted SDs are used; `picks` verdict counts only odds 1.15-6.0.
+- Check against the book's own lines, 59 games: model margin vs middle handicap correlation 0.96, mean gap 3.7
+  points, same favourite 90%; totals correlation 0.87, mean gap 4.1. The model underrates blowouts (28-point book
+  favourites come out at 19-22).
+- Still UNPARSED by design: winning-margin bands, double result, races, "will there be overtime", "which half has
+  more points", player multis, team stat totals (threes, blocks, assists, steals).
+
 ## ncaab-0.3 (2026-11-18)
 - First real data: 380 days from ESPN via the GitHub job, 7,205 games (56 skipped by the half-range rule).
 - `fit` defaults changed from ridge 3 / half-life 60 to **ridge 0.15 / half-life 150**. The old values shrank every

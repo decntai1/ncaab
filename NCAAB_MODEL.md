@@ -196,6 +196,11 @@ synthetic 40-team league, walk-forward, home court, neutral court, packed boards
 `displayName`) read off the live feed for 2026-11-17. **Not tested:** any real ESPN download through the script
 (host blocked where it was written), the fit on real seasons (ridge and half-life are untuned), the GitHub workflow.
 
+Real data, 2026-11-18 (`ncaab-0.4`): 380 ESPN days (7,205 games) scraped by the GitHub job; 59 real boards read,
+all 59 matched to ESPN's card and priced. See CHANGELOG for the four bugs this exposed. **Not yet done: no night has
+been graded**, so settlement on real boards is still unverified. First graded night: hand-check ten games across
+every market type.
+
 Not tested, by risk:
 1. **No NCAAB `.net.json` has been seen**, only one saved page of one game. Market names beyond handicap, total and
    team totals are unconfirmed. First task: run `markets` on the first capture and report the UNPARSED names with
