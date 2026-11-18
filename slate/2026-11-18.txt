@@ -1,0 +1,149 @@
+# NCAAB slate 2026-11-18 (US Eastern date) from ESPN scoreboard, fetched 2026-11-18 16:25Z
+
+GAME Jackson State Tigers@Baylor Bears
+
+GAME Rutgers Scarlet Knights@Notre Dame Fighting Irish
+NEUTRAL
+
+GAME Houston Cougars@Florida Gators
+NEUTRAL
+
+GAME Tennessee Tech Golden Eagles@UNC Asheville Bulldogs
+
+GAME Samford Bulldogs@South Carolina Upstate Spartans
+
+GAME Chattanooga Mocs@Winthrop Eagles
+
+GAME Detroit Mercy Titans@Eastern Michigan Eagles
+
+GAME IU Indianapolis Jaguars@Penn State Nittany Lions
+
+GAME Navy Midshipmen@Georgetown Hoyas
+
+GAME Siena Saints@St. John's Red Storm
+
+GAME MCLA Mohawks@New Haven Chargers
+
+GAME Defiance Yellow Jackets@Miami (OH) RedHawks
+
+GAME Mercer Bears@Presbyterian Blue Hose
+
+GAME James Madison Dukes@Towson Tigers
+
+GAME Howard Bison@Duquesne Dukes
+NEUTRAL
+
+GAME Coppin State Eagles@La Salle Explorers
+
+GAME St. Joseph's Brooklyn Bears@Fairfield Stags
+
+GAME Boston University Terriers@Merrimack Warriors
+
+GAME Florida Gulf Coast Eagles@Florida Atlantic Owls
+
+GAME Furman Paladins@Radford Highlanders
+
+GAME VMI Keydets@Longwood Lancers
+
+GAME Morgan State Bears@North Carolina A&T Aggies
+
+GAME Elon Phoenix@South Carolina Gamecocks
+
+GAME Morehead State Eagles@Ohio Bobcats
+
+GAME Utica Pioneers@Colgate Raiders
+
+GAME Vermont Catamounts@Yale Bulldogs
+
+GAME North Carolina Central Eagles@George Mason Patriots
+
+GAME UNC Wilmington Seahawks@Long Island University Sharks
+
+GAME NJIT Highlanders@Fairleigh Dickinson Knights
+
+GAME Chicago State Cougars@UIC Flames
+
+GAME Columbia (SC) Fighting Koalas@West Georgia Wolves
+
+GAME Wofford Terriers@Charleston Southern Buccaneers
+
+GAME Brown Bears@Holy Cross Crusaders
+
+GAME Binghamton Bearcats@Lafayette Leopards
+
+GAME LSU New Orleans Privateers@Texas Tech Red Raiders
+
+GAME Kansas Jayhawks@West Virginia Mountaineers
+NEUTRAL
+
+GAME Malone Pioneers@Wright State Raiders
+
+GAME College of Biblical Studies Ambassadors@UT Rio Grande Valley Vaqueros
+
+GAME Union Commonwealth (KY) Bulldogs@Belmont Bruins
+
+GAME Youngstown State Penguins@Cincinnati Bearcats
+
+GAME Northern Illinois Huskies@Marquette Golden Eagles
+
+GAME UL Monroe Warhawks@LSU Tigers
+
+GAME Florida A&M Rattlers@UTSA Roadrunners
+
+GAME Incarnate Word Cardinals@Texas State Bobcats
+
+GAME Arkansas-Pine Bluff Golden Lions@Arkansas State Red Wolves
+
+GAME Purdue Fort Wayne Mastodons@Bradley Braves
+
+GAME Cornell Big Red@Syracuse Orange
+
+GAME Lindsey Wilson Blue Raiders@Southern Indiana Screaming Eagles
+
+GAME New Hampshire Wildcats@Stonehill Skyhawks
+
+GAME UNC Greensboro Spartans@Gardner-Webb Runnin' Bulldogs
+
+GAME Wichita State Shockers@Loyola Chicago Ramblers
+
+GAME Boston College Eagles@Harvard Crimson
+
+GAME Campbell Fighting Camels@Oklahoma Sooners
+
+GAME South Dakota Coyotes@Nebraska Cornhuskers
+
+GAME UConn Huskies@Arizona Wildcats
+
+GAME Northern Colorado Bears@BYU Cougars
+
+GAME North Dakota State Bison@Colorado State Rams
+
+GAME Weber State Wildcats@Utah State Aggies
+
+GAME Alcorn State Braves@Missouri Tigers
+
+GAME Oakland Golden Grizzlies@Arizona State Sun Devils
+
+GAME McMurry War Hawks@Abilene Christian Wildcats
+
+GAME Fresno State Bulldogs@San José State Spartans
+
+GAME Portland Pilots@Colorado Buffaloes
+
+GAME Bethune-Cookman Wildcats@Creighton Bluejays
+
+GAME UC Riverside Highlanders@San Diego Toreros
+
+GAME Texas Southern Tigers@San Diego State Aztecs
+
+GAME Washington State Cougars@Hawai'i Rainbow Warriors
+NEUTRAL
+
+GAME Louisiana Ragin' Cajuns@San Francisco Dons
+
+GAME UNLV Rebels@Auburn Tigers
+NEUTRAL
+
+GAME Idaho Vandals@Nevada Wolf Pack
+
+GAME Cal State Fullerton Titans@UCLA Bruins

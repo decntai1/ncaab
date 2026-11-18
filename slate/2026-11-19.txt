@@ -1,0 +1,80 @@
+# NCAAB slate 2026-11-19 (US Eastern date) from ESPN scoreboard, fetched 2026-11-18 16:25Z
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME NC State Wolfpack@Murray State Racers
+NEUTRAL
+
+GAME Robert Morris Colonials@Toledo Rockets
+
+GAME Berea Mountaineers@Northern Kentucky Norse
+
+GAME Southern Miss Golden Eagles@Grambling Tigers
+
+GAME North Park Vikings@SIU Edwardsville Cougars
+
+GAME Maine Black Bears@Quinnipiac Bobcats
+
+GAME Little Rock Trojans@Jacksonville Dolphins
+
+GAME Montana State Bobcats@High Point Panthers
+
+GAME UMBC Retrievers@Ohio State Buckeyes
+
+GAME Mary Baldwin Fighting Squirrels@American University Eagles
+
+GAME Buffalo Bulls@St. Bonaventure Bonnies
+
+GAME Northeastern Huskies@Butler Bulldogs
+
+GAME Tusculum Pioneers@North Alabama Lions
+
+GAME Charleston Cougars@Drake Bulldogs
+
+GAME Tulane Green Wave@Louisiana Tech Bulldogs
+
+GAME Southern Utah Thunderbirds@Texas Longhorns
+
+GAME Stetson Hatters@Louisville Cardinals
+
+GAME Mayville State Comets@North Dakota Fighting Hawks
+
+GAME Eureka Red Devils@Illinois State Redbirds
+
+GAME Georgia Southern Eagles@Houston Christian Huskies
+
+GAME Southeast Missouri State Redhawks@St. Thomas Tommies
+
+GAME Texas A&M Aggies@TCU Horned Frogs
+
+GAME Seton Hall Pirates@Wisconsin Badgers
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Oregon State Beavers@Oregon Ducks
+NEUTRAL
+
+GAME UC Santa Barbara Gauchos@Pepperdine Waves
+
+GAME Utah Tech Trailblazers@Washington Huskies
+
+GAME UTEP Miners@New Mexico State Aggies
+
+GAME Northwest Indian RedHawks@Portland State Vikings
+
+GAME Sacramento State Hornets@Stanford Cardinal
+
+GAME East Texas A&M Lions@California Golden Bears
+
+GAME VCU Rams@Santa Clara Broncos
+
+GAME Tarleton State Texans@USC Trojans
+
+GAME TBD@TBD
+NEUTRAL
