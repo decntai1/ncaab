@@ -1,42 +1,58 @@
 name: ncaab
+# Scrape only: ESPN results (score by half) and the slate (who plays, neutral courts) into the repo.
+# No pricing or grading happens here; that is done from a clone of this repo.
 on:
   schedule:
-    - cron: "23 12 * * *"            # 12:23 UTC: every game of the US night is over
-  push:
-    paths: ["boards/**"]
+    - cron: "23 12 * * *"            # 12:23 UTC = 07:23 US Eastern: last night's games are over
   workflow_dispatch:
     inputs:
       backfill_from:
-        description: "YYYY-MM-DD: fetch every missing results day since (first run: 2025-11-03)"
+        description: "first date to fetch (YYYY-MM-DD); empty = 2025-11-03"
         required: false
 permissions:
   contents: write
 concurrency: ncaab
 jobs:
-  sync:
+  scrape:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install numpy pandas tabulate
-      - run: python ncaab_grade.py selftest
-      - name: restore ledger
-        run: gh release download ledger -p ncaab.sqlite --clobber || echo "no ledger yet"
-      - name: sync
-        run: python ncaab_grade.py sync ${{ inputs.backfill_from && format('--backfill-from {0}', inputs.backfill_from) || '' }}
-      - name: save ledger
+      - name: scrape ESPN
         run: |
-          gh release view ledger >/dev/null 2>&1 || gh release create ledger --title ledger --notes "ncaab.sqlite, replaced on every run"
-          gh release upload ledger ncaab.sqlite --clobber
+          FROM="${{ inputs.backfill_from || '2025-11-03' }}"
+          TODAY=$(TZ=America/New_York date +%F)
+          mkdir -p results slate
+          d="$FROM"; fetched=0; failed=0
+          while [[ "$d" < "$TODAY" ]]; do
+            age=$(( ( $(date -ud "$TODAY" +%s) - $(date -ud "$d" +%s) ) / 86400 ))
+            # a day is fetched once; the last 3 days are fetched again (late finishes, corrections)
+            if [[ ! -s "results/$d.txt" || $age -le 3 ]]; then
+              if python ncaab_grade.py results --date "$d" --out "results/$d.txt"; then
+                fetched=$((fetched + 1))
+              else
+                failed=$((failed + 1)); echo "could not fetch $d"
+              fi
+              sleep 0.3
+            fi
+            d=$(date -ud "$d + 1 day" +%F)
+          done
+          for d in "$TODAY" "$(date -ud "$TODAY + 1 day" +%F)"; do
+            python ncaab_grade.py slate --date "$d" --out "slate/$d.txt" || { failed=$((failed + 1)); echo "could not fetch slate $d"; }
+          done
+          echo "fetched $fetched days, failed $failed"
+          echo "FAILED=$failed" >> "$GITHUB_ENV"
       - name: commit
         run: |
           git config user.name ncaab-bot
           git config user.email ncaab-bot@users.noreply.github.com
-          echo ncaab.sqlite >> .git/info/exclude              # the ledger lives in the release, never in git
-          git rm --cached -q --ignore-unmatch ncaab.sqlite
+          echo ncaab.sqlite >> .git/info/exclude
           git add -A
-          git diff --cached --quiet || (git commit -m "sync $(date -u +%F)" && git push)
+          git diff --cached --quiet || (git commit -q -m "scrape $(date -u +%F)" && git push)
+      - name: fail loudly if ESPN did not answer
+        run: |
+          ls results/*.txt > /dev/null 2>&1 || { echo "::error::no results files at all: ESPN unreachable from GitHub?"; exit 1; }
+          [[ "$FAILED" -eq 0 ]] || { echo "::error::$FAILED fetches failed, see the scrape step"; exit 1; }
