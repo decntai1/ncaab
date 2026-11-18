@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.3"
+MODEL_VERSION = "ncaab-0.4"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
@@ -63,6 +63,16 @@ def connect() -> sqlite3.Connection:
 def norm_team(s: str) -> str:
     """One spelling per team: the board's full name, trimmed ('Baylor Bears'). Results must use the same."""
     return re.sub(r"\s+", " ", str(s)).strip()
+
+
+def _aliases() -> dict:
+    """results_aliases.csv next to this file (espn,board): ESPN's spelling -> the board's. Applied when a results or
+    slate file is READ, so files already scraped are fixed too."""
+    f = Path(__file__).with_name("results_aliases.csv")
+    return {norm_team(a): norm_team(b) for a, b in pd.read_csv(f).values} if f.exists() else {}
+
+
+ALIAS = _aliases()
 
 
 def ncdf(x: float) -> float:
@@ -104,7 +114,7 @@ def classify(name: str, tids: set, teams: tuple[str, str]) -> tuple[str, str, in
     ot = int(scope == "G" and "nélkül" not in low)             # full-game basketball markets include overtime
     if (scope == "G" and re.match(r"\s*\d\s*\.", low)) or scope not in ("G", "H1", "H2"):
         return "UNPARSED", scope, ot, team                     # quarters, numbered parts that are not halves
-    if re.search(r" és | & |pontos|multi|tartomány|különbség|melyik|hányadik|első|utolsó|ki ér el|félidő/", bare):
+    if re.search(r" és | & |pontos|multi|tartomány|különbség|melyik|hányadik|első|utolsó|ki ér el|verseny|félidő/", bare):
         return "UNPARSED", scope, ot, team
     if tids == {HOME, AWAY}:
         return ("DNB" if scope != "G" or "döntetlennél" in low else "ML"), scope, ot, None
@@ -128,10 +138,13 @@ def board_rows(path) -> list[dict]:
     home, away = names
     cid = {comp[0]["id"]: home, comp[1]["id"]: away}
     odds = {o["id"]: o for o in ev["odds"]}
-    rows = []
+    rows, seen = [], set()
     for m in ev["markets"]:
         if m.get("typeId") == 31046 or m.get("childMarketIds"):   # boosted container; player tables (none in NCAAB)
             continue
+        if m["id"] in seen:                                    # real boards list most markets twice (48 of 59 files)
+            continue
+        seen.add(m["id"])
         live = [odds[i] for col in m.get("desktopOddIds", []) for i in col
                 if i in odds and odds[i].get("oddStatus", 0) == 0 and shown(odds[i].get("price", 0)) > 1]
         if not live:
@@ -254,19 +267,22 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
                     frames.append(devig(pd.DataFrame(rows)))
             except Exception as e:
                 skipped.append(f"{f.name}: {e}")
-    neutral = read_slate(slate) if slate and Path(slate).exists() else set()
+    card, neutral = read_slate(slate) if slate and Path(slate).exists() else (set(), set())
     B = pd.concat(frames, ignore_index=True).drop_duplicates("row_key", keep="last")   # the key holds the game
     B["p_model"] = np.nan
     if teams_csv:
         f, miss = expected_points(teams_csv), set()
         for g, x in B.groupby("game"):
-            e = f(x.home.iloc[0], x.away.iloc[0], g in neutral)
+            e = f(x.home.iloc[0], x.away.iloc[0], frozenset((x.home.iloc[0], x.away.iloc[0])) in neutral)
             if e is None:
                 miss.add(g)
                 continue
             B.loc[x.index, "p_model"] = [np.nan if (v := model_p(r, *e)) is None else v for r in x.itertuples()]
-        print(f"model priced {B.game.nunique() - len(miss)} of {B.game.nunique()} games ({len(neutral & set(B.game))} on a "
+        pairs = {frozenset((h, a)): g for g, h, a in B.drop_duplicates("game")[["game", "home", "away"]].values}
+        print(f"model priced {B.game.nunique() - len(miss)} of {B.game.nunique()} games ({len(neutral & set(pairs))} on a "
               f"neutral court); no rating for: {sorted(miss)[:8]}")
+        if card:
+            print(f"   not on ESPN's card under these names (add to results_aliases.csv): {sorted(g for k, g in pairs.items() if k not in card)}")
     w = dict(START_W)
     for fam, wu in con.execute("SELECT family, w_used FROM weights w WHERE as_of = (SELECT max(as_of) FROM weights WHERE family = w.family)"):
         w[fam] = wu
@@ -301,8 +317,10 @@ def read_results(path: str) -> tuple[dict, list[str]]:
 
 
 def read_slate(path: str) -> set:
-    """Games marked NEUTRAL in a slate (or results) file."""
-    return {g for g, d in parse_results(Path(path).read_text(encoding="utf-8"))[0].items() if d["neutral"]}
+    """-> (every game, neutral-court games) of a slate or results file, each as a frozenset of its two teams: on
+    neutral courts the board and ESPN often disagree about who is 'home'."""
+    G = parse_results(Path(path).read_text(encoding="utf-8"))[0].values()
+    return {frozenset((d["home"], d["away"])) for d in G}, {frozenset((d["home"], d["away"])) for d in G if d["neutral"]}
 
 
 def parse_results(text: str) -> tuple[dict, list[str]]:
@@ -314,14 +332,14 @@ def parse_results(text: str) -> tuple[dict, list[str]]:
         try:
             if ln.startswith("GAME "):
                 g = ln[5:].strip()
-                a, h = (norm_team(x) for x in g.split("@"))
+                a, h = (ALIAS.get(norm_team(x), norm_team(x)) for x in g.split("@"))
                 g = f"{a}@{h}"
                 games[g] = dict(home=h, away=a, per={}, neutral=False, ok=True)
             elif ln == "NEUTRAL":
                 games[g]["neutral"] = True
             elif ln.startswith("H "):
                 t, v = ln[2:].rsplit(":", 1)
-                t = norm_team(t)
+                t = ALIAS.get(norm_team(t), norm_team(t))
                 assert t in (games[g]["home"], games[g]["away"]), "team is not in this game"
                 games[g]["per"][t] = [int(x) for x in v.split()]
             else:
@@ -381,19 +399,22 @@ def grade(night: str, results: str, con) -> None:
     P = pd.read_sql("SELECT * FROM predictions WHERE night = ?", con, params=[night])
     if P.empty:
         sys.exit(f"no predictions stored for {night}")
-    out = []
+    out, by_pair = [], {frozenset((d["home"], d["away"])): d for d in games.values()}
     for r in P.itertuples():
-        d = games.get(r.game)
+        d = by_pair.get(frozenset((r.home, r.away)))
+        if d is not None:
+            d = dict(d, home=r.home, away=r.away)              # the board's home/away, whatever ESPN calls them
         res, act = (None, None) if (d is None or r.type == "UNPARSED") else settle(r, d)
         st = "unparsed" if r.type == "UNPARSED" else "graded" if res else "no_result"
         out.append((st, res, act, night, r.capture, r.row_key))
     con.executemany("UPDATE predictions SET status=?, result=?, actual=? WHERE night=? AND capture=? AND row_key=?", out)
     con.commit()
-    miss = sorted(set(P.game) - set(games))
+    seen = {frozenset((h, a)): g for g, h, a in P.drop_duplicates("game")[["game", "home", "away"]].values}
+    miss = sorted(g for k, g in seen.items() if k not in by_pair)
     print(f"{night}: {len(games)} games in results, {P.game.nunique()} on the boards, {len(miss)} boards without a result")
     for m in miss[:15]:
         print("   no result:", m)
-    extra = sorted(set(games) - set(P.game))
+    extra = sorted(g for g, d in games.items() if frozenset((d["home"], d["away"])) not in seen)
     if extra:
         print(f"   {len(extra)} results match no board (name spelling?): {extra[:8]}")
     print(pd.Series([o[0] + (":" + o[1] if o[1] else "") for o in out]).value_counts().to_string())
@@ -697,8 +718,9 @@ def picks(night: str, capture: str | None, con) -> None:
     W = ml.loc[ml.groupby("game").p.idxmax()].sort_values("p", ascending=False) if len(ml) else ml
     f = lambda v, sign=False: "" if pd.isna(v) else f"{v:+.1%}" if sign else f"{v:.1%}"
     L = [f"# NCAAB picks {night} (capture {cap})\n",
-         ("- Verdict: **NO BET**. Every price below has a negative expected return" if not (P.exp_ret > 0).any() else
-          f"- Verdict: **NO BET yet**. {int((P.exp_ret > 0).sum())} prices show a positive expected return on paper") +
+         ("- Verdict: **NO BET**. Every price at odds 1.15-6.0 has a negative expected return"
+          if not (P[P.odds.between(1.15, 6.0)].exp_ret > 0).any() else
+          f"- Verdict: **NO BET yet**. {int((P[P.odds.between(1.15, 6.0)].exp_ret > 0).sum())} prices show a positive expected return on paper") +
          "; nothing is a bet until an arm in ncaab_report.md reaches SMALL STAKE (80%, 100 games).",
          f"- {P.game.nunique()} games on the boards, {W.game.nunique()} with a to-win market, "
          f"{P[P.p_model.notna()].game.nunique()} priced by the model.\n", "## Predicted winners (highest win chance first)\n"]
@@ -770,6 +792,8 @@ def sync(root: str, backfill_from: str | None = None) -> None:
                     grade(n, str(f), con)
                 except SystemExit as e:
                     print("  ", e)
+    if (root / "results").exists():                             # first, so the fitted SDs exist before any pricing
+        fit(str(root / "results"), str(root / "ratings"))
     for f in sorted((root / "boards").glob("*/*.rows.csv.gz")):
         night, cap = f.parent.name, f.name.split(".")[0]
         if con.execute("SELECT 1 FROM predictions WHERE night = ? AND capture = ? LIMIT 1", [night, cap]).fetchone():
