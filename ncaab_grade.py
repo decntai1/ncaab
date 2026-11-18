@@ -36,12 +36,13 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.2"
+MODEL_VERSION = "ncaab-0.3"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
 HCA, SD_MARGIN, SD_TOTAL = 3.2, 11.0, 17.0                     # unfitted starting values (spec 6)
-MIN_TEAM_GAMES, RIDGE, HALF_LIFE = 4, 3.0, 60.0               # fit: fewest games to rate a team, shrinkage, days
+MIN_TEAM_GAMES, RIDGE, HALF_LIFE = 4, 0.15, 150.0             # fit: fewest games to rate a team, shrinkage, days
+#   ridge / half-life chosen 2026-11-18 on 7,205 real games (walk-forward, Jan-Feb and Nov): see CHANGELOG
 HOME, DRAW, AWAY, OVER, UNDER, HCP_H, HCP_A, ODD, EVEN = 1, 2, 3, 12, 13, 1714, 1715, 70, 72   # site's own codes
 
 SCHEMA = """
@@ -340,8 +341,8 @@ def parse_results(text: str) -> tuple[dict, list[str]]:
             errs.append(f"{g}: overtime listed but regulation was not tied")
         if len(h) > 2 and sum(h) == sum(a):
             errs.append(f"{g}: still tied after the listed overtimes")
-        if not all(15 <= x <= 80 for x in h[:2] + a[:2]):
-            errs.append(f"{g}: a half outside 15-80 points - check the numbers")
+        if not all(5 <= x <= 95 for x in h[:2] + a[:2]):
+            errs.append(f"{g}: a half outside 5-95 points - check the numbers")
         d["ok"] = len(errs) == n0
     return games, errs
 

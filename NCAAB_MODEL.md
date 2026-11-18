@@ -80,7 +80,36 @@ H Baylor Bears: 48 51                       # first half, second half, then one 
 H Jackson State Tigers: 30 28
 ```
 Rejected, with nothing graded: a tie without overtime, overtime without a regulation tie, unequal period counts,
-a half outside 15–80 points, a team not in the game.
+a half outside 5–95 points, a team not in the game.
+
+### 4a. Current split (2026-11-18): GitHub scrapes, grading is done from a clone
+
+`.github/workflows/ncaab.yml` only fetches ESPN `results/<date>.txt` and `slate/<date>.txt` (daily 12:23 UTC, missing
+days backfilled from 2025-11-03, last 3 days refetched) and goes red if ESPN does not answer. The user pushes packed
+boards to `boards/<date>/<HHMM>.rows.csv.gz`. Grading: clone the repo, `NCAAB_DB=/tmp/ncaab.sqlite python
+ncaab_grade.py sync --root <clone>` rebuilds the ledger from every pack and results file (the ESPN fetches inside
+`sync` fail harmlessly where ESPN is blocked; it then uses the files in the repo). 4b below is the older all-on-GitHub
+design; `sync` is the same command.
+
+### 4b. Hands-off route: GitHub repo + `sync` (added 2026-11-18)
+
+Repo layout (everything except the raw boards and the sqlite ledger is committed):
+```
+ncaab_grade.py  NCAAB_MODEL.md  CHANGELOG.md  .github/workflows/ncaab.yml
+boards/<date>/<HHMM>.rows.csv.gz     # made by `pack` on the user's machine, pushed by the user
+results/<date>.txt  slate/<date>.txt # fetched from ESPN by the job
+ratings/teams.csv  ratings/model.json  ncaab_report.md  ncaab_picks.md   # written by the job
+```
+On the user's machine after each capture:
+```
+python ncaab_grade.py pack --boards ~/vegas-boards/ncaab/<date> --out boards/<date>/<HHMM>.rows.csv.gz
+git add boards && git commit -m "boards <date> <HHMM>" && git push
+```
+The workflow runs `python ncaab_grade.py sync` on every push to `boards/` and once a day. `sync`, in order: fetch
+missing results; grade finished nights; price every pack not priced yet, with ratings fitted **only on games before
+that date** and neutral courts taken from ESPN's slate; write `ncaab_picks.md`; refit ratings; write the report. The
+ledger (`ncaab.sqlite`, about 5 MB a night, too big for git) is kept as the asset of a release tagged `ledger`.
+First run: start the workflow by hand with `backfill_from = 2025-11-03` so last season is in the ratings.
 
 ## 5. Where the data comes from
 
@@ -120,6 +149,16 @@ v0 in the script: expected points from tempo-free ratings,
 −1.6 (home court 3.2 in total). Margin and total are treated as normal with SD 11 and 17 (halves: half the mean,
 SD ÷ √2). The constants are **starting guesses, not fitted**; early-season ratings lean on preseason priors.
 
+**v1 (added 2026-11-18): own ratings, `fit`.** No outside ratings site needed. From the results files:
+`log(points) = league + offence[team] + defence[opponent] ± home/2`, ridge-shrunk toward the league average
+(`--ridge 0.15`), recent games weighted more (`--half-life 150` days,
+so last season still counts in November), overtime games scaled to 40 minutes, neutral courts without home edge. Output:
+`ratings/teams.csv` in the layout above (tempo fixed at 68: the fit is on points, not possessions) with a `games`
+column, and `ratings/model.json` with the fitted home court, SDs and a walk-forward test (each of the last 21 game
+days predicted from earlier games only: winner hit rate, margin error, Brier). A team with fewer than 4 games is not
+priced. `picks` lists the predicted winner of every game with odds, book / model / blended chance, break-even and
+expected return. The blend still follows section 1: the model moves the price by at most 0.25 points until a refit.
+
 Add later, only if grading says a model is worth it, each tested against the book on games it was not fitted on:
 neutral-site flag (no home court), rest and travel, conference vs non-conference, minutes-weighted roster
 continuity, a fitted spread-to-win curve for blowouts.
@@ -150,6 +189,12 @@ Tested:
 - On 8 real vegas.hu boards (NBA, 2026-11-16) the reader produced exactly the row counts of the established NBA
   parser for to-win, handicap, total, team total, first-half handicap and total (16 / 496 / 496 / 416 / 162 / 176),
   and every one of those 1,762 bets graded to the same result with the same price.
+
+Added 2026-11-18 (`ncaab-0.2`), tested: selftest PASS with 7 new checks (fit recovers known strengths on a
+synthetic 40-team league, walk-forward, home court, neutral court, packed boards price identically, picks output);
+`sync` dry-run offline end to end; ESPN field layout (`linescores[].value`, `neutralSite`, `status.type.completed`,
+`displayName`) read off the live feed for 2026-11-17. **Not tested:** any real ESPN download through the script
+(host blocked where it was written), the fit on real seasons (ridge and half-life are untuned), the GitHub workflow.
 
 Not tested, by risk:
 1. **No NCAAB `.net.json` has been seen**, only one saved page of one game. Market names beyond handicap, total and
