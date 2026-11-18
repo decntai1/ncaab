@@ -8,6 +8,12 @@ capture_board.py). One file: stdlib + numpy + pandas + tabulate. Spec: NCAAB_MOD
     python ncaab_grade.py results --date 2026-11-18 --out results/2026-11-18.txt     # ESPN (spec 5), UNTESTED
     python ncaab_grade.py grade   --date 2026-11-18 --results results/2026-11-18.txt
     python ncaab_grade.py report                                     # ledger report, open-vs-close, bandit
+    python ncaab_grade.py slate   --date 2026-11-18 --out slate/2026-11-18.txt       # ESPN: who plays, neutral courts
+    python ncaab_grade.py results --date 2025-11-03 --to 2026-04-07 --out results    # backfill a range (one file a day)
+    python ncaab_grade.py fit     --results results --out ratings    # own ratings from results -> ratings/teams.csv
+    python ncaab_grade.py picks   --date 2026-11-18                  # predicted winners with odds and expected return
+    python ncaab_grade.py pack    --boards DIR --out boards/2026-11-18/1730.rows.csv.gz   # small file for git
+    python ncaab_grade.py sync    [--backfill-from 2025-11-03]       # everything, in order (what the GitHub job runs)
 
 Stored in ncaab.sqlite next to this file (override: NCAAB_DB=path). Several captures of one night are kept apart
 (--capture, default = the boards' file time HHMM); the LAST capture of a night is the one that is pooled, earlier
@@ -30,11 +36,12 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.1"
+MODEL_VERSION = "ncaab-0.2"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
 HCA, SD_MARGIN, SD_TOTAL = 3.2, 11.0, 17.0                     # unfitted starting values (spec 6)
+MIN_TEAM_GAMES, RIDGE, HALF_LIFE = 4, 3.0, 60.0               # fit: fewest games to rate a team, shrinkage, days
 HOME, DRAW, AWAY, OVER, UNDER, HCP_H, HCP_A, ODD, EVEN = 1, 2, 3, 12, 13, 1714, 1715, 70, 72   # site's own codes
 
 SCHEMA = """
@@ -178,19 +185,27 @@ def devig(B: pd.DataFrame) -> pd.DataFrame:
 def expected_points(teams_csv: str):
     """teams.csv: team,adj_o,adj_d,tempo (points per 100 possessions for / against, possessions per game - the
     layout of Bart Torvik's and KenPom's ratings). `team` must be spelled as on the board; aliases.csv (board,ratings)
-    maps the rest. Returns f(home, away) -> (home points, away points) or None."""
+    maps the rest. A model.json next to it (written by `fit`) replaces HCA / SD_MARGIN / SD_TOTAL with fitted
+    values. Returns f(home, away, neutral) -> (home points, away points), or None when a team is missing or has
+    fewer than MIN_TEAM_GAMES games behind its rating (unknown is never zero)."""
+    global HCA, SD_MARGIN, SD_TOTAL
     t = pd.read_csv(teams_csv)
+    mj = Path(teams_csv).with_name("model.json")
+    if mj.exists():
+        mp = json.loads(mj.read_text())
+        HCA = mp["hca"] if mp.get("hca") is not None else HCA
+        SD_MARGIN, SD_TOTAL = mp.get("sd_margin") or SD_MARGIN, mp.get("sd_total") or SD_TOTAL
     ali = Path(teams_csv).with_name("aliases.csv")
     alias = dict(pd.read_csv(ali).values) if ali.exists() else {}
     R = {norm_team(r.team): r for r in t.itertuples()}
     eff, tempo = t.adj_o.mean(), t.tempo.mean()
 
-    def f(home, away):
+    def f(home, away, neutral=False):
         h, a = R.get(alias.get(home, home)), R.get(alias.get(away, away))
-        if h is None or a is None:
+        if h is None or a is None or min(getattr(h, "games", 99), getattr(a, "games", 99)) < MIN_TEAM_GAMES:
             return None
-        poss = h.tempo * a.tempo / tempo
-        return h.adj_o * a.adj_d / eff * poss / 100 + HCA / 2, a.adj_o * h.adj_d / eff * poss / 100 - HCA / 2
+        poss, hc = h.tempo * a.tempo / tempo, 0.0 if neutral else HCA / 2
+        return h.adj_o * a.adj_d / eff * poss / 100 + hc, a.adj_o * h.adj_d / eff * poss / 100 - hc
     return f
 
 
@@ -219,32 +234,40 @@ def family(t: str, scope: str) -> str:
     return "half" if scope != "G" else "main" if t in ("ML", "HANDICAP", "TOTAL", "TEAM_TOTAL") else "other"
 
 
-def price(night: str, boards: str, capture: str | None, teams_csv: str | None, con) -> pd.DataFrame:
-    files = sorted(Path(boards).glob("*.json"))
-    if not files:
-        sys.exit(f"no .json boards in {boards}")
-    capture = capture or pd.Timestamp(max(os.path.getmtime(f) for f in files), unit="s").strftime("%H%M")
+def price(night: str, boards: str, capture: str | None, teams_csv: str | None, con, slate: str | None = None) -> pd.DataFrame:
+    """`boards` = a folder of .json captures, or one file made by `pack`. `slate` = a file made by `slate`: games
+    it marks NEUTRAL get no home-court advantage from the model."""
     frames, skipped = [], []
-    for f in files:
-        try:
-            rows = board_rows(f)
-            if rows:
-                frames.append(devig(pd.DataFrame(rows)))
-        except Exception as e:
-            skipped.append(f"{f.name}: {e}")
+    if Path(boards).is_file():
+        capture = capture or Path(boards).name.split(".")[0]
+        frames = [devig(x) for _, x in pd.read_csv(boards).groupby("game")]
+    else:
+        files = sorted(Path(boards).glob("*.json"))
+        if not files:
+            sys.exit(f"no .json boards in {boards}")
+        capture = capture or pd.Timestamp(max(os.path.getmtime(f) for f in files), unit="s").strftime("%H%M")
+        for f in files:
+            try:
+                rows = board_rows(f)
+                if rows:
+                    frames.append(devig(pd.DataFrame(rows)))
+            except Exception as e:
+                skipped.append(f"{f.name}: {e}")
+    neutral = read_slate(slate) if slate and Path(slate).exists() else set()
     B = pd.concat(frames, ignore_index=True).drop_duplicates("row_key", keep="last")   # the key holds the game
     B["p_model"] = np.nan
     if teams_csv:
         f, miss = expected_points(teams_csv), set()
         for g, x in B.groupby("game"):
-            e = f(x.home.iloc[0], x.away.iloc[0])
+            e = f(x.home.iloc[0], x.away.iloc[0], g in neutral)
             if e is None:
                 miss.add(g)
                 continue
             B.loc[x.index, "p_model"] = [np.nan if (v := model_p(r, *e)) is None else v for r in x.itertuples()]
-        print(f"model priced {B.game.nunique() - len(miss)} of {B.game.nunique()} games; no rating for: {sorted(miss)[:8]}")
+        print(f"model priced {B.game.nunique() - len(miss)} of {B.game.nunique()} games ({len(neutral & set(B.game))} on a "
+              f"neutral court); no rating for: {sorted(miss)[:8]}")
     w = dict(START_W)
-    for fam, wu in con.execute("SELECT family, w_used FROM weights WHERE as_of = (SELECT max(as_of) FROM weights)"):
+    for fam, wu in con.execute("SELECT family, w_used FROM weights w WHERE as_of = (SELECT max(as_of) FROM weights WHERE family = w.family)"):
         w[fam] = wu
     B["w_used"] = [w[family(t, s)] for t, s in zip(B.type, B.scope)]
     lean = (B.p_model - B.p_book).clip(-LEAN_CAP, LEAN_CAP)
@@ -271,9 +294,19 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
 def read_results(path: str) -> tuple[dict, list[str]]:
     """GAME <away>@<home>   (team names exactly as on the board)
        H <team>: h1 h2 [ot1 ot2 ...]      one line per team
+       NEUTRAL                            optional: neutral court (used by `fit` and by the model, not by grading)
     Rejected: a tie without overtime, overtime without a regulation tie, unequal period counts, unknown team."""
+    return parse_results(Path(path).read_text(encoding="utf-8"))
+
+
+def read_slate(path: str) -> set:
+    """Games marked NEUTRAL in a slate (or results) file."""
+    return {g for g, d in parse_results(Path(path).read_text(encoding="utf-8"))[0].items() if d["neutral"]}
+
+
+def parse_results(text: str) -> tuple[dict, list[str]]:
     games, errs, g = {}, [], None
-    for n, ln in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), 1):
+    for n, ln in enumerate(text.splitlines(), 1):
         ln = ln.split("#")[0].strip()
         if not ln:
             continue
@@ -282,7 +315,9 @@ def read_results(path: str) -> tuple[dict, list[str]]:
                 g = ln[5:].strip()
                 a, h = (norm_team(x) for x in g.split("@"))
                 g = f"{a}@{h}"
-                games[g] = dict(home=h, away=a, per={})
+                games[g] = dict(home=h, away=a, per={}, neutral=False, ok=True)
+            elif ln == "NEUTRAL":
+                games[g]["neutral"] = True
             elif ln.startswith("H "):
                 t, v = ln[2:].rsplit(":", 1)
                 t = norm_team(t)
@@ -293,6 +328,7 @@ def read_results(path: str) -> tuple[dict, list[str]]:
         except Exception as e:
             errs.append(f"line {n}: {ln!r} ({e})")
     for g, d in games.items():
+        n0, d["ok"] = len(errs), False
         if set(d["per"]) != {d["home"], d["away"]}:
             errs.append(f"{g}: needs one H line per team"); continue
         h, a = d["per"][d["home"]], d["per"][d["away"]]
@@ -306,6 +342,7 @@ def read_results(path: str) -> tuple[dict, list[str]]:
             errs.append(f"{g}: still tied after the listed overtimes")
         if not all(15 <= x <= 80 for x in h[:2] + a[:2]):
             errs.append(f"{g}: a half outside 15-80 points - check the numbers")
+        d["ok"] = len(errs) == n0
     return games, errs
 
 
@@ -507,33 +544,245 @@ def report(con) -> None:
     print(out)
 
 
-# ------------------------------------------------------------------ results from ESPN's public scoreboard (UNTESTED)
-def fetch_results(date: str, out: str) -> None:
-    """Never run where this file was written (host unreachable there). Check the first output against a few box
-    scores by hand. Team names are ESPN's 'displayName' ('Baylor Bears'); where the board spells a team differently,
-    add a line to results_aliases.csv (espn,board) next to this file. read_results() rejects inconsistent games."""
+# ------------------------------------------------------------------ ESPN public scoreboard: results and slate
+def fetch_results(date: str, out: str, slate: bool = False) -> int:
+    """Finished games of a US Eastern date, score by half (slate=True: every game on the card, no scores, to learn
+    which are on a neutral court before tip). Team names are ESPN's 'displayName' ('Baylor Bears'); where the board
+    spells a team differently, add a line to results_aliases.csv (espn,board) next to this file. A game whose
+    numbers do not add up is written commented out (# SKIPPED), never guessed. Field layout checked against the
+    live feed 2026-11-18; the fetch itself must run somewhere that can reach ESPN."""
     import urllib.request
     url = ("https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
            f"?dates={date.replace('-', '')}&groups=50&limit=500")
     js = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=60).read())
     ali = Path(__file__).with_name("results_aliases.csv")
     alias = dict(pd.read_csv(ali).values) if ali.exists() else {}
-    L, n = [f"# NCAAB results {date} (US Eastern date) from ESPN scoreboard, fetched {pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}Z"], 0
+    nm = lambda x: alias.get(x["team"]["displayName"], x["team"]["displayName"])
+    per = lambda x: " ".join(str(int(float(p.get("value", p.get("displayValue", 0))))) for p in x.get("linescores", []))
+    L = [f"# NCAAB {'slate' if slate else 'results'} {date} (US Eastern date) from ESPN scoreboard, fetched {pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}Z"]
+    n = skip = 0
     for ev in js.get("events", []):
         c = ev["competitions"][0]
-        if not c.get("status", {}).get("type", {}).get("completed"):
+        t = {x.get("homeAway"): x for x in c.get("competitors", [])}
+        if set(t) != {"home", "away"}:
             continue
-        t = {x["homeAway"]: x for x in c["competitors"]}
-        nm = lambda x: alias.get(x["team"]["displayName"], x["team"]["displayName"])
-        per = lambda x: " ".join(str(int(float(p.get("value", p.get("displayValue", 0))))) for p in x.get("linescores", []))
-        L += ["", f"GAME {nm(t['away'])}@{nm(t['home'])}", f"H {nm(t['home'])}: {per(t['home'])}", f"H {nm(t['away'])}: {per(t['away'])}"]
+        blk = [f"GAME {nm(t['away'])}@{nm(t['home'])}"] + (["NEUTRAL"] if c.get("neutralSite") else [])
+        if not slate:
+            if not c.get("status", {}).get("type", {}).get("completed"):
+                continue
+            blk += [f"H {nm(t['home'])}: {per(t['home'])}", f"H {nm(t['away'])}: {per(t['away'])}"]
+            errs = parse_results("\n".join(blk))[1]
+            if errs:
+                L += ["", f"# SKIPPED: {errs[0]}"] + ["# " + b for b in blk]
+                skip += 1
+                continue
+        L += [""] + blk
         n += 1
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     Path(out).write_text("\n".join(L) + "\n", encoding="utf-8")
-    games, errs = read_results(out)
-    print(f"{out}: {n} finished games written, {len(errs)} errors")
-    for e in errs[:20]:
-        print("ERROR", e)
+    print(f"{out}: {n} games written, {skip} skipped as inconsistent")
+    return n
+
+
+# ------------------------------------------------------------------ own ratings, fitted from the results files
+def load_games(results_dir: str) -> pd.DataFrame:
+    """Every consistent game in results/<YYYY-MM-DD>.txt. Points are scaled to 40 minutes for overtime games."""
+    rows = []
+    for f in sorted(Path(results_dir).glob("*.txt")):
+        try:
+            day = pd.Timestamp(f.stem)
+        except ValueError:
+            continue
+        for d in read_results(str(f))[0].values():
+            if d["ok"]:
+                h, a = d["per"][d["home"]], d["per"][d["away"]]
+                k = 40 / (40 + 5 * (len(h) - 2))
+                rows.append(dict(date=day, home=d["home"], away=d["away"], hp=sum(h), ap=sum(a), k=k, neutral=d["neutral"]))
+    return pd.DataFrame(rows)
+
+
+def fit_ratings(G: pd.DataFrame, ref: pd.Timestamp, lam: float, half_life: float) -> dict:
+    """log(points) = league + offence[team] + defence[opponent] +- home/2. Ridge-shrunk to the league average (lam is
+    roughly 'games of average play added to every team'), recent games weighted more (weight halves every half_life
+    days, so last season acts as a weak prior)."""
+    teams = sorted(set(G.home) | set(G.away))
+    ix, n = {t: i for i, t in enumerate(teams)}, len(teams)
+    h, a = G.home.map(ix).to_numpy(), G.away.map(ix).to_numpy()
+    hc = np.where(G.neutral.to_numpy(bool), 0.0, 0.5)
+    z = np.zeros(len(G), int)
+    I = np.concatenate([np.c_[z, 1 + h, 1 + n + a, z + 1 + 2 * n], np.c_[z, 1 + a, 1 + n + h, z + 1 + 2 * n]])
+    V = np.concatenate([np.c_[z + 1.0, z + 1.0, z + 1.0, hc], np.c_[z + 1.0, z + 1.0, z + 1.0, -hc]])
+    y = np.log(np.clip(np.concatenate([G.hp * G.k, G.ap * G.k]).astype(float), 20, None))
+    w = np.tile(0.5 ** ((ref - G.date).dt.days.to_numpy() / half_life), 2)
+    A, b = np.zeros((2 * n + 2, 2 * n + 2)), np.zeros(2 * n + 2)
+    np.add.at(A, (I[:, :, None], I[:, None, :]), w[:, None, None] * V[:, :, None] * V[:, None, :])
+    np.add.at(b, I, (w * y)[:, None] * V)
+    A[np.arange(1, 2 * n + 1), np.arange(1, 2 * n + 1)] += lam
+    A[-1, -1] += 1e-9
+    beta = np.linalg.solve(A, b)
+    cnt = pd.concat([G.home, G.away]).value_counts()
+    return dict(mu=float(np.exp(beta[0])), hca=float(beta[-1]), off=dict(zip(teams, beta[1:n + 1])),
+                de=dict(zip(teams, beta[n + 1:2 * n + 1])), games=cnt.to_dict())
+
+
+def predict(F: dict, home: str, away: str, neutral: bool):
+    if min(F["games"].get(home, 0), F["games"].get(away, 0)) < MIN_TEAM_GAMES:
+        return None
+    hc = 0.0 if neutral else F["hca"] / 2
+    return (F["mu"] * math.exp(F["off"][home] + F["de"][away] + hc), F["mu"] * math.exp(F["off"][away] + F["de"][home] - hc))
+
+
+def fit(results_dir: str, out_dir: str, as_of: str | None = None, lam: float = RIDGE, half_life: float = HALF_LIFE,
+        days: int = 21) -> bool:
+    """Writes <out>/teams.csv (the layout expected_points reads) and <out>/model.json (home court, SDs, and an honest
+    walk-forward test: each of the last `days` game days predicted from games before it only)."""
+    G = load_games(results_dir)
+    if as_of and len(G):
+        G = G[G.date < pd.Timestamp(as_of)]
+    if len(G) < 150:
+        print(f"fit: {len(G)} usable games in {results_dir} (< 150): no ratings written")
+        return False
+    ref = pd.Timestamp(as_of) if as_of else G.date.max() + pd.Timedelta(days=1)
+    F = fit_ratings(G, ref, lam, half_life)
+    mp = dict(as_of=f"{ref:%Y-%m-%d}", games=len(G), teams=len(F["off"]), first=f"{G.date.min():%Y-%m-%d}",
+              hca=round(F["mu"] * 2 * math.sinh(F["hca"] / 2), 2), sd_margin=None, sd_total=None, ridge=lam,
+              half_life=half_life, walk_forward=None)
+    W = []
+    for day in (sorted(G.date.unique())[-days:] if days > 0 else []):
+        tr = G[G.date < day]
+        if len(tr) < 150:
+            continue
+        Fd = fit_ratings(tr, pd.Timestamp(day), lam, half_life)
+        for r in G[G.date == day].itertuples():
+            e = predict(Fd, r.home, r.away, r.neutral)
+            if e:
+                W.append((e[0] - e[1], e[0] + e[1], r.hp - r.ap, r.hp + r.ap))
+    W = pd.DataFrame(W, columns=["pm", "pt", "m", "t"])
+    if len(W) >= 200:
+        sdm, sdt = float((W.m - W.pm).std()), float((W.t - W.pt).std())
+        won = (W.m > 0).astype(float)
+        mp.update(sd_margin=round(sdm, 2), sd_total=round(sdt, 2), walk_forward=dict(
+            games=len(W), winner_hit=round(float(((W.pm > 0) == (W.m > 0)).mean()), 4), home_wins=round(float(won.mean()), 4),
+            margin_mae=round(float((W.m - W.pm).abs().mean()), 2), total_mae=round(float((W.t - W.pt).abs().mean()), 2),
+            brier=round(float(((W.pm / sdm).map(ncdf) - won).pow(2).mean()), 4)))
+    T, c = 68.0, float(np.mean(np.exp(list(F["off"].values()))))
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    if mp["sd_margin"] is None and (out / "model.json").exists():          # no test this run: keep the last fitted SDs
+        old = json.loads((out / "model.json").read_text())
+        mp.update(sd_margin=old.get("sd_margin"), sd_total=old.get("sd_total"))
+    pd.DataFrame([dict(team=t, adj_o=round(100 * F["mu"] * math.exp(F["off"][t]) / T, 3),
+                       adj_d=round(100 * F["mu"] * c * math.exp(F["de"][t]) / T, 3), tempo=T, games=F["games"].get(t, 0))
+                  for t in F["off"]]).to_csv(out / "teams.csv", index=False)
+    (out / "model.json").write_text(json.dumps(mp, indent=1))
+    wf = mp["walk_forward"]
+    print(f"fit as of {mp['as_of']}: {len(G)} games, {mp['teams']} teams, home court {mp['hca']:+.1f} pts; " +
+          (f"walk-forward on {wf['games']} games: winner right {wf['winner_hit']:.1%} (home side wins {wf['home_wins']:.1%}), "
+           f"margin off by {wf['margin_mae']} on average, SD margin {mp['sd_margin']} / total {mp['sd_total']}, Brier {wf['brier']}"
+           if wf else f"no walk-forward test this run ({len(W)} predicted games, needs 200): SD margin / total = "
+                      f"{mp['sd_margin'] or SD_MARGIN} / {mp['sd_total'] or SD_TOTAL}"))
+    return True
+
+
+# ------------------------------------------------------------------ picks: predicted winners, with what they cost
+def picks(night: str, capture: str | None, con) -> None:
+    P = pd.read_sql("SELECT * FROM predictions WHERE night = ?", con, params=[night])
+    if P.empty:
+        sys.exit(f"no predictions stored for {night}")
+    cap = capture or P.capture.max()
+    P = P[(P.capture == cap) & (P.p_method == "no_vig") & (P.scope == "G")].copy()
+    P["exp_ret"], P["gap"] = P.p * P.odds - 1, P.p_model - P.p_book
+    ml = P[P.type == "ML"]
+    W = ml.loc[ml.groupby("game").p.idxmax()].sort_values("p", ascending=False) if len(ml) else ml
+    f = lambda v, sign=False: "" if pd.isna(v) else f"{v:+.1%}" if sign else f"{v:.1%}"
+    L = [f"# NCAAB picks {night} (capture {cap})\n",
+         ("- Verdict: **NO BET**. Every price below has a negative expected return" if not (P.exp_ret > 0).any() else
+          f"- Verdict: **NO BET yet**. {int((P.exp_ret > 0).sum())} prices show a positive expected return on paper") +
+         "; nothing is a bet until an arm in ncaab_report.md reaches SMALL STAKE (80%, 100 games).",
+         f"- {P.game.nunique()} games on the boards, {W.game.nunique()} with a to-win market, "
+         f"{P[P.p_model.notna()].game.nunique()} priced by the model.\n", "## Predicted winners (highest win chance first)\n"]
+    if len(W):
+        L += [pd.DataFrame(dict(game=W.game, winner=W.subject.fillna(W.selection), odds=W.odds, book=W.p_book.map(f),
+                                model=W.p_model.map(f), blend=W.p.map(f), break_even=(1 / W.odds).map(f),
+                                exp_return=W.exp_ret.map(lambda v: f(v, True)))).to_markdown(index=False), ""]
+    else:
+        L.append("No to-win markets on these boards.\n")
+    m = P[P.p_model.notna() & P.type.isin(["ML", "HANDICAP", "TOTAL"])].copy()
+    L.append("## Where the model disagrees with the book most (watch list, not bets)\n")
+    if len(m):
+        m["d"] = (m.p_book - 0.5).abs()
+        m = m[(m.d == m.groupby(["game", "type"]).d.transform("min")) & (m.gap > 0)].sort_values("gap", ascending=False).head(15)
+        L += [pd.DataFrame(dict(game=m.game, bet=m.type, selection=m.selection, odds=m.odds, book=m.p_book.map(f),
+                                model=m.p_model.map(f), gap=m.gap.map(lambda v: f(v, True)),
+                                exp_return=m.exp_ret.map(lambda v: f(v, True)))).to_markdown(index=False),
+              "\nThe middle line of each game. A gap is more often the model missing news than the book being wrong."]
+    else:
+        L.append("No model prices (no ratings yet, or the teams are not in them).")
+    out = Path(DB).with_name("ncaab_picks.md")
+    out.write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("\n".join(L[:6 if len(W) else 5])[:6000])
+    print(out)
+
+
+def pack(boards: str, out: str) -> None:
+    """A folder of .json captures -> one small .rows.csv.gz with every priced selection (what `price` needs)."""
+    frames, skipped = [], []
+    for f in sorted(Path(boards).glob("*.json")):
+        try:
+            frames.append(pd.DataFrame(board_rows(f)))
+        except Exception as e:
+            skipped.append(f"{f.name}: {e}")
+    if not frames:
+        sys.exit(f"no readable .json boards in {boards}")
+    B = pd.concat(frames, ignore_index=True)
+    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    B.to_csv(out, index=False, compression="gzip")
+    print(f"{out}: {B.game.nunique()} games, {len(B):,} rows, {Path(out).stat().st_size / 1024:.0f} KB; skipped {skipped}")
+
+
+def sync(root: str, backfill_from: str | None = None) -> None:
+    """Everything in order, safe to rerun: fetch missing results -> grade finished nights -> price boards/<date>/
+    <HHMM>.rows.csv.gz files not priced yet (ratings fitted only on games BEFORE that date) -> refit -> report."""
+    import time
+    root, con = Path(root), connect()
+    today = pd.Timestamp.now("America/New_York").tz_localize(None).normalize()
+
+    def get(date: str, slate: bool = False) -> Path:
+        out = root / ("slate" if slate else "results") / f"{date}.txt"
+        try:
+            fetch_results(date, str(out), slate)
+        except Exception as e:
+            print(f"   could not fetch {'slate' if slate else 'results'} {date}: {e}")
+        return out
+
+    if backfill_from:
+        for d in pd.date_range(backfill_from, today - pd.Timedelta(days=1)):
+            if not (root / "results" / f"{d:%Y-%m-%d}.txt").exists():
+                get(f"{d:%Y-%m-%d}")
+                time.sleep(0.4)
+    open_nights = [n for (n,) in con.execute("SELECT DISTINCT night FROM predictions WHERE status IN ('open', 'no_result')")]
+    for n in sorted(open_nights):
+        if today - pd.Timedelta(days=4) <= pd.Timestamp(n) < today:
+            f = get(n)
+            if f.exists():
+                try:
+                    grade(n, str(f), con)
+                except SystemExit as e:
+                    print("  ", e)
+    for f in sorted((root / "boards").glob("*/*.rows.csv.gz")):
+        night, cap = f.parent.name, f.name.split(".")[0]
+        if con.execute("SELECT 1 FROM predictions WHERE night = ? AND capture = ? LIMIT 1", [night, cap]).fetchone():
+            continue
+        sl = get(night, slate=True)
+        rated = (root / "results").exists() and fit(str(root / "results"), str(root / "ratings"), as_of=night, days=0)
+        price(night, str(f), cap, str(root / "ratings" / "teams.csv") if rated else None, con, str(sl))
+        picks(night, None, con)
+    if (root / "results").exists():
+        fit(str(root / "results"), str(root / "ratings"))
+    try:
+        report(con)
+    except SystemExit as e:
+        print(e)
 
 
 # ------------------------------------------------------------------ selftest
@@ -598,6 +847,37 @@ def selftest() -> None:
     report(con)
     txt = Path(DB).with_name("ncaab_report.md").read_text()
     checks.append(("open-vs-close section filled", "price shortened" in txt, None))
+    # own ratings: 40 teams of known strength, 30 days x 20 games, every 5th game on a neutral court
+    rng, T = np.random.default_rng(7), [f"Team {i:02d}" for i in range(40)]
+    st = rng.normal(0, 8, 40)
+    (tmp / "results").mkdir()
+    for day in range(30):
+        o, L = rng.permutation(40), []
+        for j in range(20):
+            h, a, neu = o[2 * j], o[2 * j + 1], j % 5 == 0
+            hp = int(round(72 + (st[h] - st[a]) / 2 + (0 if neu else 1.6) + rng.normal(0, 8)))
+            ap = int(round(72 - (st[h] - st[a]) / 2 - (0 if neu else 1.6) + rng.normal(0, 8)))
+            hp += hp == ap
+            L += [f"GAME {T[a]}@{T[h]}"] + ["NEUTRAL"] * neu + [f"H {T[h]}: {hp // 2} {hp - hp // 2}", f"H {T[a]}: {ap // 2} {ap - ap // 2}"]
+        (tmp / "results" / f"{pd.Timestamp('2025-12-01') + pd.Timedelta(days=day):%Y-%m-%d}.txt").write_text("\n".join(L) + "\n")
+    fitted = fit(str(tmp / "results"), str(tmp / "ratings"))
+    tc, mp = pd.read_csv(tmp / "ratings" / "teams.csv").set_index("team"), json.loads((tmp / "ratings" / "model.json").read_text())
+    f = expected_points(str(tmp / "ratings" / "teams.csv"))
+    e_home, e_neu = f(T[0], T[1]), f(T[0], T[1], True)
+    checks += [("fit recovers team strength", fitted and np.corrcoef((tc.adj_o - tc.adj_d).reindex(T), st)[0, 1] > 0.9, None),
+               ("fit: walk-forward beats a coin", (mp.get("walk_forward") or {}).get("winner_hit", 0) > 0.6, mp.get("walk_forward")),
+               ("fit: home court about 3.2", 1.5 < mp["hca"] < 5.0, mp["hca"]),
+               ("neutral court removes home edge", abs((e_home[0] - e_home[1]) - (e_neu[0] - e_neu[1]) - mp["hca"]) < 1e-6, None),
+               ("ratings predict the true margin", abs((e_neu[0] - e_neu[1]) - (st[0] - st[1])) < 6, (e_neu, st[0] - st[1]))]
+    pack(str(tmp / "1730"), str(tmp / "boards" / "2026-01-02" / "1730.rows.csv.gz"))
+    price("2026-01-02", str(tmp / "boards" / "2026-01-02" / "1730.rows.csv.gz"), None, str(tmp / "teams.csv"), con)
+    g2 = pd.read_sql("SELECT * FROM predictions WHERE night = '2026-01-02'", con)
+    same = g2.merge(g, on="row_key", suffixes=("", "_j"))
+    checks.append(("packed boards price the same", len(g2) == len(g) == len(same) and set(g2.capture) == {"1730"}
+                   and np.allclose(same.p_book, same.p_book_j) and np.allclose(same.p.astype(float), same.p_j.astype(float)), None))
+    picks("2026-01-01", None, con)
+    ptxt = Path(DB).with_name("ncaab_picks.md").read_text()
+    checks.append(("picks names the winner and says NO BET", "Baylor Bears" in ptxt and "NO BET" in ptxt, None))
     for nm, ok, info in checks:
         print(("ok   " if ok else "FAIL ") + nm + (f"  {info}" if info and not ok else ""))
     print("PASS" if all(c[1] for c in checks) else "FAIL")
@@ -611,8 +891,16 @@ def main():
     sub.add_parser("report")
     s = sub.add_parser("markets"); s.add_argument("boards")
     s = sub.add_parser("price"); s.add_argument("--date", required=True); s.add_argument("--boards", required=True)
-    s.add_argument("--capture"); s.add_argument("--teams")
+    s.add_argument("--capture"); s.add_argument("--teams"); s.add_argument("--slate")
     s = sub.add_parser("results"); s.add_argument("--date", required=True); s.add_argument("--out", required=True)
+    s.add_argument("--to", help="last date of a range; --out is then a folder, one file per date")
+    s = sub.add_parser("slate"); s.add_argument("--date", required=True); s.add_argument("--out", required=True)
+    s = sub.add_parser("fit"); s.add_argument("--results", default="results"); s.add_argument("--out", default="ratings")
+    s.add_argument("--as-of", help="use only games before this date"); s.add_argument("--ridge", type=float, default=RIDGE)
+    s.add_argument("--half-life", type=float, default=HALF_LIFE); s.add_argument("--days", type=int, default=21)
+    s = sub.add_parser("picks"); s.add_argument("--date", required=True); s.add_argument("--capture")
+    s = sub.add_parser("pack"); s.add_argument("--boards", required=True); s.add_argument("--out", required=True)
+    s = sub.add_parser("sync"); s.add_argument("--root", default=str(Path(__file__).parent)); s.add_argument("--backfill-from")
     s = sub.add_parser("grade"); s.add_argument("--date", required=True); s.add_argument("--results", required=True)
     a = ap.parse_args()
     if a.cmd == "selftest":
@@ -624,9 +912,25 @@ def main():
               .sort_values(["type", "rows"], ascending=[True, False]).to_string(index=False))
         print(f"\n{B.game.nunique()} games; {(B.type != 'UNPARSED').mean():.0%} of {len(B):,} rows typed")
     elif a.cmd == "price":
-        price(a.date, a.boards, a.capture, a.teams, connect())
+        price(a.date, a.boards, a.capture, a.teams, connect(), a.slate)
     elif a.cmd == "results":
-        fetch_results(a.date, a.out)
+        if a.to:
+            import time
+            for d in pd.date_range(a.date, a.to):
+                fetch_results(f"{d:%Y-%m-%d}", str(Path(a.out) / f"{d:%Y-%m-%d}.txt"))
+                time.sleep(0.4)
+        else:
+            fetch_results(a.date, a.out)
+    elif a.cmd == "slate":
+        fetch_results(a.date, a.out, slate=True)
+    elif a.cmd == "fit":
+        fit(a.results, a.out, a.as_of, a.ridge, a.half_life, a.days)
+    elif a.cmd == "picks":
+        picks(a.date, a.capture, connect())
+    elif a.cmd == "pack":
+        pack(a.boards, a.out)
+    elif a.cmd == "sync":
+        sync(a.root, a.backfill_from)
     elif a.cmd == "grade":
         grade(a.date, a.results, connect())
     elif a.cmd == "report":
