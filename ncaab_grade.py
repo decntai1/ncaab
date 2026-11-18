@@ -13,11 +13,13 @@ capture_board.py). One file: stdlib + numpy + pandas + tabulate. Spec: NCAAB_MOD
     python ncaab_grade.py fit     --results results --out ratings    # own ratings from results -> ratings/teams.csv
     python ncaab_grade.py picks   --date 2026-11-18                  # predicted winners with odds and expected return
     python ncaab_grade.py pack    --boards DIR --out boards/2026-11-18/1730.rows.csv.gz   # small file for git
-    python ncaab_grade.py sync    [--backfill-from 2025-11-03]       # everything, in order (what the GitHub job runs)
+    python ncaab_grade.py slips   --date 2026-11-18                  # ten paper multis at about 3x / 7x / 10x
+    python ncaab_grade.py sync    [--backfill-from 2025-11-03]       # everything, in order: price, slips, grade, report
 
 Stored in ncaab.sqlite next to this file (override: NCAAB_DB=path). Several captures of one night are kept apart
-(--capture, default = the boards' file time HHMM); the LAST capture of a night is the one that is pooled, earlier
-ones are only compared with it. Principles: the book is the anchor (p = p_book + w * lean), games are the unit of
+(--capture, default = the boards' file time HHMM). For every GAME the last capture taken before its tip is the one
+that is pooled; earlier ones are only compared with it. Captures are ordered by the time they were taken
+(captured_utc: the boards' file time, or --captured-at), not by their label, so a 00:30 capture follows a 23:00 one. Principles: the book is the anchor (p = p_book + w * lean), games are the unit of
 evidence, every number carries its n, nothing is a bet until the gates pass.
 """
 from __future__ import annotations
@@ -36,7 +38,7 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.5"
+MODEL_VERSION = "ncaab-0.8"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
@@ -51,7 +53,10 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS predictions (night TEXT, capture TEXT, row_key TEXT, game TEXT, home TEXT, away TEXT,
   market TEXT, type TEXT, scope TEXT, ot INTEGER, subject TEXT, selection TEXT, side TEXT, line REAL, odds REAL,
   p_book REAL, p_model REAL, p REAL, w_used REAL, p_method TEXT, overround REAL, model_version TEXT,
-  status TEXT DEFAULT 'open', result TEXT, actual REAL, PRIMARY KEY (night, capture, row_key));
+  status TEXT DEFAULT 'open', result TEXT, actual REAL, start TEXT, captured_utc TEXT,
+  PRIMARY KEY (night, capture, row_key));
+CREATE TABLE IF NOT EXISTS slips (night TEXT, capture TEXT, slip TEXT, target REAL, plan TEXT, legs TEXT, odds REAL,
+  p REAL, p_model REAL, exp_ret REAL, PRIMARY KEY (night, slip));
 CREATE TABLE IF NOT EXISTS weights (as_of TEXT, family TEXT, games INTEGER, w_fit REAL, w_se REAL, w_used REAL);
 """
 
@@ -59,7 +64,53 @@ CREATE TABLE IF NOT EXISTS weights (as_of TEXT, family TEXT, games INTEGER, w_fi
 def connect() -> sqlite3.Connection:
     con = sqlite3.connect(DB)
     con.executescript(SCHEMA)
+    have = {r[1] for r in con.execute("PRAGMA table_info(predictions)")}
+    for col in ("start", "captured_utc"):                      # ledgers made before ncaab-0.7
+        if col not in have:
+            con.execute(f"ALTER TABLE predictions ADD COLUMN {col} TEXT")
     return con
+
+
+def _utc(v) -> str | None:
+    """Any timestamp -> 'YYYY-MM-DDTHH:MM' in UTC (sorts as text), or None."""
+    if v is None or (isinstance(v, float) and math.isnan(v)) or str(v).strip() == "":
+        return None
+    t = pd.Timestamp(v)
+    t = t.tz_localize("UTC") if t.tzinfo is None else t.tz_convert("UTC")
+    return f"{t:%Y-%m-%dT%H:%M}"
+
+
+def mark_captures(d: pd.DataFrame) -> pd.DataFrame:
+    """Adds cap_key (what captures of a night are ordered by) and is_first / is_last PER GAME. A night whose captures
+    all carry captured_utc is ordered by it; otherwise by the capture label (old ledgers)."""
+    d = d.copy()
+    has_ts = d.groupby("night").captured_utc.transform(lambda x: x.notna().all())
+    d["cap_key"] = np.where(has_ts, d.captured_utc.fillna("") + "|", "") + d.capture.astype(str)   # label breaks ties
+    g = d.groupby(["night", "game"]).cap_key
+    d["is_last"], d["is_first"] = d.cap_key == g.transform("max"), d.cap_key == g.transform("min")
+    return d
+
+
+def clock_warning(files: list) -> str | None:
+    """Capture files are named ..._HHMM.net.json (local time) and carry the browser's timezoneOffset in their first
+    request. If the files' own time does not match that, they were copied and their time is not the capture time."""
+    off_n = n = 0
+    for f in files:
+        m = re.search(r"_(\d{2})(\d{2})\.(?:net\.)?json$", Path(f).name)
+        try:
+            with open(f, encoding="utf-8") as fh:
+                z = re.search(r"timezoneOffset=(-?\d+)", fh.read(6000))
+        except OSError:
+            z = None
+        if not m or not z:
+            continue
+        local = (int(os.path.getmtime(f)) // 60 - int(z.group(1))) % 1440
+        gap = abs(local - (int(m.group(1)) * 60 + int(m.group(2))))
+        n, off_n = n + 1, off_n + (min(gap, 1440 - gap) > 10)
+    if n and off_n > n / 2:
+        return (f"   WARNING: {off_n} of {n} files have a file time that does not match the capture time in their name: "
+                f"they look copied. The capture time may be wrong - pass --captured-at.")
+    return None
 
 
 def norm_team(s: str) -> str:
@@ -109,7 +160,10 @@ def classify(name: str, tids: set, teams: tuple[str, str]) -> tuple[str, str, in
     """-> (type, scope, ot, team). scope G / H1 / H2. Decided by WHICH selection codes the market has; the name
     gives only scope, stat and team. Anything not recognised is UNPARSED: stored, never graded."""
     low = name.lower()
-    bare = re.sub(r"\(.*?\)", "", low)
+    bare = low
+    for t in teams:                                            # 'William & Mary Tribe' must not look like a combo
+        bare = bare.replace(t.lower(), " ")
+    bare = re.sub(r"\(.*?\)", "", bare)
     m = HALF.search(low)
     scope = f"H{m.group(1)}" if m else "G"
     team = next((t for t in teams if t.lower() in low), None)
@@ -142,6 +196,7 @@ def board_rows(path) -> list[dict]:
     home, away = names
     cid = {comp[0]["id"]: home, comp[1]["id"]: away}
     odds = {o["id"]: o for o in ev["odds"]}
+    start = _utc(ev.get("startDate"))
     rows, seen = [], set()
     for m in ev["markets"]:
         if m.get("typeId") == 31046 or m.get("childMarketIds"):   # boosted container; player tables (none in NCAAB)
@@ -180,7 +235,8 @@ def board_rows(path) -> list[dict]:
             ty = typ if (side is not None or typ == "UNPARSED") else "UNPARSED"
             key = hashlib.md5(f"{away}@{home}|{ty}|{scope}|{subject}|{side}|{line}|{name}|{nm if ty == 'UNPARSED' else ''}".encode()).hexdigest()[:16]
             rows.append(dict(row_key=key, game=f"{away}@{home}", home=home, away=away, market=name, type=ty, scope=scope,
-                             ot=ot, subject=subject, selection=nm, side=side, line=line, odds=shown(o["price"]), mid=m["id"]))
+                             ot=ot, subject=subject, selection=nm, side=side, line=line, odds=shown(o["price"]), mid=m["id"],
+                             start=start))
     return rows
 
 
@@ -268,18 +324,27 @@ def family(t: str, scope: str) -> str:
     return "half" if scope != "G" else "main" if t in ("ML", "HANDICAP", "TOTAL", "TEAM_TOTAL") else "other"
 
 
-def price(night: str, boards: str, capture: str | None, teams_csv: str | None, con, slate: str | None = None) -> pd.DataFrame:
+def price(night: str, boards: str, capture: str | None, teams_csv: str | None, con, slate: str | None = None,
+          captured_at: str | None = None) -> pd.DataFrame:
     """`boards` = a folder of .json captures, or one file made by `pack`. `slate` = a file made by `slate`: games
-    it marks NEUTRAL get no home-court advantage from the model."""
-    frames, skipped = [], []
+    it marks NEUTRAL get no home-court advantage from the model. `captured_at` = when the boards were pulled (any
+    timestamp; default: the pack's own captured_utc column, or the .json files' time). Games that had already
+    tipped at that moment are not stored: their prices know the score."""
+    frames, skipped, cap_utc = [], [], _utc(captured_at)
     if Path(boards).is_file():
         capture = capture or Path(boards).name.split(".")[0]
-        frames = [devig(x) for _, x in pd.read_csv(boards).groupby("game")]
+        raw = pd.read_csv(boards)
+        if cap_utc is None and "captured_utc" in raw and raw.captured_utc.notna().any():
+            cap_utc = _utc(raw.captured_utc.dropna().iloc[0])
+        frames = [devig(x) for _, x in raw.drop(columns=["captured_utc"], errors="ignore").groupby("game")]
     else:
         files = sorted(Path(boards).glob("*.json"))
         if not files:
             sys.exit(f"no .json boards in {boards}")
-        capture = capture or pd.Timestamp(max(os.path.getmtime(f) for f in files), unit="s").strftime("%H%M")
+        mt = pd.Timestamp(max(os.path.getmtime(f) for f in files), unit="s")
+        if cap_utc is None and (wn := clock_warning(files)):
+            print(wn)
+        capture, cap_utc = capture or mt.strftime("%H%M"), cap_utc or _utc(mt)
         for f in files:
             try:
                 rows = board_rows(f)
@@ -289,6 +354,16 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
                 skipped.append(f"{f.name}: {e}")
     card, neutral = read_slate(slate) if slate and Path(slate).exists() else (set(), set())
     B = pd.concat(frames, ignore_index=True).drop_duplicates("row_key", keep="last")   # the key holds the game
+    if "start" not in B:
+        B["start"] = None                                      # packs made before ncaab-0.7
+    B["captured_utc"] = cap_utc
+    live = B.start.notna() & (B.start.astype(str) <= (cap_utc or "")) if cap_utc else pd.Series(False, index=B.index)
+    if live.any():
+        print(f"   {B[live].game.nunique()} games had already tipped at {cap_utc}Z: not stored ({sorted(B[live].game.unique())[:5]})")
+        B = B[~live].reset_index(drop=True)
+    if B.empty:
+        sys.exit(f"{night} capture {capture}: every game had already tipped at {cap_utc}Z, nothing stored. If that is "
+                 f"not when the boards were pulled (copied files lose their time), pass --captured-at.")
     B["p_model"] = np.nan
     if teams_csv:
         f, miss = expected_points(teams_csv), set()
@@ -311,7 +386,7 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
     B["p"] = np.where(B.p_model.notna(), B.p_book + B.w_used * lean, B.p_book)
     bad = B[(B.p <= 0) | (B.p >= 1) | (B.odds <= 1) | ((B.p_method == "no_vig") & ~B.overround.between(1.0, 1.25))]
     cols = ["row_key", "game", "home", "away", "market", "type", "scope", "ot", "subject", "selection", "side", "line",
-            "odds", "p_book", "p_model", "p", "w_used", "p_method", "overround"]
+            "odds", "p_book", "p_model", "p", "w_used", "p_method", "overround", "start", "captured_utc"]
     con.execute("DELETE FROM predictions WHERE night = ? AND capture = ?", [night, capture])
     con.executemany(f"INSERT INTO predictions (night, capture, model_version, {','.join(cols)}) VALUES "
                     f"(?, ?, ?, {','.join('?' * len(cols))})",
@@ -319,8 +394,8 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
                      for r in B[cols].astype(object).values.tolist()])
     con.commit()
     nv = B[B.p_method == "no_vig"]
-    print(f"{night} capture {capture}: {B.game.nunique()} games, {len(B):,} rows, price audit {len(bad)} broken; "
-          f"skipped files {len(skipped)}")
+    print(f"{night} capture {capture} (taken {cap_utc or 'time unknown'}Z): {B.game.nunique()} games, {len(B):,} rows, "
+          f"price audit {len(bad)} broken; skipped files {len(skipped)}")
     print(nv.groupby(["type", "scope"]).agg(rows=("odds", "size"), games=("game", "nunique"),
                                             cut=("overround", lambda s: s.median() - 1)).round(3).to_string())
     print(f"UNPARSED rows: {(B.type == 'UNPARSED').sum()} in {B[B.type == 'UNPARSED'].market.nunique()} market names")
@@ -460,8 +535,11 @@ def decided(con, last_only: bool = True) -> pd.DataFrame:
     d = pd.read_sql("SELECT * FROM predictions WHERE status = 'graded' AND result IN ('won', 'lost')", con)
     if d.empty:
         return d
+    d = mark_captures(d)
+    op = d[d.is_first & ~d.is_last & (d.p_method == "no_vig")][["night", "game", "row_key", "p_book", "odds"]]
+    d = d.merge(op.rename(columns=dict(p_book="p_open", odds="odds_open")), on=["night", "game", "row_key"], how="left")
     if last_only:
-        d = d[d.capture == d.groupby("night").capture.transform("max")]
+        d = d[d.is_last]                                       # per GAME: a noon game is not in the evening capture
     d = d.copy()
     d["y"] = (d.result == "won").astype(float)
     d["ret"] = d.y * d.odds - 1
@@ -527,8 +605,11 @@ def bandit(d: pd.DataFrame) -> pd.DataFrame:
         w = (1 / se ** 2) / (1 / se ** 2 + 1 / PRIOR_SD ** 2)
         pm, ps = w * g.mean() + (1 - w) * mu0, math.sqrt(1 / (1 / se ** 2 + 1 / PRIOR_SD ** 2))
         pb = ncdf(pm / ps)
+        c = a[a.p_open.notna()]                                # bets also priced at the game's first capture
+        clv = (c.p_book - c.p_open).groupby(c.cluster).mean()
         rows.append(dict(arm=name, bets=len(a), games=n, hit=a.y.mean(), need=(1 / a.odds).mean(), seen=g.mean(),
                          seen_se=se, book_says=mu0, belief=pm, p_beats=pb,
+                         clv=clv.mean() if len(clv) else float("nan"), clv_games=len(clv),
                          status="CANDIDATE" if pb >= 0.95 and n >= 100 else "SMALL STAKE" if pb >= 0.80 and n >= 100
                          else "watch" if pb >= 0.65 else "-"))
     return pd.DataFrame(rows).sort_values("p_beats", ascending=False) if rows else pd.DataFrame()
@@ -536,7 +617,7 @@ def bandit(d: pd.DataFrame) -> pd.DataFrame:
 
 def refit(d: pd.DataFrame, con) -> None:
     rows, now = [], pd.Timestamp.now("UTC").isoformat()
-    for fam, x in d.dropna(subset=["p_model"]).groupby("family"):
+    for fam, x in d[d.p_method == "no_vig"].dropna(subset=["p_model"]).groupby("family"):
         nc = x.cluster.nunique()
         if nc < MIN_GAMES:
             print(f"  {fam}: {nc} games with a model price (< {MIN_GAMES}): weight stays {START_W[fam]}")
@@ -561,12 +642,12 @@ def report(con) -> None:
         sys.exit("nothing graded yet")
     pct = lambda c: lambda v: f"{v:+.1%}" if c else f"{v:.1%}"
     L = [f"# NCAAB ledger report\n\n{len(d):,} decided bets, **{d.cluster.nunique()} games**, nights {d.night.min()} .. "
-         f"{d.night.max()} (last capture of each night). Games are the unit of evidence.\n"]
+         f"{d.night.max()} (for each game: the last capture before its tip). Games are the unit of evidence.\n"]
     B = bandit(d)
     best = f"{B.p_beats.max():.0%}" if len(B) else "n/a"
     L += ["## Verdict\n", f"- Real-money verdict: **{'NO BET' if not len(B) or not B.status.isin(['CANDIDATE', 'SMALL STAKE']).any() else 'see tiers below'}**"
           f" (best arm at {best}; SMALL STAKE needs 80%, CANDIDATE 95%, both 100 games).\n"]
-    m = d.dropna(subset=["p_model"])
+    m = d[d.p_method == "no_vig"].dropna(subset=["p_model"])
     L.append("## Negatives first: book vs model vs blend (Brier, lower is better)\n")
     if len(m):
         T = pd.DataFrame([dict(type=t, scope=s, n=len(x), games=x.cluster.nunique(), book=cbrier(x.p_book, x.y, x.cluster),
@@ -582,26 +663,19 @@ def report(con) -> None:
     R = pd.DataFrame([dict(type=t, scope=sc, side=s, **cstat(x)) for (t, sc, s), x in nv.groupby(["type", "scope", "side"])])
     L += ["## Return by bet type and side\n", R.sort_values("ret").round(3).to_markdown(index=False), ""]
 
-    A = pd.read_sql("SELECT * FROM predictions WHERE status = 'graded' AND result IN ('won','lost') AND p_method = 'no_vig'", con)
-    A["first"], A["last"] = A.groupby("night").capture.transform("min"), A.groupby("night").capture.transform("max")
-    two = A[A["first"] != A["last"]]
-    L.append("## Open vs close (nights with two or more captures)\n")
-    if len(two):
-        e, l = two[two.capture == two["first"]], two[two.capture == two["last"]]
-        mm = e.merge(l, on=["night", "game", "row_key"], suffixes=("_open", "_close"))
-        mm["y"] = (mm.result_close == "won").astype(float)
-        mm["cl"] = mm.night + "|" + mm.game
-        mv = mm.p_book_close - mm.p_book_open
-        rows = [dict(group="all", bets=len(mm), games=mm.cl.nunique(), brier_open=cbrier(mm.p_book_open, mm.y, mm.cl),
-                     brier_close=cbrier(mm.p_book_close, mm.y, mm.cl), ret_at_open=(mm.y * mm.odds_open - 1).mean())]
-        for nm, x in (("price shortened 3+ pts", mm[mv >= 0.03]), ("price drifted 3+ pts", mm[mv <= -0.03])):
-            if len(x):
-                rows.append(dict(group=nm, bets=len(x), games=x.cl.nunique(), brier_open=cbrier(x.p_book_open, x.y, x.cl),
-                                 brier_close=cbrier(x.p_book_close, x.y, x.cl), ret_at_open=(x.y * x.odds_open - 1).mean()))
+    mm = nv[nv.p_open.notna()]                                 # games priced at two or more captures before tip
+    L.append("## Open vs close (games with two or more captures before tip)\n")
+    if len(mm):
+        mv = mm.p_book - mm.p_open
+        row = lambda nm, x: dict(group=nm, bets=len(x), games=x.cluster.nunique(), brier_open=cbrier(x.p_open, x.y, x.cluster),
+                                 brier_close=cbrier(x.p_book, x.y, x.cluster), ret_at_open=(x.y * x.odds_open - 1).mean())
+        rows = [row("all", mm)] + [row(nm, x) for nm, x in (("price shortened 3+ pts", mm[mv >= 0.03]),
+                                                           ("price drifted 3+ pts", mm[mv <= -0.03])) if len(x)]
         L += [pd.DataFrame(rows).round(4).to_markdown(index=False),
-              "\nCLV of an arm = how often its bets are on the side that shortens. Positive CLV is the fastest honest signal.\n"]
+              "\nCLV of an arm = how far its bets shortened between a game's first and last capture (the `clv` column "
+              "below). Positive CLV is the fastest honest signal.\n"]
     else:
-        L.append("None yet: price the same night twice (`--capture 0900`, then `--capture 1730`).\n")
+        L.append("None yet: price the same night twice (morning, then about an hour before the first tip).\n")
     L.append("## Bandit (arms marked * are hypotheses set before any data)\n")
     if len(B):
         T = B.copy()
@@ -609,11 +683,22 @@ def report(con) -> None:
             T[c] = T[c].map(pct(False))
         for c in ("seen", "seen_se", "book_says", "belief"):
             T[c] = T[c].map(pct(True))
+        T["clv"] = T.clv.map(lambda v: "" if pd.isna(v) else f"{100 * v:+.1f} pts")
         L += [T.to_markdown(index=False), "",
               "`seen` = raw return so far; `belief` = what is left after starting from 'the book is right'. With dozens of "
-              "arms some will look good by chance: only p_beats with 100+ games counts."]
+              "arms some will look good by chance: only p_beats with 100+ games counts. `clv` = how far the book moved these "
+              "bets between a game's first and last capture (+ = they shortened), over `clv_games` games; a real edge shows "
+              "here first. Before real stakes an arm needs clv > 0 as well as its tier."]
     else:
         L.append("No arm has 12 games yet.")
+    SR = slip_results(con)
+    if len(SR):
+        done = SR[SR.result != "open"]
+        L += ["\n## Paper slips\n", SR.round(3).to_markdown(index=False)]
+        if len(done):
+            L.append(f"\n{len(done)} settled: {int((done.result == 'won').sum())} won, {done.win_chance.sum():.1f} expected; "
+                     f"{len(done)} unit stakes returned {done.paid.sum():.2f} ({(done.odds * done.win_chance).sum():.2f} expected). "
+                     f"A slip result says little: the evidence is in the legs, in the bandit table above.")
     out = Path(DB).with_name("ncaab_report.md")
     out.write_text("\n".join(L), encoding="utf-8")
     print(f"{d.cluster.nunique()} games. Best arm P(beats) {best}. Weight refit:")
@@ -804,7 +889,8 @@ def picks(night: str, capture: str | None, con) -> None:
     P = pd.read_sql("SELECT * FROM predictions WHERE night = ?", con, params=[night])
     if P.empty:
         sys.exit(f"no predictions stored for {night}")
-    cap = capture or P.capture.max()
+    P = mark_captures(P)
+    cap = capture or P.sort_values("cap_key").capture.iloc[-1]
     P = P[(P.capture == cap) & (P.p_method == "no_vig") & (P.scope == "G")].copy()
     P["exp_ret"], P["gap"] = P.p * P.odds - 1, P.p_model - P.p_book
     ml = P[P.type == "ML"]
@@ -847,10 +933,122 @@ def picks(night: str, capture: str | None, con) -> None:
     print(out)
 
 
-def pack(boards: str, out: str) -> None:
-    """A folder of .json captures -> one small .rows.csv.gz with every priced selection (what `price` needs)."""
+SLIP_PLAN = [  # (target odds, legs, which legs, how they are ranked) - fixed 2026-11-18 before any slip was graded
+    (3, 2, "any", "cut"), (3, 3, "handicap", "cut"), (3, 4, "race", "p"), (3, 3, "any", "model"),
+    (7, 3, "handicap", "cut"), (7, 4, "mix", "cut"), (7, 5, "any", "p"),
+    (10, 4, "any", "cut"), (10, 5, "mix", "model"), (10, 6, "any", "p")]
+SLIP_COLS = ["night", "capture", "slip", "target", "plan", "legs", "odds", "p", "p_model", "exp_ret"]
+
+
+def slips(night: str, capture: str | None, con) -> pd.DataFrame:
+    """Ten paper multis at about 3x / 7x / 10x from one capture (default: the latest). One leg per game and every
+    game in one slip only, so the slips are independent. Legs: two-way-priced (no_vig) to-win, handicap (.5 lines),
+    first-half draw-no-bet and races, odds 1.15-2.60. 'cut' = cheapest legs first (least margin), 'p' = likeliest
+    legs, 'model' = largest model-over-book gap. Win chance and expected return use the blended price p; every slip
+    loses on average. Stored in the ledger AND in slips/<night>.csv next to it (row keys + odds), so they survive a
+    rebuilt ledger."""
+    P = pd.read_sql("SELECT * FROM predictions WHERE night = ?", con, params=[night])
+    if P.empty:
+        sys.exit(f"no predictions stored for {night}")
+    cap = capture or mark_captures(P).sort_values("cap_key").capture.iloc[-1]
+    C = P[(P.capture == cap) & (P.p_method == "no_vig") & P.odds.between(1.15, 2.60) & P.type.isin(["ML", "HANDICAP", "DNB", "RACE"])
+          & P.side.isin(["home", "away"]) & ((P.type != "HANDICAP") | ((P.line % 1) == 0.5))].copy()
+    C["val"], C["gap"] = C.p * C.odds, (C.p_model - C.p_book).fillna(-1)
+    used, out = set(), []
+    for i, (T, n, kind, rank) in enumerate(SLIP_PLAN, 1):
+        pool = C[~C.game.isin(used)]
+        pool = pool[pool.type.isin({"handicap": ["HANDICAP"], "race": ["RACE"], "mix": ["HANDICAP", "RACE"],
+                                    "any": ["ML", "HANDICAP", "DNB", "RACE"]}[kind])]
+        legs, left = [], float(T)
+        for k in range(n, 0, -1):
+            t = left ** (1 / k)
+            q = pool[~pool.game.isin([l.game for l in legs]) & ((pool.odds / t - 1).abs() <= (0.12 if k > 1 else 0.10))]
+            if q.empty:
+                q = pool[~pool.game.isin([l.game for l in legs])].assign(d=lambda x: (x.odds / t - 1).abs()).nsmallest(5, "d")
+            if q.empty:
+                break
+            l = q.sort_values({"cut": "val", "p": "p", "model": "gap"}[rank], ascending=False).iloc[0]
+            if kind == "mix" and legs and all(x.type == l.type for x in legs) and k == 1:
+                alt = q[q.type != l.type]
+                l = alt.sort_values("val", ascending=False).iloc[0] if len(alt) else l
+            legs.append(l)
+            left /= l.odds
+        if len(legs) < n:
+            continue
+        used |= {l.game for l in legs}
+        o, pw = float(np.prod([l.odds for l in legs])), float(np.prod([l.p for l in legs]))
+        pm = float(np.prod([l.p_model for l in legs])) if all(pd.notna(l.p_model) for l in legs) else float("nan")
+        out.append(dict(night=night, capture=cap, slip=f"S{i:02d}", target=T, plan=f"{n} legs, {kind}, by {rank}",
+                        legs=json.dumps([l.row_key for l in legs]), odds=round(o, 3), p=pw, p_model=pm, exp_ret=o * pw - 1,
+                        _legs=legs))
+    S = pd.DataFrame(out)
+    con.execute("DELETE FROM slips WHERE night = ?", [night])
+    if len(S):
+        con.executemany(f"INSERT INTO slips VALUES ({','.join('?' * len(SLIP_COLS))})",
+                        [[None if isinstance(v, float) and math.isnan(v) else v for v in r] for r in S[SLIP_COLS].astype(object).values.tolist()])
+        sd = Path(DB).with_name("slips")
+        sd.mkdir(exist_ok=True)
+        S[SLIP_COLS].to_csv(sd / f"{night}.csv", index=False)
+    con.commit()
+    f = lambda v, sg=False: "n/a" if v is None or v != v else f"{v:+.1%}" if sg else f"{v:.1%}"
+    L = [f"# NCAAB paper slips {night} (capture {cap})\n",
+         "**Paper only: NO BET.** Every leg already pays the book's cut, a multi pays it once per leg. No game is in two "
+         "slips, so each wins or loses on its own. Expected return is what a slip makes on average.\n"]
+    if not len(S):
+        L.append("No slip could be built from this capture (too few two-way-priced legs).")
+    else:
+        L += [pd.DataFrame([dict(slip=r["slip"], target=f"{r['target']:g}x", plan=r["plan"], odds=f"{r['odds']:.2f}",
+                                 win_chance=f(r["p"]), model_says=f(r["p_model"]), break_even=f(1 / r["odds"]),
+                                 exp_return=f(r["exp_ret"], True)) for r in out]).to_markdown(index=False), ""]
+        for r in out:
+            L.append(f"\n### {r['slip']}  {r['odds']:.2f}x  win chance {f(r['p'])}  ({r['plan']})\n")
+            L.append(pd.DataFrame([dict(game=l.game, market=l.market, pick=l.selection, odds=l.odds, book=f(l.p_book),
+                                        model=f(l.p_model)) for l in r["_legs"]]).to_markdown(index=False))
+        L.append(f"\nOn average {sum(r['p'] for r in out):.1f} of these {len(out)} slips win. {len(out)} unit stakes return "
+                 f"about {sum(r['odds'] * r['p'] for r in out):.2f} units on average.")
+    (Path(DB).with_name("ncaab_slips.md")).write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("\n".join(L[:3]))
+    return S
+
+
+def load_slips(con) -> None:
+    """slips/<night>.csv next to the ledger -> the slips table, for nights the table does not hold (rebuilt ledger)."""
+    have = {n for (n,) in con.execute("SELECT DISTINCT night FROM slips")}
+    for f in sorted(Path(DB).with_name("slips").glob("*.csv")):
+        if f.stem not in have:
+            S = pd.read_csv(f, dtype={"night": str, "capture": str})
+            con.executemany(f"INSERT OR IGNORE INTO slips VALUES ({','.join('?' * len(SLIP_COLS))})",
+                            [[None if isinstance(v, float) and math.isnan(v) else v for v in r] for r in S[SLIP_COLS].astype(object).values.tolist()])
+    con.commit()
+
+
+def slip_results(con) -> pd.DataFrame:
+    """Graded slips: a pushed leg counts as odds 1.00 (dropped), any lost leg loses the slip, any ungraded leg = open."""
+    load_slips(con)
+    S = pd.read_sql("SELECT * FROM slips ORDER BY night, slip", con)
+    rows = []
+    for r in S.itertuples():
+        keys = json.loads(r.legs)
+        G = pd.read_sql(f"SELECT row_key, odds, status, result FROM predictions WHERE night = ? AND capture = ? AND row_key IN "
+                        f"({','.join('?' * len(keys))})", con, params=[r.night, r.capture, *keys])
+        res = ("lost" if (G.result == "lost").any() else "open" if len(G) < len(keys) or (G.status != "graded").any()
+               else "won")
+        paid = float(np.prod(G[G.result == "won"].odds)) if res == "won" else 0.0
+        rows.append(dict(night=r.night, slip=r.slip, target=r.target, plan=r.plan, odds=r.odds, win_chance=r.p, result=res,
+                         legs_won=int((G.result == "won").sum()), legs=len(keys), paid=paid))
+    return pd.DataFrame(rows)
+
+
+def pack(boards: str, out: str, captured_at: str | None = None) -> None:
+    """A folder of .json captures -> one small .rows.csv.gz with every priced selection (what `price` needs), each
+    game's tip time and when the boards were pulled (captured_utc: --captured-at, else the files' own time - so run
+    `pack` on the machine that made the capture, before the files are copied anywhere)."""
     frames, skipped = [], []
-    for f in sorted(Path(boards).glob("*.json")):
+    files = sorted(Path(boards).glob("*.json"))
+    if not captured_at and (wn := clock_warning(files)):
+        print(wn)
+    cap_utc = _utc(captured_at) or (_utc(pd.Timestamp(max(os.path.getmtime(f) for f in files), unit="s")) if files else None)
+    for f in files:
         try:
             frames.append(pd.DataFrame(board_rows(f)))
         except Exception as e:
@@ -858,22 +1056,27 @@ def pack(boards: str, out: str) -> None:
     if not frames:
         sys.exit(f"no readable .json boards in {boards}")
     B = pd.concat(frames, ignore_index=True)
+    B["captured_utc"] = cap_utc
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     B.to_csv(out, index=False, compression="gzip")
-    print(f"{out}: {B.game.nunique()} games, {len(B):,} rows, {Path(out).stat().st_size / 1024:.0f} KB; skipped {skipped}")
+    print(f"{out}: {B.game.nunique()} games, {len(B):,} rows, {Path(out).stat().st_size / 1024:.0f} KB, taken {cap_utc}Z "
+          f"(wrong? pass --captured-at); skipped {skipped}")
 
 
 def sync(root: str, backfill_from: str | None = None) -> None:
-    """Everything in order, safe to rerun: fetch missing results -> grade finished nights -> price boards/<date>/
-    <HHMM>.rows.csv.gz files not priced yet (ratings fitted only on games BEFORE that date) -> refit -> report."""
+    """Everything in order, safe to rerun: fetch MISSING results (existing files are never overwritten) -> price
+    boards/<date>/<label>.rows.csv.gz files not priced yet (ratings fitted only on games BEFORE that date) -> grade
+    every finished night that has a results file -> refit -> report. One run rebuilds an empty ledger completely."""
     import time
     root, con = Path(root), connect()
     today = pd.Timestamp.now("America/New_York").tz_localize(None).normalize()
 
-    def get(date: str, slate: bool = False) -> Path:
+    def get(date: str, slate: bool = False, pbp: bool = False) -> Path:
         out = root / ("slate" if slate else "results") / f"{date}.txt"
+        if out.exists() and out.stat().st_size:                # the scrape job owns these files: a refetch from here
+            return out                                         # would drop the play-by-play (RACE) lines
         try:
-            fetch_results(date, str(out), slate)
+            fetch_results(date, str(out), slate, pbp)
         except Exception as e:
             print(f"   could not fetch {'slate' if slate else 'results'} {date}: {e}")
         return out
@@ -883,15 +1086,6 @@ def sync(root: str, backfill_from: str | None = None) -> None:
             if not (root / "results" / f"{d:%Y-%m-%d}.txt").exists():
                 get(f"{d:%Y-%m-%d}")
                 time.sleep(0.4)
-    open_nights = [n for (n,) in con.execute("SELECT DISTINCT night FROM predictions WHERE status IN ('open', 'no_result')")]
-    for n in sorted(open_nights):
-        if today - pd.Timedelta(days=4) <= pd.Timestamp(n) < today:
-            f = get(n)
-            if f.exists():
-                try:
-                    grade(n, str(f), con)
-                except SystemExit as e:
-                    print("  ", e)
     if (root / "results").exists():                             # first, so the fitted SDs exist before any pricing
         fit(str(root / "results"), str(root / "ratings"))
     for f in sorted((root / "boards").glob("*/*.rows.csv.gz")):
@@ -900,8 +1094,27 @@ def sync(root: str, backfill_from: str | None = None) -> None:
             continue
         sl = get(night, slate=True)
         rated = (root / "results").exists() and fit(str(root / "results"), str(root / "ratings"), as_of=night, days=0)
-        price(night, str(f), cap, str(root / "ratings" / "teams.csv") if rated else None, con, str(sl))
-        picks(night, None, con)
+        try:
+            price(night, str(f), cap, str(root / "ratings" / "teams.csv") if rated else None, con, str(sl))
+            picks(night, None, con)
+            load_slips(con)
+            if not con.execute("SELECT 1 FROM slips WHERE night = ? LIMIT 1", [night]).fetchone():
+                slips(night, cap, con)                         # once per night, from its first priced capture
+        except SystemExit as e:
+            print("  ", e)
+    # grade AFTER pricing, so a ledger rebuilt from nothing is graded in the same run. Every night with a results
+    # file is graded once ('open' rows), whatever its age; a night with gaps (no_result) is retried for a week.
+    todo = con.execute("""SELECT night, sum(status = 'open') FROM predictions WHERE status IN ('open', 'no_result')
+                          GROUP BY night ORDER BY night""").fetchall()
+    for n, n_open in todo:
+        if not pd.Timestamp(n) < today or not (n_open or pd.Timestamp(n) >= today - pd.Timedelta(days=7)):
+            continue
+        f = get(n, pbp=True) if pd.Timestamp(n) >= today - pd.Timedelta(days=4) else root / "results" / f"{n}.txt"
+        if f.exists():
+            try:
+                grade(n, str(f), con)
+            except SystemExit as e:
+                print("  ", e)
     if (root / "results").exists():
         fit(str(root / "results"), str(root / "ratings"))
     try:
@@ -938,7 +1151,8 @@ def selftest() -> None:
     M("1.félidő - verseny a(z) 30 pontért", [(H, 1, 1.60, 1, "30"), (A, 3, 2.20, 2, "30")])          # 'neither' missing
     M("Ki ér el elsőként 20 pontot (hosszabbítást beleértve)?", [(H, 1, 1.62, 1, "20"), (A, 3, 2.15, 2, "20")])
     M("1. negyed - pontok száma", [("30,5 felett", 12, 1.9, None, "30.5"), ("30,5 alatt", 13, 1.9, None, "30.5")])
-    ev = dict(markets=mk, odds=od, competitors=[dict(id=1, name=H), dict(id=2, name=A)])
+    ev = dict(markets=mk, odds=od, competitors=[dict(id=1, name=H), dict(id=2, name=A)], startDate="2026-01-02T00:00:00Z")
+    TAKEN = {"0900": "2026-01-01T14:00Z", "1730": "2026-01-01T22:30Z"}
     tmp = Path(tempfile.mkdtemp())
     for cap, bump in (("0900", 0.0), ("1730", 0.10)):                       # second capture: home favourite shortens
         e2 = json.loads(json.dumps(ev))
@@ -952,7 +1166,7 @@ def selftest() -> None:
     DB = str(tmp / "t.sqlite")
     con = connect()
     for cap in ("0900", "1730"):
-        price("2026-01-01", str(tmp / cap), cap, str(tmp / "teams.csv"), con)
+        price("2026-01-01", str(tmp / cap), cap, str(tmp / "teams.csv"), con, captured_at=TAKEN[cap])
     grade("2026-01-01", str(tmp / "res.txt"), con)
     g = pd.read_sql("SELECT * FROM predictions WHERE capture = '1730'", con)
     R = {(r.type, r.scope, r.side, None if pd.isna(r.line) else r.line): r.result for r in g.itertuples()}
@@ -1010,7 +1224,7 @@ def selftest() -> None:
                ("fit: home court about 3.2", 1.5 < mp["hca"] < 5.0, mp["hca"]),
                ("neutral court removes home edge", abs((e_home[0] - e_home[1]) - (e_neu[0] - e_neu[1]) - mp["hca"]) < 1e-6, None),
                ("ratings predict the true margin", abs((e_neu[0] - e_neu[1]) - (st[0] - st[1])) < 6, (e_neu, st[0] - st[1]))]
-    pack(str(tmp / "1730"), str(tmp / "boards" / "2026-01-02" / "1730.rows.csv.gz"))
+    pack(str(tmp / "1730"), str(tmp / "boards" / "2026-01-02" / "1730.rows.csv.gz"), TAKEN["1730"])
     price("2026-01-02", str(tmp / "boards" / "2026-01-02" / "1730.rows.csv.gz"), None, str(tmp / "teams.csv"), con)
     g2 = pd.read_sql("SELECT * FROM predictions WHERE night = '2026-01-02'", con)
     same = g2.merge(g, on="row_key", suffixes=("", "_j"))
@@ -1019,6 +1233,68 @@ def selftest() -> None:
     picks("2026-01-01", None, con)
     ptxt = Path(DB).with_name("ncaab_picks.md").read_text()
     checks.append(("picks names the winner and says NO BET", "Baylor Bears" in ptxt and "NO BET" in ptxt, None))
+    import shutil
+    stamp = lambda fl, when: os.utime(fl, (pd.Timestamp(when).timestamp(),) * 2)
+    cw = tmp / "cw"
+    cw.mkdir()
+    (cw / "2026-01-01_A-B_1131.net.json").write_text(json.dumps([dict(url="https://x/api?timezoneOffset=300&y=1", status=200, body=ev)]))
+    stamp(cw / "2026-01-01_A-B_1131.net.json", "2026-01-01T16:31:40Z")
+    cw_ok = clock_warning(list(cw.glob("*.json")))
+    stamp(cw / "2026-01-01_A-B_1131.net.json", "2026-01-03T09:02:00Z")
+    checks.append(("copied capture files are noticed", cw_ok is None and bool(clock_warning(list(cw.glob("*.json")))), cw_ok))
+    # ncaab-0.7: captures ordered by time and per game; started games dropped; one sync run grades an empty ledger
+    def one(Hn, An, tip):
+        o = [dict(id=1, name=Hn, typeId=1, price=1.5, oddStatus=0, competitorId=1, sv=None),
+             dict(id=2, name=An, typeId=3, price=2.5, oddStatus=0, competitorId=2, sv=None)]
+        return [dict(url="GetEventDetails", body=dict(markets=[dict(id=10, name="Győztes (hosszabbítást beleértve)", typeId=1,
+                desktopOddIds=[[1, 2]])], odds=o, competitors=[dict(id=1, name=Hn), dict(id=2, name=An)], startDate=tip))]
+    noon, late = ("Noon Home", "Noon Away", "2026-02-01T17:00:00Z"), ("Late Home", "Late Away", "2026-02-02T02:00:00Z")
+    for lab, games in (("1130", (noon, late)), ("2300", (noon, late)), ("0030", (late,))):
+        (tmp / "t" / lab).mkdir(parents=True)
+        for i, gm in enumerate(games):
+            (tmp / "t" / lab / f"{i}.net.json").write_text(json.dumps(one(*gm)))
+    out3 = {}
+    for lab, at in (("1130", "2026-02-01T10:30Z"), ("2300", "2026-02-01T22:00Z"), ("0030", "2026-02-01T23:30Z")):
+        out3[lab] = price("2026-02-01", str(tmp / "t" / lab), lab, None, con, captured_at=at)
+    (tmp / "r3.txt").write_text("GAME Noon Away@Noon Home\nH Noon Home: 40 40\nH Noon Away: 30 30\n\n"
+                                "GAME Late Away@Late Home\nH Late Home: 40 40\nH Late Away: 30 30\n")
+    grade("2026-02-01", str(tmp / "r3.txt"), con)
+    d3 = decided(con)
+    d3 = d3[d3.night == "2026-02-01"]
+    used = dict(d3.drop_duplicates("game")[["game", "capture"]].values)
+    wm = classify("William & Mary Tribe pontok száma (hosszabbítást beleértve)", {OVER, UNDER}, ("William & Mary Tribe", "Duke Blue Devils"))
+    db_keep, DB = DB, str(tmp / "fresh.sqlite")                 # an empty ledger, a night 30 days old, one sync run
+    old = f"{pd.Timestamp.now('America/New_York').tz_localize(None).normalize() - pd.Timedelta(days=30):%Y-%m-%d}"
+    root = tmp / "root"
+    (root / "results").mkdir(parents=True)
+    pack(str(tmp / "t" / "0030"), str(root / "boards" / old / "1730.rows.csv.gz"), "2020-01-01T00:00Z")
+    (root / "results" / f"{old}.txt").write_text("GAME Late Away@Late Home\nH Late Home: 40 40\nH Late Away: 30 30\nRACE 20:H1\n")
+    (root / "slate" / f"{old}.txt").parent.mkdir()
+    (root / "slate" / f"{old}.txt").write_text("GAME Late Away@Late Home\n")
+    sync(str(root))
+    fresh = pd.read_sql("SELECT status FROM predictions", connect()).status.value_counts().to_dict()
+    DB = db_keep
+    Bn = bandit(pd.concat([d.assign(cluster=d.cluster + str(i)) for i in range(15)]))     # enough 'games' to list arms
+    sl = slips("2026-02-01", "1130", con)                      # two games, two to-win markets -> the 2-leg slip only
+    sr = slip_results(con)
+    con.execute("DELETE FROM slips")
+    con.commit()
+    sr2 = slip_results(con)                                    # reloaded from slips/2026-02-01.csv
+    checks += [("slips: one leg per game, odds = product of legs", len(sl) >= 1 and all(
+                    len({l.game for l in r}) == len(r) and abs(np.prod([l.odds for l in r]) - o) < 1e-3 for r, o in zip(sl._legs, sl.odds)), None),
+               ("slips: settled from their legs (both home favourites won)", len(sr) >= 1 and sr.result.iloc[0] == "won"
+                and abs(sr.paid.iloc[0] - 2.25) < 1e-6, sr.to_dict("records")),
+               ("slips survive a wiped table (csv next to the ledger)", len(sr2) == len(sr) and (sr2.result == sr.result).all(), None)]
+    checks += [("a game that tipped before the late capture is still pooled", used.get("Noon Away@Noon Home") == "1130", used),
+               ("a capture after midnight counts as the last one", used.get("Late Away@Late Home") == "0030", used),
+               ("games already tipped at capture time are not stored", set(out3["2300"].game) == {"Late Away@Late Home"}, None),
+               ("team name with ' & ' is typed", wm[0] == "TEAM_TOTAL", wm),
+               ("one sync run grades an empty ledger, old nights too", fresh == {"graded": 2}, fresh),
+               ("sync leaves existing results files alone", "RACE 20:H1" in (root / "results" / f"{old}.txt").read_text(), None),
+               ("opening price attached; the favourite that shortened has positive clv",
+                bool(d.p_open.notna().any()) and len(Bn) and bool((Bn.clv_games > 0).any())
+                and float((d[(d.type == "ML") & (d.side == "home")].p_book - d[(d.type == "ML") & (d.side == "home")].p_open).iloc[0]) > 0,
+                Bn[["arm", "games", "clv", "clv_games"]].to_dict("records") if len(Bn) else "no arms")]
     for nm, ok, info in checks:
         print(("ok   " if ok else "FAIL ") + nm + (f"  {info}" if info and not ok else ""))
     print("PASS" if all(c[1] for c in checks) else "FAIL")
@@ -1033,6 +1309,7 @@ def main():
     s = sub.add_parser("markets"); s.add_argument("boards")
     s = sub.add_parser("price"); s.add_argument("--date", required=True); s.add_argument("--boards", required=True)
     s.add_argument("--capture"); s.add_argument("--teams"); s.add_argument("--slate")
+    s.add_argument("--captured-at", help="when the boards were pulled, e.g. 2026-11-19T00:30+01:00 (default: file time)")
     s = sub.add_parser("results"); s.add_argument("--date", required=True); s.add_argument("--out", required=True)
     s.add_argument("--to", help="last date of a range; --out is then a folder, one file per date")
     s.add_argument("--pbp", action="store_true", help="also read each game's play-by-play (needed to grade race markets)")
@@ -1042,6 +1319,8 @@ def main():
     s.add_argument("--half-life", type=float, default=HALF_LIFE); s.add_argument("--days", type=int, default=21)
     s = sub.add_parser("picks"); s.add_argument("--date", required=True); s.add_argument("--capture")
     s = sub.add_parser("pack"); s.add_argument("--boards", required=True); s.add_argument("--out", required=True)
+    s.add_argument("--captured-at", help="when the boards were pulled (default: the .json files' own time)")
+    s = sub.add_parser("slips"); s.add_argument("--date", required=True); s.add_argument("--capture")
     s = sub.add_parser("sync"); s.add_argument("--root", default=str(Path(__file__).parent)); s.add_argument("--backfill-from")
     s = sub.add_parser("grade"); s.add_argument("--date", required=True); s.add_argument("--results", required=True)
     a = ap.parse_args()
@@ -1054,7 +1333,7 @@ def main():
               .sort_values(["type", "rows"], ascending=[True, False]).to_string(index=False))
         print(f"\n{B.game.nunique()} games; {(B.type != 'UNPARSED').mean():.0%} of {len(B):,} rows typed")
     elif a.cmd == "price":
-        price(a.date, a.boards, a.capture, a.teams, connect(), a.slate)
+        price(a.date, a.boards, a.capture, a.teams, connect(), a.slate, a.captured_at)
     elif a.cmd == "results":
         if a.to:
             import time
@@ -1070,7 +1349,9 @@ def main():
     elif a.cmd == "picks":
         picks(a.date, a.capture, connect())
     elif a.cmd == "pack":
-        pack(a.boards, a.out)
+        pack(a.boards, a.out, a.captured_at)
+    elif a.cmd == "slips":
+        slips(a.date, a.capture, connect())
     elif a.cmd == "sync":
         sync(a.root, a.backfill_from)
     elif a.cmd == "grade":

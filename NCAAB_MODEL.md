@@ -70,8 +70,13 @@ python ncaab_grade.py report                                           # ncaab_r
 ```
 
 - `<date>` is the US Eastern date of the games. `capture_board.py` puts each game in the folder of its own date.
-- `--capture` is any label that sorts by time (HHMM). The **last** capture of a night is the one pooled; earlier
-  ones are only compared with it (open vs close). One capture a night is enough to run; two give CLV.
+- `--capture` is only a label (HHMM). Captures are ordered by when they were taken (`captured_utc`: the boards'
+  file time, or `--captured-at 2026-11-19T00:30+01:00`), so a capture after midnight follows the evening one.
+- For every **game**, the last capture taken before its tip is the one pooled; earlier ones are only compared with
+  it (open vs close). Games tip from noon to 11pm ET, so an evening capture no longer holds the afternoon games:
+  those are pooled from the morning capture. A game that had already tipped when the boards were pulled is not stored.
+- One capture a night is enough to run; two give CLV. Run `pack` on the machine that made the capture (copied files
+  can lose their time; then pass `--captured-at`).
 - Other leagues default to 8 days ahead in `capture_board.py`; add `--hours 30` for one night.
 
 Results file (team names exactly as on the board):
@@ -88,8 +93,9 @@ a half outside 5–95 points, a team not in the game.
 `.github/workflows/ncaab.yml` only fetches ESPN `results/<date>.txt` and `slate/<date>.txt` (daily 12:23 UTC, missing
 days backfilled from 2025-11-03, last 3 days refetched) and goes red if ESPN does not answer. The user pushes packed
 boards to `boards/<date>/<HHMM>.rows.csv.gz`. Grading: clone the repo, `NCAAB_DB=/tmp/ncaab.sqlite python
-ncaab_grade.py sync --root <clone>` rebuilds the ledger from every pack and results file (the ESPN fetches inside
-`sync` fail harmlessly where ESPN is blocked; it then uses the files in the repo). 4b below is the older all-on-GitHub
+ncaab_grade.py sync --root <clone>` rebuilds the ledger from every pack and results file in ONE run (since 0.7:
+prices first, then grades every finished night that has a results file, whatever its age). `sync` only fetches files
+that are missing and never overwrites one, so the play-by-play lines scraped by the job are kept. 4b below is the older all-on-GitHub
 design; `sync` is the same command.
 
 ### 4b. Hands-off route: GitHub repo + `sync` (added 2026-11-18)
@@ -178,7 +184,8 @@ not just a good-looking `seen`.
 
 - Start belief: the book's price is right (prior mean = the return its own no-vig price implies, SD 4 points).
 - Evidence: mean return per game, with its standard error.
-- Output: `p_beats` = chance the arm's true return per bet is above zero.
+- Output: `p_beats` = chance the arm's true return per bet is above zero; `clv` = how far the book moved the arm's
+  bets between a game's first and last capture (+ = they shortened), over `clv_games` games.
 - Tiers: **watch** ≥65%; **SMALL STAKE** ≥80% and ≥100 games; **CANDIDATE** ≥95% and ≥100 games.
 - A real +5% edge reaches 80% in roughly 150–200 games, +3% in about 300; no edge never does. At 40+ games a
   night that is days to weeks, not months.
@@ -208,16 +215,31 @@ all 59 matched to ESPN's card and priced. See CHANGELOG for the four bugs this e
 been graded**, so settlement on real boards is still unverified. First graded night: hand-check ten games across
 every market type.
 
-Not tested, by risk:
-1. **No NCAAB `.net.json` has been seen**, only one saved page of one game. Market names beyond handicap, total and
-   team totals are unconfirmed. First task: run `markets` on the first capture and report the UNPARSED names with
-   counts; add a type only together with its settlement rule and a selftest case.
-2. `results` (ESPN) has never run: the host was unreachable where the script was written. Check its first output
-   against three box scores by hand; expect name mismatches at first.
-3. `capture_board.py --all` with a non-NBA league has only run against a fake browser. If it lists 0 matches, rerun
-   with one match link instead of the league link.
-4. The model's constants are unfitted; the ratings file layout is assumed, not checked against a real download.
-5. Neutral-site games get home-court advantage from the model (wrong); the book's price is unaffected.
+Review fixes, 2026-11-18 (`ncaab-0.7`, see CHANGELOG): captures per game and by time, tip time stored, one-run
+rebuild, results files never overwritten, `clv` per arm. selftest 25 checks PASS; identical pricing and grading to 0.5
+on 6,704 real rows. The model's margins were checked against results (slope 0.96 on 2,691 walk-forward games): it is
+not short on blowouts in reality, only against the book's lines, so no correction was added.
+
+Review, 2026-11-18 (`ncaab-0.8`): 0.7 checked function by function and on the 59 real boards (identical pricing);
+slips merged back and saved as `slips/<night>.csv`; copied-capture warning added. selftest 29 checks PASS.
+
+Still not tested, by risk:
+1. **No real night has been graded.** Settlement rules are proven only on the synthetic game and on NBA boards.
+   First graded night: hand-check ten games across every market type, races included.
+2. **ESPN play-by-play (`results --pbp`) has never run.** Its field layout was read off one live game. Until a
+   results file carries `RACE` lines, race markets stay ungraded.
+3. The model: ridge / half-life were chosen on the same games they are reported on; totals and the race model are
+   weak (4-6 points from the book's price). Its weight stays at 0.05 / 0 until a refit on graded games.
+4. Capture times rely on the files' own time: run `pack` where the capture was made, or zip with a tool that keeps
+   UTC file times; heed the "look copied" warning.
+5. `capture_board.py --all` for NCAAB and `push_boards.py` against the real GitHub API are untested from here.
+
+### Paper slips (`slips`, since 0.6)
+
+`python ncaab_grade.py slips --date <date>` builds ten multis at about 3x / 7x / 10x from one capture by the fixed
+`SLIP_PLAN` (legs: to-win, handicap at .5 lines, first-half draw-no-bet, races; odds 1.15-2.60; one leg per game,
+no game in two slips). They are paper only and are settled in `report`. A slip result is weak evidence (one win or
+loss per slip); the legs are graded individually and feed the bandit, which is what decides.
 
 ## 9. Reporting to the user
 

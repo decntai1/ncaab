@@ -1,5 +1,49 @@
 # Changelog
 
+## ncaab-0.8 (2026-11-18) - review of 0.7, slips merged back
+Review of 0.7: every pricing and settlement function is unchanged from 0.5/0.6 (compared function by function);
+on the 59 real NCAAB boards all 14,443 rows price identically; selftest PASS on pandas 3.0 and 2.2; a simulated
+second capture 7.5 h later dropped the 29 games already tipped and pooled 29 games from the first capture and 30
+from the second; a 0.6 ledger opens, grades and reports under the new code. No bug found in 0.7. Added on top:
+- `slips` is back (0.6), now picks the latest capture by time, and writes `slips/<night>.csv` next to the ledger;
+  a ledger rebuilt from nothing reloads them. `sync` makes the ten slips once per night, from its first priced
+  capture. The ten slips of 2026-11-18 come out identical to the ones made under 0.6.
+- `pack` / `price` warn when the capture files' own time does not match the HHMM in their names (using the
+  browser's `timezoneOffset` stored in the capture): copied files would give a wrong capture time, and with it
+  wrongly dropped or wrongly kept games. Zips that carry UTC file times (the 2026-11-18 one does) are fine.
+- `picks` no longer depends on a text `idxmax`; report header says "last capture before each game's tip".
+- Slips with no model price no longer crash the slips table (found by the new selftest case).
+- selftest: 29 checks.
+- Still unproven, unchanged: ESPN play-by-play on GitHub, and settlement on real NCAAB boards (no night graded yet).
+
+## ncaab-0.7 (2026-11-18) - review fixes, built on 0.5
+(Patched from 0.5; the `slips` command of 0.6 was merged back in 0.8.)
+- **Last capture is now chosen per game, not per night.** College games tip from noon to 11pm ET; a game that had
+  started before the evening capture was missing from it and was dropped from the pooled ledger entirely (tested).
+- **Captures are ordered by when they were taken (`captured_utc`), not by label.** A `0030` capture used to sort
+  before `2300`, so the morning prices would have counted as the close (tested). `pack` writes the capture time
+  (the .json files' own time, or `--captured-at`); `price --captured-at` overrides. Old ledgers and old packs still
+  work and fall back to label order.
+- **Each game's tip time is stored** (`start`, from the board). Games that had already tipped at capture time are
+  not stored: in-play prices know the score.
+- **`sync` grades after pricing and without the 4-day window** for nights whose results file is on disk. Before,
+  a ledger rebuilt from nothing graded nothing on the first run and never graded nights older than 4 days (tested).
+- **`sync` never overwrites an existing results or slate file.** Its own refetch ran without play-by-play and would
+  have dropped the RACE lines wherever ESPN is reachable (read from the code; ESPN is blocked where this was tested).
+- Rows priced with an assumed margin (unpaired selections) are now really kept out of the model-vs-book Brier table
+  and the weight refit, as the spec always said.
+- A team name containing " & " (William & Mary) no longer makes its team totals UNPARSED.
+- Bandit table: `clv` and `clv_games` per arm (how far the book moved the arm's bets between a game's first and
+  last capture). The gate "positive CLV for that arm" can now be read off the report.
+- Checked, NOT changed: "the model underrates blowouts" (0.4) is true against the book's lines only. Against
+  results, 2,691 walk-forward games (75 game days): actual margin = 0.96 x predicted; games predicted at 20+ points
+  (avg 29.2) came in at 28.7. A slope correction fitted on the first half made the second half worse (margin error
+  10.19 -> 10.33), so none was added.
+- Tests: selftest 25 checks PASS (7 new). On real boards (NBA 2026-11-16, 6,704 rows) every row prices and grades
+  identically to 0.5; a real two-capture night (2026-11-17) fills the open-vs-close table and `clv`.
+- Still unproven: ESPN play-by-play on GitHub (no RACE line in any results file yet; first chance is the next
+  12:23 UTC run), and settlement on real NCAAB boards (no night graded yet).
+
 ## ncaab-0.5 (2026-11-18)
 - **Race markets are typed and graded** (`RACE`): "Ki ér el elsőként 20 pontot" (full game, 2-way) and
   "1.félidő - verseny a(z) N pontért" (first half, 3-way with "Egyik sem" = neither). A half race with only two
