@@ -1,5 +1,15 @@
 # Changelog
 
+## ncaab-0.9 (2026-11-19) - first real night graded, one settlement bug fixed
+- **Bug: game-total odd/even was settled on the away team's points.** On pandas 3 a missing `subject` comes back
+  from the ledger as NaN, which counts as true, so `if not r.subject` picked the team branch. Hit only ODD_EVEN
+  markets for the whole game and the first half (180 bets on 2026-11-18, all regraded). Found by re-settling the
+  night by hand. selftest now has four odd/even cases (they fail on 0.8 under pandas 3).
+- Race settlement also guards against a NaN line.
+- First real night, 2026-11-18: 59 games, 11,654 bets graded, every row re-settled by independent code: 0
+  disagreements after the fix; 825 play-by-play race entries checked against the half scores: 0 contradictions.
+  Race lines exist for 40 of 59 games; the other 19 have no usable play-by-play and their races stay ungraded.
+
 ## ncaab-0.8 (2026-11-18) - review of 0.7, slips merged back
 Review of 0.7: every pricing and settlement function is unchanged from 0.5/0.6 (compared function by function);
 on the 59 real NCAAB boards all 14,443 rows price identically; selftest PASS on pandas 3.0 and 2.2; a simulated

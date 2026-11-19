@@ -38,7 +38,7 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.8"
+MODEL_VERSION = "ncaab-0.9"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
@@ -486,10 +486,11 @@ def settle(r, d: dict) -> tuple[str | None, float | None]:
         m = (hg - ag) if s == "home" else (ag - hg)
         return ("push" if m + L == 0 else yn(m + L > 0)), m
     if t == "ODD_EVEN":
-        x = hg + ag if not r.subject else (hg if r.subject == d["home"] else ag)
+        team = r.subject if isinstance(r.subject, str) and r.subject else None   # pandas 3 reads NULL as NaN (truthy)
+        x = hg + ag if team is None else (hg if team == d["home"] else ag)
         return yn((x % 2 == 1) == (s == "odd")), x
     if t == "RACE":
-        if not d.get("race") or L is None:                     # no play-by-play for this game: unknown, not graded
+        if not d.get("race") or L is None or L != L:                     # no play-by-play for this game: unknown, not graded
             return None, None
         who, per = d["race"].get(int(L), (None, 0))
         if r.scope == "H1" and per != 1:
@@ -1146,6 +1147,8 @@ def selftest() -> None:
     M("1. félidő - pontok száma", [("70,5 felett", 12, 1.90, None, "70.5"), ("70,5 alatt", 13, 1.90, None, "70.5")])
     M("1. félidő - 1X2", [(H, 1, 1.50, 1, None), ("Döntetlen", 2, 12.0, None, None), (A, 3, 3.20, 2, None)])
     M("Félidő/végeredmény", [("x/y", 900, 5.0, None, None)])
+    M("Pontok száma páratlan/páros (hosszabbítást beleértve)", [("Páratlan", 70, 1.90, None, None), ("Páros", 72, 1.90, None, None)])
+    M("1. félidő - pontok száma páratlan/páros", [("Páratlan", 70, 1.90, None, None), ("Páros", 72, 1.90, None, None)])
     M("1.félidő - verseny a(z) 20 pontért", [(H, 1, 1.65, 1, "20"), ("Egyik sem", 7, 81.0, None, "20"), (A, 3, 2.10, 2, "20")])
     M("1.félidő - verseny a(z) 45 pontért", [(H, 1, 8.0, 1, "45"), ("Egyik sem", 7, 1.11, None, "45"), (A, 3, 12.0, 2, "45")])
     M("1.félidő - verseny a(z) 30 pontért", [(H, 1, 1.60, 1, "30"), (A, 3, 2.20, 2, "30")])          # 'neither' missing
@@ -1179,7 +1182,9 @@ def selftest() -> None:
             ("TOTAL", "H1", "over", 70.5): "won", ("1X2", "H1", "home", None): "won", ("1X2", "H1", "draw", None): "lost",
             ("RACE", "H1", "away", 20.0): "won", ("RACE", "H1", "home", 20.0): "lost", ("RACE", "H1", "neither", 20.0): "lost",
             ("RACE", "H1", "neither", 45.0): "won", ("RACE", "H1", "away", 45.0): "lost",        # 45 reached only after half-time
-            ("RACE", "G", "away", 20.0): "won", ("RACE", "G", "home", 20.0): "lost", ("RACE", "H1", "home", 30.0): "won"}
+            ("RACE", "G", "away", 20.0): "won", ("RACE", "G", "home", 20.0): "lost", ("RACE", "H1", "home", 30.0): "won",
+            ("ODD_EVEN", "G", "odd", None): "won", ("ODD_EVEN", "G", "even", None): "lost",       # 173: odd
+            ("ODD_EVEN", "H1", "even", None): "won", ("ODD_EVEN", "H1", "odd", None): "lost"}    # 40 + 36 = 76: even
     bad = [(k, v, R.get(k)) for k, v in want.items() if R.get(k) != v]
     d = decided(con)
     (tmp / "bad.txt").write_text(f"GAME {A}@{H}\nH {H}: 40 38\nH {A}: 36 42\n")
