@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-16 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 04:49Z
+# NCAAB results 2026-11-16 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 13:53Z
 
 GAME Long Beach State Beach@UCLA Bruins
 H UCLA Bruins: 53 52

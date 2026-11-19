@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-17 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 04:49Z
+# NCAAB results 2026-11-17 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 13:54Z
 
 GAME Notre Dame Fighting Irish@Florida Gators
 NEUTRAL

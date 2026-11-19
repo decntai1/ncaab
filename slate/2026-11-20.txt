@@ -1,0 +1,134 @@
+# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 13:55Z
+
+GAME Averett Cougars@William & Mary Tribe
+
+GAME Bloomfield Deacons@Maryland Eastern Shore Hawks
+
+GAME Green Bay Phoenix@Florida State Seminoles
+
+GAME Oklahoma State Cowboys@Minnesota Golden Gophers
+NEUTRAL
+
+GAME Temple Owls@Middle Tennessee Blue Raiders
+NEUTRAL
+
+GAME George Washington Revolutionaries@UAB Blazers
+NEUTRAL
+
+GAME Northwestern Wildcats@Virginia Tech Hokies
+NEUTRAL
+
+GAME Western Illinois Leathernecks@UAlbany Great Danes
+NEUTRAL
+
+GAME Indiana State Sycamores@Stephen F. Austin Lumberjacks
+NEUTRAL
+
+GAME South Dakota State Jackrabbits@Idaho State Bengals
+
+GAME Rhode Island Rams@Liberty Flames
+NEUTRAL
+
+GAME Manhattan Jaspers@Miami Hurricanes
+
+GAME Dayton Flyers@Utah Utes
+NEUTRAL
+
+GAME Mercyhurst Lakers@Canisius Golden Griffins
+
+GAME UT Martin Skyhawks@Southern Illinois Salukis
+NEUTRAL
+
+GAME Worcester State Lancers@Bryant Bulldogs
+
+GAME Central Baptist Mustangs@Incarnate Word Cardinals
+
+GAME WVU Tech Golden Bears@Akron Zips
+
+GAME Delaware Blue Hens@Cal State Northridge Matadors
+
+GAME North Texas Mean Green@App State Mountaineers
+
+GAME Loyola Maryland Greyhounds@Virginia Cavaliers
+
+GAME Coastal Carolina Chanticleers@Tennessee Volunteers
+
+GAME Richmond Spiders@Western Kentucky Hilltoppers
+NEUTRAL
+
+GAME Georgia State Panthers@Jacksonville State Gamecocks
+
+GAME Oakland Golden Grizzlies@Purdue Boilermakers
+
+GAME South Carolina State Bulldogs@The Citadel Bulldogs
+
+GAME Niagara Purple Eagles@Delaware State Hornets
+
+GAME Monmouth Hawks@Princeton Tigers
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Bellarmine Knights@Eastern Kentucky Colonels
+
+GAME Kansas City Roos@Iona Gaels
+
+GAME Western Michigan Broncos@Mount St. Mary's Mountaineers
+
+GAME SE Louisiana Lions@Kennesaw State Owls
+
+GAME Harvard Crimson@Holy Cross Crusaders
+
+GAME Saint Joseph's Hawks@Drexel Dragons
+
+GAME Paine Lions@West Georgia Wolves
+
+GAME Wagner Seahawks@Maryland Terrapins
+
+GAME Central Michigan Chippewas@Pittsburgh Panthers
+
+GAME Tulsa Golden Hurricane@Mississippi State Bulldogs
+NEUTRAL
+
+GAME UT Arlington Mavericks@Northwestern State Demons
+
+GAME Iowa Hawkeyes@Xavier Musketeers
+
+GAME UCF Knights@Vanderbilt Commodores
+
+GAME Mississippi Valley State Delta Devils@Arkansas Razorbacks
+
+GAME West Coast Baptist Eagles@Pepperdine Waves
+
+GAME South Alabama Jaguars@SMU Mustangs
+
+GAME Neumann Knights@Lehigh Mountain Hawks
+
+GAME Lipscomb Bisons@Alabama A&M Bulldogs
+
+GAME Le Moyne Dolphins@Missouri Tigers
+
+GAME Kentucky Wildcats@Indiana Hoosiers
+NEUTRAL
+
+GAME Utah Valley Wolverines@East Carolina Pirates
+NEUTRAL
+
+GAME Campbell Fighting Camels@Kansas State Wildcats
+
+GAME Georgia Bulldogs@Georgia Tech Yellow Jackets
+
+GAME Eastern Illinois Panthers@Illinois Fighting Illini
+
+GAME Sam Houston Bearkats@Boise State Broncos
+
+GAME Cal State Bakersfield Roadrunners@Idaho Vandals
+
+GAME Marshall Thundering Herd@North Carolina Tar Heels
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Alabama State Hornets@Fresno St Bulldogs
+
+GAME Saint Louis Billikens@Saint Mary's Gaels
