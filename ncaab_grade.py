@@ -353,6 +353,7 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
             except Exception as e:
                 skipped.append(f"{f.name}: {e}")
     card, neutral = read_slate(slate) if slate and Path(slate).exists() else (set(), set())
+    venue = slate_home(slate) if slate and Path(slate).exists() else {}
     B = pd.concat(frames, ignore_index=True).drop_duplicates("row_key", keep="last")   # the key holds the game
     if "start" not in B:
         B["start"] = None                                      # packs made before ncaab-0.7
@@ -366,16 +367,22 @@ def price(night: str, boards: str, capture: str | None, teams_csv: str | None, c
                  f"not when the boards were pulled (copied files lose their time), pass --captured-at.")
     B["p_model"] = np.nan
     if teams_csv:
-        f, miss = expected_points(teams_csv), set()
+        f, miss, flipped = expected_points(teams_csv), set(), set()
         for g, x in B.groupby("game"):
-            e = f(x.home.iloc[0], x.away.iloc[0], frozenset((x.home.iloc[0], x.away.iloc[0])) in neutral)
+            bh, ba = x.home.iloc[0], x.away.iloc[0]
+            if venue.get(frozenset((bh, ba))) == ba:           # the board lists home/away the other way round from
+                e = f(ba, bh, False)                           # ESPN: home court goes to ESPN's home team
+                e = None if e is None else (e[1], e[0])
+                flipped.add(g)
+            else:
+                e = f(bh, ba, frozenset((bh, ba)) in neutral)
             if e is None:
                 miss.add(g)
                 continue
             B.loc[x.index, "p_model"] = [np.nan if (v := model_p(r, *e)) is None else v for r in x.itertuples()]
         pairs = {frozenset((h, a)): g for g, h, a in B.drop_duplicates("game")[["game", "home", "away"]].values}
         print(f"model priced {B.game.nunique() - len(miss)} of {B.game.nunique()} games ({len(neutral & set(pairs))} on a "
-              f"neutral court); no rating for: {sorted(miss)[:8]}")
+              f"neutral court, {len(flipped)} home/away flipped vs ESPN); no rating for: {sorted(miss)[:8]}")
         if card:
             print(f"   not on ESPN's card under these names (add to results_aliases.csv): {sorted(g for k, g in pairs.items() if k not in card)}")
     w = dict(START_W)
@@ -418,6 +425,12 @@ def read_slate(path: str) -> set:
     neutral courts the board and ESPN often disagree about who is 'home'."""
     G = parse_results(Path(path).read_text(encoding="utf-8"))[0].values()
     return {frozenset((d["home"], d["away"])) for d in G}, {frozenset((d["home"], d["away"])) for d in G if d["neutral"]}
+
+
+def slate_home(path: str) -> dict:
+    """{frozenset of the two teams: ESPN's home team} for games NOT on a neutral court."""
+    G = parse_results(Path(path).read_text(encoding="utf-8"))[0].values()
+    return {frozenset((d["home"], d["away"])): d["home"] for d in G if not d["neutral"]}
 
 
 def parse_results(text: str) -> tuple[dict, list[str]]:

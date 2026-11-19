@@ -1,6 +1,9 @@
 # Changelog
 
 ## ncaab-0.9 (2026-11-19) - first real night graded, one settlement bug fixed
+- (later the same day) When the board lists home and away the other way round from ESPN on a non-neutral court,
+  the model now gives home court to ESPN's home team (none on 2026-11-19: the one flipped game was neutral). Grading is unaffected:
+  it always uses the board's own home/away. 9 more names in results_aliases.csv (30 in all).
 - **Bug: game-total odd/even was settled on the away team's points.** On pandas 3 a missing `subject` comes back
   from the ledger as NaN, which counts as true, so `if not r.subject` picked the team branch. Hit only ODD_EVEN
   markets for the whole game and the first half (180 bets on 2026-11-18, all regraded). Found by re-settling the
