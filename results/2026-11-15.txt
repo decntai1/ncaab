@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-15 (US Eastern date) from ESPN scoreboard, fetched 2026-11-18 16:25Z
+# NCAAB results 2026-11-15 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 04:49Z
 
 GAME Baylor Bears@Texas Longhorns
 NEUTRAL
@@ -8,14 +8,17 @@ H Baylor Bears: 36 36
 GAME Louisville Cardinals@Memphis Tigers
 H Memphis Tigers: 41 57
 H Louisville Cardinals: 52 26
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A1 55:A2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
 
-GAME Syracuse Orange@St. John's Red Storm
-H St. John's Red Storm: 30 49
+GAME Syracuse Orange@St. John´s Red Storm
+H St. John´s Red Storm: 30 49
 H Syracuse Orange: 33 29
+RACE 5:H1 10:A1 15:H1 20:H1 25:H1 30:A1 35:A2 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
 GAME William & Mary Tribe@Michigan Wolverines
 H Michigan Wolverines: 48 75
 H William & Mary Tribe: 43 36
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2 110:H2 115:H2 120:H2
 
 GAME Arkansas-Pine Bluff Golden Lions@USC Trojans
 H USC Trojans: 62 60
@@ -25,11 +28,12 @@ GAME Boise State Broncos@Nebraska Cornhuskers
 NEUTRAL
 H Nebraska Cornhuskers: 52 50
 H Boise State Broncos: 34 41
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2
 
-# SKIPPED: Abraham Baldwin Agricultural Stallions@Florida Gulf Coast Eagles: a half outside 15-80 points - check the numbers
-# GAME Abraham Baldwin Agricultural Stallions@Florida Gulf Coast Eagles
-# H Florida Gulf Coast Eagles: 48 51
-# H Abraham Baldwin Agricultural Stallions: 17 14
+GAME Abraham Baldwin Agricultural Stallions@Florida Gulf Coast Eagles
+H Florida Gulf Coast Eagles: 48 51
+H Abraham Baldwin Agricultural Stallions: 17 14
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
 
 GAME Quinnipiac Bobcats@Central Connecticut Blue Devils
 H Central Connecticut Blue Devils: 33 39
@@ -38,10 +42,12 @@ H Quinnipiac Bobcats: 39 28
 GAME Norfolk State Spartans@Georgia State Panthers
 H Georgia State Panthers: 39 39
 H Norfolk State Spartans: 26 27
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
 GAME Colgate Raiders@Delaware Blue Hens
 H Delaware Blue Hens: 32 32
 H Colgate Raiders: 29 29
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:A2 40:A2 45:A2 50:A2 55:H2 60:H2
 
 GAME Dartmouth Big Green@Boston University Terriers
 H Boston University Terriers: 48 42
@@ -50,6 +56,7 @@ H Dartmouth Big Green: 25 50
 GAME Harvard Crimson@American University Eagles
 H American University Eagles: 35 35
 H Harvard Crimson: 40 24
+RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:H2 70:H2
 
 GAME Niagara Purple Eagles@Iowa State Cyclones
 H Iowa State Cyclones: 32 34
@@ -70,14 +77,17 @@ H South Carolina State Bulldogs: 27 39
 GAME Temple Owls@La Salle Explorers
 H La Salle Explorers: 37 34
 H Temple Owls: 46 38
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
 
 GAME Emmanuel (MA) Lions@Yale Bulldogs
 H Yale Bulldogs: 51 52
 H Emmanuel (MA) Lions: 32 26
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2
 
 GAME UAlbany Great Danes@Holy Cross Crusaders
 H Holy Cross Crusaders: 31 29
 H UAlbany Great Danes: 35 27
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:A2 55:A2 60:H2
 
 GAME Cal State Bakersfield Roadrunners@North Dakota State Bison
 H North Dakota State Bison: 38 31
@@ -95,18 +105,22 @@ H Marquette Golden Eagles: 38 26
 GAME Wright State-Lake Lakers@Tennessee Tech Golden Eagles
 H Tennessee Tech Golden Eagles: 61 40
 H Wright State-Lake Lakers: 16 18
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H1 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2
 
 GAME Purdue Fort Wayne Mastodons@Eastern Illinois Panthers
 H Eastern Illinois Panthers: 35 39
 H Purdue Fort Wayne Mastodons: 47 39
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2 85:A2
 
 GAME Cleveland State Vikings@Alabama A&M Bulldogs
 H Alabama A&M Bulldogs: 32 34 7
 H Cleveland State Vikings: 39 27 8
+RACE 5:H1 10:H1 15:A1 20:A1 25:H1 30:A1 35:A1 40:H2 45:H2 50:H2 55:H2 60:H2 65:A2 70:A3
 
 GAME High Point Panthers@Saint Louis Billikens
 H Saint Louis Billikens: 26 32
 H High Point Panthers: 48 20
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2
 
 GAME Creighton Bluejays@Iowa Hawkeyes
 NEUTRAL
@@ -116,6 +130,7 @@ H Creighton Bluejays: 42 28
 GAME Air Force Falcons@Pacific Tigers
 H Pacific Tigers: 50 43
 H Air Force Falcons: 30 39
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
 
 GAME New Mexico State Aggies@San Diego State Aztecs
 NEUTRAL
@@ -125,18 +140,22 @@ H New Mexico State Aggies: 29 32
 GAME UC Merced Bobcats@UC Santa Barbara Gauchos
 H UC Santa Barbara Gauchos: 51 46
 H UC Merced Bobcats: 18 29
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
 
 GAME Mercyhurst Lakers@James Madison Dukes
 H James Madison Dukes: 36 44
 H Mercyhurst Lakers: 34 37
+RACE 5:H1 10:H1 15:A1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:A2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
 
 GAME Chicago State Cougars@Loyola Marymount Lions
 H Loyola Marymount Lions: 47 39
 H Chicago State Cougars: 22 27
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
 
 GAME Idaho State Bengals@Seattle U Redhawks
 H Seattle U Redhawks: 44 33
 H Idaho State Bengals: 43 27
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:A2 55:H2 60:H2 65:H2 70:H2 75:H2
 
 GAME Doane Tigers@South Dakota Coyotes
 H South Dakota Coyotes: 37 44
@@ -145,35 +164,42 @@ H Doane Tigers: 23 34
 GAME Western Michigan Broncos@Southern Indiana Screaming Eagles
 H Southern Indiana Screaming Eagles: 38 21
 H Western Michigan Broncos: 44 36
+RACE 5:H1 10:H1 15:H1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
 
 GAME New Haven Chargers@Penn State Nittany Lions
 H Penn State Nittany Lions: 41 45
 H New Haven Chargers: 28 24
+RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
 
 GAME Canisius Golden Griffins@Buffalo Bulls
 H Buffalo Bulls: 44 35
 H Canisius Golden Griffins: 31 24
+RACE 5:H1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
 GAME Ecclesia Royals@UT Martin Skyhawks
 H UT Martin Skyhawks: 67 61
 H Ecclesia Royals: 16 28
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H1 65:H1 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2 110:H2 115:H2 120:H2 125:H2
 
 GAME Cal Poly Mustangs@Montana State Bobcats
 H Montana State Bobcats: 36 41
 H Cal Poly Mustangs: 22 30
+RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
 GAME Texas State Bobcats@UTSA Roadrunners
 H UTSA Roadrunners: 39 28
 H Texas State Bobcats: 44 43
+RACE 5:H1 10:A1 15:H1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2 85:A2
 
 GAME Stillman Tigers@Bethune-Cookman Wildcats
 H Bethune-Cookman Wildcats: 42 46
 H Stillman Tigers: 27 37
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
 
 GAME Coastal Carolina Chanticleers@Wisconsin Badgers
 H Wisconsin Badgers: 38 51
 H Coastal Carolina Chanticleers: 43 38
 
-GAME Alabama State Hornets@San José State Spartans
-H San José State Spartans: 35 45
+GAME Alabama State Hornets@San Jose State Spartans
+H San Jose State Spartans: 35 45
 H Alabama State Hornets: 29 39

@@ -1,9 +1,9 @@
-# NCAAB slate 2026-11-19 (US Eastern date) from ESPN scoreboard, fetched 2026-11-18 16:25Z
+# NCAAB slate 2026-11-19 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 04:50Z
 
-GAME TBD@TBD
+GAME Florida Gators@West Virginia Mountaineers
 NEUTRAL
 
-GAME TBD@TBD
+GAME Notre Dame Fighting Irish@TBD
 NEUTRAL
 
 GAME NC State Wolfpack@Murray State Racers
@@ -12,8 +12,6 @@ NEUTRAL
 GAME Robert Morris Colonials@Toledo Rockets
 
 GAME Berea Mountaineers@Northern Kentucky Norse
-
-GAME Southern Miss Golden Eagles@Grambling Tigers
 
 GAME North Park Vikings@SIU Edwardsville Cougars
 
@@ -54,11 +52,13 @@ GAME Texas A&M Aggies@TCU Horned Frogs
 GAME Seton Hall Pirates@Wisconsin Badgers
 NEUTRAL
 
-GAME TBD@TBD
+GAME Rutgers Scarlet Knights@TBD
 NEUTRAL
 
 GAME Oregon State Beavers@Oregon Ducks
 NEUTRAL
+
+GAME Southern Miss Golden Eagles@Grambling Tigers
 
 GAME UC Santa Barbara Gauchos@Pepperdine Waves
 
@@ -74,7 +74,7 @@ GAME East Texas A&M Lions@California Golden Bears
 
 GAME VCU Rams@Santa Clara Broncos
 
-GAME Tarleton State Texans@USC Trojans
-
-GAME TBD@TBD
+GAME Houston Cougars@Kansas Jayhawks
 NEUTRAL
+
+GAME Tarleton State Texans@USC Trojans
