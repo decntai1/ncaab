@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-16 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 13:53Z
+# NCAAB results 2026-11-16 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 20:48Z
 
 GAME Long Beach State Beach@UCLA Bruins
 H UCLA Bruins: 53 52
@@ -22,8 +22,8 @@ GAME Florida A&M Rattlers@UTEP Miners
 H UTEP Miners: 41 38
 H Florida A&M Rattlers: 29 17
 
-GAME Iona Gaels@UMBC Retrievers
-H UMBC Retrievers: 30 45
+GAME Iona Gaels@Maryland Baltimore
+H Maryland Baltimore: 30 45
 H Iona Gaels: 27 40
 RACE 5:A1 10:A1 15:A1 20:H1 25:H1 30:H1 35:H2 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
@@ -55,9 +55,9 @@ H Stetson Hatters: 40 51
 H Florida Memorial Lions: 27 29
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
 
-GAME Grambling Tigers@Kentucky Wildcats
+GAME Grambling St Tigers@Kentucky Wildcats
 H Kentucky Wildcats: 36 52
-H Grambling Tigers: 30 29
+H Grambling St Tigers: 30 29
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
 
 GAME DeSales Bulldogs@Pennsylvania Quakers
@@ -133,9 +133,9 @@ H Louisiana–Monroe Warhawks: 63 55
 H Dallas Christian Crusaders: 36 45
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H1 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2 110:H2 115:H2
 
-GAME East Texas A&M Lions@Oregon State Beavers
+GAME Texas A&M–Commerce Lions@Oregon State Beavers
 H Oregon State Beavers: 55 54
-H East Texas A&M Lions: 40 31
+H Texas A&M–Commerce Lions: 40 31
 
 GAME Colorado Colorado Springs Mountain Lions@Denver Pioneers
 H Denver Pioneers: 50 51

@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 13:55Z
+# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 20:49Z
 
 GAME Averett Cougars@William & Mary Tribe
 
@@ -12,7 +12,7 @@ NEUTRAL
 GAME Temple Owls@Middle Tennessee Blue Raiders
 NEUTRAL
 
-GAME George Washington Revolutionaries@UAB Blazers
+GAME UAB Blazers@George Washington Revolutionaries
 NEUTRAL
 
 GAME Northwestern Wildcats@Virginia Tech Hokies
