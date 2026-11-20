@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-19 20:49Z
+# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 10:20Z
 
 GAME Averett Cougars@William & Mary Tribe
 
@@ -66,7 +66,7 @@ GAME Niagara Purple Eagles@Delaware State Hornets
 
 GAME Monmouth Hawks@Princeton Tigers
 
-GAME TBD@TBD
+GAME Wisconsin Badgers@Murray State Racers
 NEUTRAL
 
 GAME Bellarmine Knights@Eastern Kentucky Colonels
@@ -126,7 +126,7 @@ GAME Cal State Bakersfield Roadrunners@Idaho Vandals
 
 GAME Marshall Thundering Herd@North Carolina Tar Heels
 
-GAME TBD@TBD
+GAME Seton Hall Pirates@North Carolina State Wolfpack
 NEUTRAL
 
 GAME Alabama State Hornets@Fresno St Bulldogs
