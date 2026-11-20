@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-17 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 10:19Z
+# NCAAB results 2026-11-17 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 20:32Z
 
 GAME Notre Dame Fighting Irish@Florida Gators
 NEUTRAL
@@ -40,8 +40,8 @@ H Alabama Crimson Tide: 56 53
 H Kennesaw State Owls: 40 51
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2
 
-GAME Rider Broncs@Miami Hurricanes
-H Miami Hurricanes: 44 51
+GAME Rider Broncs@Miami-Florida Hurricanes
+H Miami-Florida Hurricanes: 44 51
 H Rider Broncs: 20 28
 
 GAME Arkansas Razorbacks@Indiana Hoosiers
@@ -55,8 +55,8 @@ H Gonzaga Bulldogs: 41 33
 H Montana State Bobcats: 28 34
 RACE 5:A1 10:A1 15:A1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2
 
-GAME Wilson Phoenix@Delaware Blue Hens
-H Delaware Blue Hens: 49 44
+GAME Wilson Phoenix@Delaware Fightin`Blue Hens
+H Delaware Fightin`Blue Hens: 49 44
 H Wilson Phoenix: 21 26
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
 
@@ -135,13 +135,13 @@ H North Florida Ospreys: 45 53
 H Fort Lauderdale Eagles: 25 34
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
 
-GAME Mississippi State Bulldogs@UCF Knights
-H UCF Knights: 42 41
+GAME Mississippi State Bulldogs@Central Florida Knights
+H Central Florida Knights: 42 41
 H Mississippi State Bulldogs: 37 49
 RACE 5:A1 10:H1 15:A1 20:A1 25:H1 30:H1 35:H1 40:H1 45:H2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2 85:A2
 
-GAME Lehigh Mountain Hawks@Mount St. Mary's Mountaineers
-H Mount St. Mary's Mountaineers: 27 38
+GAME Lehigh Mountain Hawks@Mount St. Mary`s Mountaineers
+H Mount St. Mary`s Mountaineers: 27 38
 H Lehigh Mountain Hawks: 61 38
 
 GAME East Tennessee State Buccaneers@Marshall Thundering Herd
@@ -152,13 +152,13 @@ GAME Norfolk State Spartans@Georgia Tech Yellow Jackets
 H Georgia Tech Yellow Jackets: 32 61
 H Norfolk State Spartans: 44 35
 
-GAME Cal State Northridge Matadors@Troy Trojans
+GAME Cal St Northridge@Troy Trojans
 H Troy Trojans: 41 43
-H Cal State Northridge Matadors: 31 43
+H Cal St Northridge: 31 43
 RACE 5:A1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
 
-GAME Wagner Seahawks@Saint Joseph's Hawks
-H Saint Joseph's Hawks: 45 39
+GAME Wagner Seahawks@St. Joseph`s Hawks
+H St. Joseph`s Hawks: 45 39
 H Wagner Seahawks: 27 38
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
 
@@ -222,9 +222,9 @@ H Massachusetts Minutemen: 28 43 8
 H Bryant Bulldogs: 21 50 12
 RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:H2 35:H2 40:A2 45:A2 50:A2 55:A2 60:A2 65:H2 70:A2 75:H3 80:A3
 
-GAME UT Arlington Mavericks@Southern Miss Golden Eagles
+GAME Texas Arlington Mavericks@Southern Miss Golden Eagles
 H Southern Miss Golden Eagles: 35 37
-H UT Arlington Mavericks: 43 40
+H Texas Arlington Mavericks: 43 40
 RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
 
 GAME Embry Riddle (AZ) Eagles@Northern Arizona Lumberjacks
@@ -270,8 +270,8 @@ H Evansville Purple Aces: 36 43
 H Le Moyne Dolphins: 24 41
 RACE 5:H1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
-GAME Oral Roberts Golden Eagles@SMU Mustangs
-H SMU Mustangs: 23 53
+GAME Oral Roberts Golden Eagles@Southern Methodist Mustangs
+H Southern Methodist Mustangs: 23 53
 H Oral Roberts Golden Eagles: 31 41
 RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A2 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:H2
 
@@ -289,9 +289,9 @@ GAME Nicholls Colonels@Ole Miss Rebels
 H Ole Miss Rebels: 34 42
 H Nicholls Colonels: 9 32
 
-GAME Sam Houston Bearkats@Wyoming Cowboys
+GAME Sam Houston State Bearkats@Wyoming Cowboys
 H Wyoming Cowboys: 43 38
-H Sam Houston Bearkats: 36 43
+H Sam Houston State Bearkats: 36 43
 RACE 5:H1 10:H1 15:A1 20:A1 25:H1 30:A1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
 
 GAME Eastern Washington Eagles@Utah Utes

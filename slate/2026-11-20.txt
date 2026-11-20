@@ -1,4 +1,16 @@
-# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 10:20Z
+# NCAAB slate 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 20:33Z
+
+GAME UAB Blazers@George Washington Revolutionaries
+NEUTRAL
+
+GAME Northwestern Wildcats@Virginia Tech Hokies
+NEUTRAL
+
+GAME Albany Great Danes@Western Illinois Leathernecks
+NEUTRAL
+
+GAME Indiana State Sycamores@SFA Lumberjacks
+NEUTRAL
 
 GAME Averett Cougars@William & Mary Tribe
 
@@ -12,24 +24,12 @@ NEUTRAL
 GAME Temple Owls@Middle Tennessee Blue Raiders
 NEUTRAL
 
-GAME UAB Blazers@George Washington Revolutionaries
-NEUTRAL
-
-GAME Northwestern Wildcats@Virginia Tech Hokies
-NEUTRAL
-
-GAME Western Illinois Leathernecks@UAlbany Great Danes
-NEUTRAL
-
-GAME Indiana State Sycamores@Stephen F. Austin Lumberjacks
-NEUTRAL
-
 GAME South Dakota State Jackrabbits@Idaho State Bengals
 
 GAME Rhode Island Rams@Liberty Flames
 NEUTRAL
 
-GAME Manhattan Jaspers@Miami Hurricanes
+GAME Manhattan Jaspers@Miami-Florida Hurricanes
 
 GAME Dayton Flyers@Utah Utes
 NEUTRAL
@@ -45,13 +45,13 @@ GAME Central Baptist Mustangs@Incarnate Word Cardinals
 
 GAME WVU Tech Golden Bears@Akron Zips
 
-GAME Delaware Blue Hens@Cal State Northridge Matadors
+GAME Delaware Fightin`Blue Hens@Cal St Northridge
 
-GAME North Texas Mean Green@App State Mountaineers
+GAME North Texas Mean Green@Appalachian State Mountaineers
 
 GAME Loyola Maryland Greyhounds@Virginia Cavaliers
 
-GAME Coastal Carolina Chanticleers@Tennessee Volunteers
+GAME C. Carolina Chanticleers@Tennessee Volunteers
 
 GAME Richmond Spiders@Western Kentucky Hilltoppers
 NEUTRAL
@@ -60,7 +60,7 @@ GAME Georgia State Panthers@Jacksonville State Gamecocks
 
 GAME Oakland Golden Grizzlies@Purdue Boilermakers
 
-GAME South Carolina State Bulldogs@The Citadel Bulldogs
+GAME South Carolina State Bulldogs@Citadel Bulldogs
 
 GAME Niagara Purple Eagles@Delaware State Hornets
 
@@ -73,13 +73,13 @@ GAME Bellarmine Knights@Eastern Kentucky Colonels
 
 GAME Kansas City Roos@Iona Gaels
 
-GAME Western Michigan Broncos@Mount St. Mary's Mountaineers
+GAME Western Michigan Broncos@Mount St. Mary`s Mountaineers
 
 GAME SE Louisiana Lions@Kennesaw State Owls
 
 GAME Harvard Crimson@Holy Cross Crusaders
 
-GAME Saint Joseph's Hawks@Drexel Dragons
+GAME St. Joseph`s Hawks@Drexel Dragons
 
 GAME Paine Lions@West Georgia Wolves
 
@@ -90,17 +90,17 @@ GAME Central Michigan Chippewas@Pittsburgh Panthers
 GAME Tulsa Golden Hurricane@Mississippi State Bulldogs
 NEUTRAL
 
-GAME UT Arlington Mavericks@Northwestern State Demons
+GAME Texas Arlington Mavericks@Northwestern State Demons
 
 GAME Iowa Hawkeyes@Xavier Musketeers
 
-GAME UCF Knights@Vanderbilt Commodores
+GAME Central Florida Knights@Vanderbilt Commodores
 
-GAME Mississippi Valley State Delta Devils@Arkansas Razorbacks
+GAME Mississippi Valley Devils@Arkansas Razorbacks
 
 GAME West Coast Baptist Eagles@Pepperdine Waves
 
-GAME South Alabama Jaguars@SMU Mustangs
+GAME South Alabama Jaguars@Southern Methodist Mustangs
 
 GAME Neumann Knights@Lehigh Mountain Hawks
 
@@ -111,7 +111,7 @@ GAME Le Moyne Dolphins@Missouri Tigers
 GAME Kentucky Wildcats@Indiana Hoosiers
 NEUTRAL
 
-GAME Utah Valley Wolverines@East Carolina Pirates
+GAME Utah Valley State Wolverines@East Carolina Pirates
 NEUTRAL
 
 GAME Campbell Fighting Camels@Kansas State Wildcats
@@ -120,9 +120,9 @@ GAME Georgia Bulldogs@Georgia Tech Yellow Jackets
 
 GAME Eastern Illinois Panthers@Illinois Fighting Illini
 
-GAME Sam Houston Bearkats@Boise State Broncos
+GAME Sam Houston State Bearkats@Boise State Broncos
 
-GAME Cal State Bakersfield Roadrunners@Idaho Vandals
+GAME Cal State Bakersfield@Idaho Vandals
 
 GAME Marshall Thundering Herd@North Carolina Tar Heels
 
