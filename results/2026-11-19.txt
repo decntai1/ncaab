@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-19 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 20:33Z
+# NCAAB results 2026-11-19 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 10:53Z
 
 GAME Florida Gators@West Virginia Mountaineers
 NEUTRAL
@@ -145,8 +145,8 @@ H Pepperdine Waves: 40 40
 H UC Santa Barbara Gauchos: 42 46
 
 GAME Utah Tech Trailblazers@Washington Huskies
-H Washington Huskies: 58 24
-H Utah Tech Trailblazers: 40 29
+H Washington Huskies: 46 36
+H Utah Tech Trailblazers: 33 36
 
 GAME UTEP Miners@New Mexico State Aggies
 H New Mexico State Aggies: 34 35

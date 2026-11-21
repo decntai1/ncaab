@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-20 20:33Z
+# NCAAB slate 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 10:54Z
 
 GAME Siena Saints@Bucknell Bison
 
@@ -16,7 +16,7 @@ GAME Kent State Golden Flashes@Cleveland State Vikings
 
 GAME Denver Pioneers@Eastern Michigan Eagles
 
-GAME Mercyhurst Lakers@Western Illinois Leathernecks
+GAME Western Illinois Leathernecks@Mercyhurst Lakers
 NEUTRAL
 
 GAME Virginia Lynchburg Dragons@James Madison Dukes
@@ -48,7 +48,7 @@ GAME Drake Bulldogs@Missouri State Bears
 
 GAME St. Thomas Tommies@Milwaukee Panthers
 
-GAME TBD@TBD
+GAME Middle Tennessee Blue Raiders@Indiana State Sycamores
 NEUTRAL
 
 GAME UT Rio Grande Valley Vaqueros@Austin Peay Governors
@@ -81,7 +81,7 @@ GAME Northeastern Huskies@Stonehill Skyhawks
 
 GAME Air Force Falcons@UTSA Roadrunners
 
-GAME TBD@TBD
+GAME Southern Illinois Salukis@East Carolina Pirates
 NEUTRAL
 
 GAME North Carolina Wilmington Seahawks@Norfolk State Spartans
