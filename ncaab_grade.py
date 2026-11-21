@@ -13,6 +13,7 @@ capture_board.py). One file: stdlib + numpy + pandas + tabulate. Spec: NCAAB_MOD
     python ncaab_grade.py fit     --results results --out ratings    # own ratings from results -> ratings/teams.csv
     python ncaab_grade.py picks   --date 2026-11-18                  # predicted winners with odds and expected return
     python ncaab_grade.py pack    --boards DIR --out boards/2026-11-18/1730.rows.csv.gz   # small file for git
+    python ncaab_grade.py lines   --from 2025-11-01 --out lines     # CollegeBasketballData.com lines, needs CBBD_API_KEY
     python ncaab_grade.py slips   --date 2026-11-18                  # ten paper multis at about 3x / 7x / 10x
     python ncaab_grade.py sync    [--backfill-from 2025-11-03]       # everything, in order: price, slips, grade, report
 
@@ -38,7 +39,7 @@ import numpy as np
 import pandas as pd
 
 DB = os.environ.get("NCAAB_DB", str(Path(__file__).with_name("ncaab.sqlite")))
-MODEL_VERSION = "ncaab-0.9"
+MODEL_VERSION = "ncaab-0.10"
 HALF = re.compile(r"(\d)\.\s*félidő", re.I)                    # '1. félidő' = first half
 START_W = {"main": 0.05, "half": 0.0, "other": 0.0}
 LEAN_CAP, MIN_GAMES, PRIOR_SD = 0.05, 30, 0.04
@@ -1053,6 +1054,51 @@ def slip_results(con) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+LINE_COLS = ["gameId", "season", "seasonType", "startDate", "homeTeam", "awayTeam", "homeConference", "awayConference",
+             "homeScore", "awayScore", "provider", "spread", "overUnder", "homeMoneyline", "awayMoneyline", "spreadOpen",
+             "overUnderOpen"]
+
+
+def fetch_lines(first: str, out_dir: str, refetch_days: int = 40) -> None:
+    """Betting lines from CollegeBasketballData.com into <out>/<YYYY-MM>.csv, one call per month (the API returns at
+    most 3,000 games a call; a busy month has about 1,600). A month is fetched once; the current and the previous
+    month are fetched again on every run (late lines and scores). The key is read from CBBD_API_KEY and never printed.
+    Field layout from the API reference (2026-11-20); the spread's sign is checked against the scores in `report`."""
+    import urllib.error
+    import urllib.request
+    key = os.environ.get("CBBD_API_KEY", "").strip()
+    if not key:
+        print("lines: CBBD_API_KEY is not set - nothing fetched")
+        return
+    base = os.environ.get("CBBD_API", "https://api.collegebasketballdata.com")
+    out, now = Path(out_dir), pd.Timestamp.now("UTC").tz_localize(None)
+    out.mkdir(parents=True, exist_ok=True)
+    calls = 0
+    for m in pd.period_range(pd.Timestamp(first), now, freq="M"):
+        f = out / f"{m}.csv"
+        if 5 <= m.month <= 10 and m != pd.Period(now, "M"):     # off-season: no games, no call
+            continue
+        if f.exists() and m.end_time < now - pd.Timedelta(days=refetch_days):
+            continue
+        q = f"startDateRange={m.start_time:%Y-%m-%dT00:00:00Z}&endDateRange={m.end_time:%Y-%m-%dT23:59:59Z}"
+        req = urllib.request.Request(f"{base}/lines?{q}", headers={"Authorization": f"Bearer {key}", "Accept": "application/json",
+                                                                   "User-Agent": "ncaab_grade"})
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                js = json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            sys.exit(f"lines {m}: HTTP {e.code} " + {401: "(key wrong or not active yet)", 429: "(monthly call limit reached)"}.get(e.code, ""))
+        calls += 1
+        rows = [dict({k: g.get(k) for k in LINE_COLS[:10]}, **{k: (ln or {}).get(k) for k in LINE_COLS[10:]})
+                for g in js for ln in (g.get("lines") or [None])]
+        df = pd.DataFrame(rows, columns=LINE_COLS)
+        df.to_csv(f, index=False)
+        n_games = df.gameId.nunique()
+        print(f"{f}: {n_games} games, {df.spread.notna().sum()} lines with a spread, providers {sorted(df.provider.dropna().unique())[:6]}"
+              + ("  WARNING: 3,000 games = the API's cap, this month may be cut short" if n_games >= 3000 else ""))
+    print(f"lines: {calls} API calls")
+
+
 def pack(boards: str, out: str, captured_at: str | None = None) -> None:
     """A folder of .json captures -> one small .rows.csv.gz with every priced selection (what `price` needs), each
     game's tip time and when the boards were pulled (captured_utc: --captured-at, else the files' own time - so run
@@ -1339,6 +1385,7 @@ def main():
     s = sub.add_parser("pack"); s.add_argument("--boards", required=True); s.add_argument("--out", required=True)
     s.add_argument("--captured-at", help="when the boards were pulled (default: the .json files' own time)")
     s = sub.add_parser("slips"); s.add_argument("--date", required=True); s.add_argument("--capture")
+    s = sub.add_parser("lines"); s.add_argument("--from", dest="first", default="2025-11-01"); s.add_argument("--out", default="lines")
     s = sub.add_parser("sync"); s.add_argument("--root", default=str(Path(__file__).parent)); s.add_argument("--backfill-from")
     s = sub.add_parser("grade"); s.add_argument("--date", required=True); s.add_argument("--results", required=True)
     a = ap.parse_args()
@@ -1370,6 +1417,8 @@ def main():
         pack(a.boards, a.out, a.captured_at)
     elif a.cmd == "slips":
         slips(a.date, a.capture, connect())
+    elif a.cmd == "lines":
+        fetch_lines(a.first, a.out)
     elif a.cmd == "sync":
         sync(a.root, a.backfill_from)
     elif a.cmd == "grade":

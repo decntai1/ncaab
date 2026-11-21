@@ -1,5 +1,14 @@
 # Changelog
 
+## ncaab-0.10 (2026-11-20)
+- `lines`: betting lines (spread, total, moneylines, opening spread and total, by provider) from
+  CollegeBasketballData.com into `lines/<YYYY-MM>.csv`, one API call per season month; the current and previous
+  month are refetched each run, off-season months skipped. About 6 calls for the 2025-26 backfill, then about 2 a
+  day. The key comes only from the CBBD_API_KEY environment variable (a GitHub secret in the workflow) and is never
+  printed or written. Tested against a stand-in API (no key, wrong key, first run, rerun); the real API is untested.
+  Purpose: test model changes against last season's closing lines instead of waiting weeks for vegas.hu nights.
+- Workflow: a `lines` step after the ESPN scrape. Without the secret it prints a note and fetches nothing.
+
 ## ncaab-0.9 (2026-11-19) - first real night graded, one settlement bug fixed
 - (later the same day) When the board lists home and away the other way round from ESPN on a non-neutral court,
   the model now gives home court to ESPN's home team (none on 2026-11-19: the one flipped game was neutral). Grading is unaffected:
