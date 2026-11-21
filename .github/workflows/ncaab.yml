@@ -46,6 +46,10 @@ jobs:
           done
           echo "fetched $fetched days, failed $failed"
           echo "FAILED=$failed" >> "$GITHUB_ENV"
+      - name: betting lines (CollegeBasketballData.com)
+        env:
+          CBBD_API_KEY: ${{ secrets.CBBD_API_KEY }}
+        run: python ncaab_grade.py lines --from 2025-11-01 --out lines
       - name: commit
         run: |
           git config user.name ncaab-bot
