@@ -1,12 +1,4 @@
-# NCAAB slate 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 10:54Z
-
-GAME Siena Saints@Bucknell Bison
-
-GAME SC Upstate Spartans@North Carolina Greensboro Spartans
-
-GAME Detroit Mercy Titans@Michigan State Spartans
-
-GAME Columbia Lions@Boston University Terriers
+# NCAAB slate 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 19:29Z
 
 GAME Queens University Royals@LSU Tigers
 
@@ -43,6 +35,14 @@ GAME Northern Illinois Huskies@Bowling Green Falcons
 GAME Western Carolina Catamounts@Wake Forest Demon Deacons
 
 GAME Lafayette College Leopards@Syracuse Orange
+
+GAME Detroit Mercy Titans@Michigan State Spartans
+
+GAME Siena Saints@Bucknell Bison
+
+GAME SC Upstate Spartans@North Carolina Greensboro Spartans
+
+GAME Columbia Lions@Boston University Terriers
 
 GAME Drake Bulldogs@Missouri State Bears
 

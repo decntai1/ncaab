@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-18 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 10:53Z
+# NCAAB results 2026-11-18 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 19:28Z
 
 GAME Houston Cougars@Florida Gators
 NEUTRAL

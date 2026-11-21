@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 10:54Z
+# NCAAB slate 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 19:29Z
 
 GAME Nebraska Cornhuskers@Butler Bulldogs
 NEUTRAL
