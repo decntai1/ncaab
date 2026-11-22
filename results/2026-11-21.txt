@@ -1,0 +1,267 @@
+# NCAAB results 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:51Z
+
+GAME Detroit Mercy Titans@Michigan State Spartans
+H Michigan State Spartans: 42 49
+H Detroit Mercy Titans: 27 43
+
+GAME Washington State Cougars@Duke Blue Devils
+NEUTRAL
+H Duke Blue Devils: 44 34
+H Washington State Cougars: 31 43
+
+GAME Michigan Wolverines@Villanova Wildcats
+H Villanova Wildcats: 34 45
+H Michigan Wolverines: 29 44
+
+GAME Queens University Royals@LSU Tigers
+H LSU Tigers: 52 54
+H Queens University Royals: 40 35
+RACE 5:A1 10:H1 15:A1 20:A1 25:A1 30:A1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2
+
+GAME Siena Saints@Bucknell Bison
+H Bucknell Bison: 48 39
+H Siena Saints: 49 44
+
+GAME SC Upstate Spartans@North Carolina Greensboro Spartans
+H North Carolina Greensboro Spartans: 41 44
+H SC Upstate Spartans: 25 41
+
+GAME Columbia Lions@Boston University Terriers
+H Boston University Terriers: 20 43 8
+H Columbia Lions: 30 33 17
+
+GAME New Hampshire Wildcats@New Haven Chargers
+H New Haven Chargers: 26 24
+H New Hampshire Wildcats: 27 20
+RACE 5:H1 10:H1 15:H1 20:A1 25:A1 30:A2 35:A2 40:H2 45:H2 50:H2
+
+GAME Kent State Golden Flashes@Cleveland State Vikings
+H Cleveland State Vikings: 27 35
+H Kent State Golden Flashes: 38 31
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2
+
+GAME Denver Pioneers@Eastern Michigan Eagles
+H Eastern Michigan Eagles: 22 48
+H Denver Pioneers: 33 35
+
+GAME Western Illinois Leathernecks@Mercyhurst Lakers
+NEUTRAL
+H Mercyhurst Lakers: 29 32 7
+H Western Illinois Leathernecks: 34 27 4
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A2 40:A2 45:A2 50:A2 55:A2 60:H2 65:H3
+
+GAME Virginia Lynchburg Dragons@James Madison Dukes
+H James Madison Dukes: 67 69
+H Virginia Lynchburg Dragons: 31 14
+
+GAME Calumet St. Joseph Crimson Wave@Purdue Fort Wayne Mastodons
+H Purdue Fort Wayne Mastodons: 45 54
+H Calumet St. Joseph Crimson Wave: 25 28
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
+
+GAME Stony Brook Seawolves@Saint Peter's Peacocks
+H Saint Peter's Peacocks: 28 24
+H Stony Brook Seawolves: 31 36
+
+GAME Cornell Big Red@Morgan State Bears
+H Morgan State Bears: 25 38
+H Cornell Big Red: 44 40
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
+
+GAME Arkansas Little Rock Trojans@North Florida Ospreys
+H North Florida Ospreys: 53 46
+H Arkansas Little Rock Trojans: 39 48
+
+GAME Navy Midshipmen@Rider Broncs
+H Rider Broncs: 33 36
+H Navy Midshipmen: 31 35
+RACE 5:H1 10:H1 15:H1 20:H1 25:A1 30:H1 35:H2 40:A2 45:A2 50:A2 55:H2 60:H2 65:H2
+
+GAME Penn State Behrend Lions@Colgate Raiders
+H Colgate Raiders: 49 38
+H Penn State Behrend Lions: 29 26
+
+GAME New Mexico Lobos@Wichita State Shockers
+H Wichita State Shockers: 37 48
+H New Mexico Lobos: 37 23
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:A1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
+
+GAME Fordham Rams@Portland Pilots
+NEUTRAL
+H Portland Pilots: 26 43
+H Fordham Rams: 48 39
+
+GAME Northern Illinois Huskies@Bowling Green Falcons
+H Bowling Green Falcons: 28 40
+H Northern Illinois Huskies: 35 51
+
+GAME Western Carolina Catamounts@Wake Forest Demon Deacons
+H Wake Forest Demon Deacons: 47 43
+H Western Carolina Catamounts: 19 44
+
+GAME Lafayette College Leopards@Syracuse Orange
+H Syracuse Orange: 26 58
+H Lafayette College Leopards: 31 50
+RACE 5:H1 10:H1 15:A1 20:H1 25:A1 30:A1 35:A2 40:A2 45:A2 50:A2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
+
+GAME Drake Bulldogs@Missouri State Bears
+H Missouri State Bears: 30 37
+H Drake Bulldogs: 32 33
+RACE 5:H1 10:A1 15:H1 20:A1 25:A1 30:A1 35:H2 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2
+
+GAME St. Thomas Tommies@Milwaukee Panthers
+H Milwaukee Panthers: 35 35
+H St. Thomas Tommies: 44 54
+RACE 5:H1 10:H1 15:H1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2 85:A2 90:A2 95:A2
+
+GAME Middle Tennessee Blue Raiders@Indiana State Sycamores
+NEUTRAL
+H Indiana State Sycamores: 30 29
+H Middle Tennessee Blue Raiders: 32 37
+
+GAME UT Rio Grande Valley Vaqueros@Austin Peay Governors
+H Austin Peay Governors: 36 31 6
+H UT Rio Grande Valley Vaqueros: 30 37 12
+
+GAME Army Black Knights@Binghamton Bearcats
+H Binghamton Bearcats: 35 32
+H Army Black Knights: 18 28
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2
+
+GAME Clinton Golden Bears@Furman Paladins
+H Furman Paladins: 50 58
+H Clinton Golden Bears: 36 33
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2
+
+GAME Justice Lions@Northern Colorado Bears
+H Northern Colorado Bears: 42 47
+H Justice Lions: 31 35
+
+GAME Albany Great Danes@Canisius Golden Griffins
+H Canisius Golden Griffins: 38 53
+H Albany Great Danes: 37 44
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
+
+GAME Longwood Lancers@East Tennessee State Buccaneers
+H East Tennessee State Buccaneers: 40 34
+H Longwood Lancers: 39 29
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:A2 55:A2 60:H2 65:H2 70:H2
+
+GAME Pennsylvania Quakers@La Salle Explorers
+H La Salle Explorers: 29 44
+H Pennsylvania Quakers: 45 38
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
+
+GAME South Florida Bulls@George Mason Patriots
+H George Mason Patriots: 36 37
+H South Florida Bulls: 25 37
+
+GAME Central Arkansas Bears@Jacksonville Dolphins
+H Jacksonville Dolphins: 32 35
+H Central Arkansas Bears: 40 42
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
+
+GAME San Diego Toreros@UC Irvine Anteaters
+NEUTRAL
+H UC Irvine Anteaters: 34 30
+H San Diego Toreros: 31 36
+RACE 5:H1 10:H1 15:H1 20:A1 25:A1 30:H1 35:H2 40:H2 45:H2 50:H2 55:A2 60:A2 65:A2
+
+GAME Winthrop Eagles@Wofford Terriers
+H Wofford Terriers: 42 49
+H Winthrop Eagles: 40 46
+RACE 5:H1 10:H1 15:A1 20:A1 25:A1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
+
+GAME Southern Miss Golden Eagles@Nicholls Colonels
+NEUTRAL
+H Nicholls Colonels: 38 31
+H Southern Miss Golden Eagles: 33 47
+RACE 5:A1 10:H1 15:A1 20:A1 25:A1 30:A1 35:H1 40:H2 45:H2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
+
+GAME Northeastern Huskies@Stonehill Skyhawks
+H Stonehill Skyhawks: 49 46
+H Northeastern Huskies: 40 42
+
+GAME Air Force Falcons@UTSA Roadrunners
+H UTSA Roadrunners: 45 45
+H Air Force Falcons: 27 41
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
+
+GAME Southern Illinois Salukis@East Carolina Pirates
+NEUTRAL
+H East Carolina Pirates: 38 31
+H Southern Illinois Salukis: 49 36
+
+GAME North Carolina Wilmington Seahawks@Norfolk State Spartans
+H Norfolk State Spartans: 36 44
+H North Carolina Wilmington Seahawks: 43 46
+
+GAME Maine Black Bears@Massachusetts Minutemen
+H Massachusetts Minutemen: 31 45
+H Maine Black Bears: 13 31
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H2 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
+
+GAME Coppin State Eagles@Georgetown Hoyas
+H Georgetown Hoyas: 49 35
+H Coppin State Eagles: 37 23
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
+
+GAME Radford Highlanders@Chattanooga Mocs
+H Chattanooga Mocs: 39 26
+H Radford Highlanders: 49 24
+RACE 5:H1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2 70:A2
+
+GAME Morehead St Eagles@Elon Phoenix
+H Elon Phoenix: 41 43
+H Morehead St Eagles: 31 30
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
+
+GAME Northern Arizona Lumberjacks@Cal Poly Mustangs
+H Cal Poly Mustangs: 46 43
+H Northern Arizona Lumberjacks: 38 50
+
+GAME Loyola Marymount Lions@California Baptist Lancers
+NEUTRAL
+H California Baptist Lancers: 35 38
+H Loyola Marymount Lions: 37 43
+
+GAME Gardner-Webb Runnin´Bulldogs@VMI Keydets
+H VMI Keydets: 35 36
+H Gardner-Webb Runnin´Bulldogs: 27 41
+
+GAME Charleston Southern Buccaneers@Mercer Bears
+H Mercer Bears: 39 30
+H Charleston Southern Buccaneers: 28 36
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2
+
+GAME Brown Bears@Vermont Catamounts
+H Vermont Catamounts: 35 49
+H Brown Bears: 40 31
+
+GAME Presbyterian Blue Hose@Tennessee Tech Golden Eagles
+H Tennessee Tech Golden Eagles: 51 46
+H Presbyterian Blue Hose: 36 33
+
+GAME Valparaiso Beacons@Troy Trojans
+NEUTRAL
+H Troy Trojans: 37 35
+H Valparaiso Beacons: 24 53
+
+GAME Texas A&M-Corpus Christi Islanders@Oral Roberts Golden Eagles
+H Oral Roberts Golden Eagles: 39 39
+H Texas A&M-Corpus Christi Islanders: 49 25
+RACE 5:H1 10:H1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A2 55:A2 60:A2 65:A2 70:H2 75:H2
+
+GAME Southwestern Adventist Knights@Abilene Christian Wildcats
+H Abilene Christian Wildcats: 44 43
+H Southwestern Adventist Knights: 29 39
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
+
+GAME New Orleans Privateers@Texas Southern Tigers
+H Texas Southern Tigers: 21 49
+H New Orleans Privateers: 34 41
+
+GAME Bradley Braves@Pacific Tigers
+H Pacific Tigers: 40 23
+H Bradley Braves: 33 29
+RACE 5:H1 10:H1 15:A1 20:A1 25:A1 30:A1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2

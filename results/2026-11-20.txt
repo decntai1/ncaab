@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 19:29Z
+# NCAAB results 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:50Z
 
 GAME Loyola Maryland Greyhounds@Virginia Cavaliers
 H Virginia Cavaliers: 50 53
@@ -118,6 +118,7 @@ H North Texas Mean Green: 29 46
 GAME Central Baptist Mustangs@Incarnate Word Cardinals
 H Incarnate Word Cardinals: 64 56
 H Central Baptist Mustangs: 36 35
+RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H1 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2 110:H2 115:H2 120:H2
 
 GAME Western Kentucky Hilltoppers@Richmond Spiders
 NEUTRAL

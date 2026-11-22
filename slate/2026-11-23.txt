@@ -1,0 +1,114 @@
+# NCAAB slate 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:51Z
+
+GAME Ecclesia Royals@Grambling St Tigers
+
+GAME St Bonaventure Bonnies@Appalachian State Mountaineers
+NEUTRAL
+
+GAME Northern Iowa Panthers@Davidson Wildcats
+NEUTRAL
+
+GAME Indiana State Sycamores@East Carolina Pirates
+NEUTRAL
+
+GAME IU South Bend Titans@Eastern Illinois Panthers
+
+GAME Long Beach State Beach@Florida International Panthers
+
+GAME Akron Zips@Wright State Raiders
+NEUTRAL
+
+GAME Charlotte 49ers@Florida Gulf Coast Eagles
+NEUTRAL
+
+GAME Tulsa Golden Hurricane@Oregon State Beavers
+NEUTRAL
+
+GAME Ole Miss Rebels@Clemson Tigers
+NEUTRAL
+
+GAME Middle Tennessee Blue Raiders@Southern Illinois Salukis
+NEUTRAL
+
+GAME Arkansas State Red Wolves@Southern Utah Thunderbirds
+NEUTRAL
+
+GAME William & Mary Tribe@IUPUI Jaguars
+NEUTRAL
+
+GAME Yale Bulldogs@Belmont Bruins
+NEUTRAL
+
+GAME Tulane Green Waves@Georgia State Panthers
+NEUTRAL
+
+GAME Nevada Wolf Pack@San Francisco Dons
+NEUTRAL
+
+GAME Washington Huskies@Brigham Young Cougars
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Maryland Eastern Shore Hawks@Youngstown State Penguins
+
+GAME RIT Tigers@Buffalo Bulls
+
+GAME Notre Dame (MD) Gators@Howard Bison
+
+GAME Spalding Pelicans@Ball State Cardinals
+
+GAME Kentucky State Thorobreds@East Tennessee State Buccaneers
+
+GAME Penn State Brandywine Lions@La Salle Explorers
+
+GAME North Carolina A&T Aggies@South Carolina State Bulldogs
+
+GAME Georgia Southern Eagles@Northern Kentucky Norse
+
+GAME Mansfield Mountaineers@Le Moyne Dolphins
+
+GAME Fairleigh Dickinson Knights@Iona Gaels
+
+GAME Central Arkansas Bears@North Florida Ospreys
+
+GAME Illinois State Redbirds@Santa Clara Broncos
+NEUTRAL
+
+GAME Carolina University Bruins@NC Central Eagles
+
+GAME Texas A&M-Corpus Christi Islanders@Wichita State Shockers
+
+GAME Winthrop Eagles@Illinois Fighting Illini
+
+GAME Denver Pioneers@Kansas Jayhawks
+
+GAME Wisconsin Stout Blue Devils@North Dakota State Bison
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Monmouth Hawks@North Carolina Tar Heels
+
+GAME Dickinson State Blue Hawks@Idaho Vandals
+
+GAME Carroll (MT) Fighting Saints@Montana Grizzlies
+
+GAME VCU Rams@Providence Friars
+NEUTRAL
+
+GAME North Carolina Greensboro Spartans@Pepperdine Waves
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Eastern Washington Eagles@UNLV Runnin Rebels
+
+GAME Alabama State Hornets@California Golden Bears
+
+GAME Colorado State Rams@Arizona Wildcats
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL

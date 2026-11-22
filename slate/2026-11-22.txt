@@ -1,14 +1,4 @@
-# NCAAB slate 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-21 19:29Z
-
-GAME Nebraska Cornhuskers@Butler Bulldogs
-NEUTRAL
-
-GAME Miami (OH) RedHawks@Illinois Chicago Flames
-NEUTRAL
-
-GAME Western Illinois Leathernecks@Canisius Golden Griffins
-
-GAME Lancaster Bible Chargers@Maryland Baltimore
+# NCAAB slate 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:51Z
 
 GAME Dayton Flyers@Northwestern Wildcats
 NEUTRAL
@@ -34,11 +24,21 @@ GAME Evansville Purple Aces@Memphis Tigers
 
 GAME William & Mary Tribe@Youngstown State Penguins
 
-GAME San Diego Toreros@Fordham Rams
+GAME Fordham Rams@San Diego Toreros
 NEUTRAL
 
 GAME Robert Morris Colonials@New Mexico State Aggies
 NEUTRAL
+
+GAME Nebraska Cornhuskers@Butler Bulldogs
+NEUTRAL
+
+GAME Miami (OH) RedHawks@Illinois Chicago Flames
+NEUTRAL
+
+GAME Western Illinois Leathernecks@Canisius Golden Griffins
+
+GAME Lancaster Bible Chargers@Maryland Baltimore
 
 GAME Southern Indiana Screaming Eagles@UT Austin Longhorns
 
