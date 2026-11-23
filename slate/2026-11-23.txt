@@ -1,6 +1,4 @@
-# NCAAB slate 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:51Z
-
-GAME Ecclesia Royals@Grambling St Tigers
+# NCAAB slate 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:07Z
 
 GAME St Bonaventure Bonnies@Appalachian State Mountaineers
 NEUTRAL
@@ -27,6 +25,8 @@ NEUTRAL
 GAME Ole Miss Rebels@Clemson Tigers
 NEUTRAL
 
+GAME Ecclesia Royals@Grambling St Tigers
+
 GAME Middle Tennessee Blue Raiders@Southern Illinois Salukis
 NEUTRAL
 
@@ -48,7 +48,7 @@ NEUTRAL
 GAME Washington Huskies@Brigham Young Cougars
 NEUTRAL
 
-GAME TBD@TBD
+GAME Temple Owls@UT Martin Skyhawks
 NEUTRAL
 
 GAME Maryland Eastern Shore Hawks@Youngstown State Penguins
@@ -86,7 +86,7 @@ GAME Denver Pioneers@Kansas Jayhawks
 
 GAME Wisconsin Stout Blue Devils@North Dakota State Bison
 
-GAME TBD@TBD
+GAME SFA Lumberjacks@Utah Valley State Wolverines
 NEUTRAL
 
 GAME Monmouth Hawks@North Carolina Tar Heels
@@ -100,7 +100,7 @@ NEUTRAL
 
 GAME North Carolina Greensboro Spartans@Pepperdine Waves
 
-GAME TBD@TBD
+GAME Chicago Ramblers@Seattle U Redhawks
 NEUTRAL
 
 GAME Eastern Washington Eagles@UNLV Runnin Rebels
@@ -110,5 +110,5 @@ GAME Alabama State Hornets@California Golden Bears
 GAME Colorado State Rams@Arizona Wildcats
 NEUTRAL
 
-GAME TBD@TBD
+GAME San Jose State Spartans@UC San Diego Tritons
 NEUTRAL

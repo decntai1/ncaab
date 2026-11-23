@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-22 19:51Z
+# NCAAB results 2026-11-21 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:06Z
 
 GAME Detroit Mercy Titans@Michigan State Spartans
 H Michigan State Spartans: 42 49

@@ -1,0 +1,210 @@
+# NCAAB slate 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:07Z
+
+GAME Wright State Raiders@St Bonaventure Bonnies
+NEUTRAL
+
+GAME Ohio Bobcats@New Mexico State Aggies
+NEUTRAL
+
+GAME Belmont Bruins@Akron Zips
+NEUTRAL
+
+GAME SE Louisiana Lions@Northern Colorado Bears
+NEUTRAL
+
+GAME Southern Utah Thunderbirds@Florida International Panthers
+
+GAME Vermont State Randolph Knights@Stonehill Skyhawks
+
+GAME Rice Owls@Illinois Chicago Flames
+NEUTRAL
+
+GAME Oklahoma Sooners@Pittsburgh Panthers
+NEUTRAL
+
+GAME Oregon State Beavers@San Francisco Dons
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Tennessee Volunteers@Maryland Terrapins
+NEUTRAL
+
+GAME Miami-Florida Hurricanes@TCU Horned Frogs
+NEUTRAL
+
+GAME Appalachian State Mountaineers@Yale Bulldogs
+NEUTRAL
+
+GAME North Dakota Fighting Hawks@Detroit Mercy Titans
+NEUTRAL
+
+GAME Long Beach State Beach@Arkansas State Red Wolves
+NEUTRAL
+
+GAME Lindenwood Lions@New Haven Chargers
+NEUTRAL
+
+GAME Tulsa Golden Hurricane@Illinois State Redbirds
+NEUTRAL
+
+GAME Penn State Berks Nittany Lions@Navy Midshipmen
+
+GAME Bloomsburg Huskies@Wagner Seahawks
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Creighton Bluejays@Michigan Wolverines
+NEUTRAL
+
+GAME Emerson Lions@Quinnipiac Bobcats
+
+GAME Wyoming Cowboys@Kent State Golden Flashes
+NEUTRAL
+
+GAME San Diego State Aztecs@Iowa State Cyclones
+NEUTRAL
+
+GAME Sacred Heart Pioneers@Rutgers Scarlet Knights
+
+GAME Southern Indiana Screaming Eagles@VMI Keydets
+
+GAME Mercer Bears@Florida Atlantic Owls
+
+GAME Queens University Royals@Wofford Terriers
+
+GAME Eastern Michigan Eagles@Kennesaw State Owls
+NEUTRAL
+
+GAME DePaul Blue Demons@Purdue Boilermakers
+NEUTRAL
+
+GAME Robert Morris Colonials@Lamar Cardinals
+NEUTRAL
+
+GAME Elon Phoenix@Furman Paladins
+
+GAME Milwaukee Panthers@Florida Gators
+
+GAME Vanderbilt Commodores@Ohio State Buckeyes
+
+GAME Carolina Christian Centurions@Presbyterian Blue Hose
+
+GAME Hampton Pirates@Old Dominion Monarchs
+
+GAME Tarleton State Texans@Weber State Wildcats
+
+GAME Bryant Bulldogs@Marist Red Foxes
+
+GAME Coppin State Eagles@Villanova Wildcats
+
+GAME Rider Broncs@Loyola Maryland Greyhounds
+
+GAME Bellarmine Knights@Georgia Southern Eagles
+NEUTRAL
+
+GAME Delaware State Hornets@Chattanooga Mocs
+
+GAME Mount St. Mary`s Mountaineers@Morgan State Bears
+
+GAME New Hampshire Wildcats@Seton Hall Pirates
+
+GAME Campbell Fighting Camels@C. Carolina Chanticleers
+
+GAME Maryland Baltimore@Iowa Hawkeyes
+
+GAME Vermont Catamounts@Siena Saints
+
+GAME Boston University Terriers@Harvard Crimson
+
+GAME Samford Bulldogs@Georgia Tech Yellow Jackets
+
+GAME SUNY Fredonia Blue Devils@Mercyhurst Lakers
+
+GAME Stetson Hatters@South Florida Bulls
+
+GAME Jacksonville Dolphins@Indiana Hoosiers
+
+GAME Nevada Wolf Pack@Santa Clara Broncos
+NEUTRAL
+
+GAME Charleston Southern Buccaneers@James Madison Dukes
+
+GAME Binghamton Bearcats@Lehigh Mountain Hawks
+
+GAME Gardner-Webb Runnin´Bulldogs@Bowling Green Falcons
+
+GAME Arlington Baptist Patriots@Texas A&M–Commerce Lions
+
+GAME Purdue Fort Wayne Mastodons@Southeast Missouri State Redhawks
+
+GAME Alcorn State Braves@Louisiana Tech Bulldogs
+
+GAME High Point Panthers@Duquesne Dukes
+NEUTRAL
+
+GAME Houston Christian Huskies@Louisiana–Monroe Warhawks
+
+GAME West Georgia Wolves@Tennessee Tech Golden Eagles
+
+GAME Texas Tech Red Raiders@Louisville Cardinals
+NEUTRAL
+
+GAME Florida A&M Rattlers@South Alabama Jaguars
+
+GAME Arkansas Baptist Buffaloes@Arkansas Little Rock Trojans
+
+GAME Oral Roberts Golden Eagles@Texas Arlington Mavericks
+
+GAME Alabama A&M Bulldogs@North Alabama Lions
+
+GAME Bucknell Bison@Cornell Big Red
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Drexel Dragons@Pennsylvania Quakers
+
+GAME Green Bay Phoenix@Kansas City Roos
+
+GAME Lipscomb Bisons@Auburn Tigers
+
+GAME Army Black Knights@Air Force Falcons
+NEUTRAL
+
+GAME Central Michigan Chippewas@Notre Dame Fighting Irish
+
+GAME Louisiana Christian Wildcats@Louisiana Lafayette Ragin Cajuns
+
+GAME College of Charleston Cougars@UTEP Miners
+NEUTRAL
+
+GAME Sam Houston State Bearkats@Washington State Cougars
+
+GAME North Carolina Greensboro Spartans@UC Santa Barbara Gauchos
+
+GAME Idaho State Bengals@Boise State Broncos
+
+GAME Evansville Purple Aces@Missouri Tigers
+
+GAME North Carolina Asheville Bulldogs@Florida State Seminoles
+
+GAME Grand Canyon Lopes@Saint Louis Billikens
+NEUTRAL
+
+GAME Baylor Bears@Alabama Crimson Tide
+NEUTRAL
+
+GAME Oregon Ducks@St. John´s Red Storm
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Stanford Cardinal@Colorado Buffaloes
+NEUTRAL
+
+GAME Gonzaga Bulldogs@Kansas State Wildcats
+NEUTRAL

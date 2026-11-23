@@ -1,0 +1,216 @@
+# NCAAB results 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:06Z
+
+GAME Southern Indiana Screaming Eagles@UT Austin Longhorns
+H UT Austin Longhorns: 45 52
+H Southern Indiana Screaming Eagles: 32 29
+
+GAME Delaware Fightin`Blue Hens@UCLA Bruins
+H UCLA Bruins: 41 44
+H Delaware Fightin`Blue Hens: 22 26
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
+
+GAME Louisiana Lafayette Ragin Cajuns@USC Trojans
+H USC Trojans: 42 40
+H Louisiana Lafayette Ragin Cajuns: 27 29
+
+GAME Nebraska Cornhuskers@Butler Bulldogs
+NEUTRAL
+H Butler Bulldogs: 38 36
+H Nebraska Cornhuskers: 33 43
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:A2 50:H2 55:A2 60:A2 65:H2 70:H2 75:A2
+
+GAME Miami (OH) RedHawks@Illinois Chicago Flames
+NEUTRAL
+H Illinois Chicago Flames: 32 28
+H Miami (OH) RedHawks: 38 33
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2
+
+GAME Western Illinois Leathernecks@Canisius Golden Griffins
+H Canisius Golden Griffins: 27 19
+H Western Illinois Leathernecks: 29 37
+RACE 5:A1 10:H1 15:A1 20:H1 25:A1 30:A2 35:A2 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2
+
+GAME Lancaster Bible Chargers@Maryland Baltimore
+H Maryland Baltimore: 45 44
+H Lancaster Bible Chargers: 24 31
+
+GAME Dayton Flyers@Northwestern Wildcats
+NEUTRAL
+H Northwestern Wildcats: 38 41
+H Dayton Flyers: 28 27
+
+GAME Fairfield Stags@Liu Sharks
+H Liu Sharks: 36 35
+H Fairfield Stags: 30 44
+
+GAME Towson Tigers@American University Eagles
+H American University Eagles: 41 45
+H Towson Tigers: 29 46
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
+
+GAME Chicago State Cougars@Marquette Golden Eagles
+H Marquette Golden Eagles: 57 49
+H Chicago State Cougars: 25 37
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2
+
+GAME George Washington Revolutionaries@Western Kentucky Hilltoppers
+NEUTRAL
+H Western Kentucky Hilltoppers: 40 46
+H George Washington Revolutionaries: 31 47
+
+GAME South Dakota Coyotes@Utah Tech Trailblazers
+NEUTRAL
+H Utah Tech Trailblazers: 32 41
+H South Dakota Coyotes: 34 40
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:A1 35:A2 40:A2 45:A2 50:H2 55:A2 60:H2 65:H2 70:H2
+
+GAME UMass Lowell River Hawks@Cincinnati Bearcats
+H Cincinnati Bearcats: 35 43
+H UMass Lowell River Hawks: 30 38
+RACE 5:A1 10:A1 15:A1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
+
+GAME Wyoming Cowboys@Duquesne Dukes
+NEUTRAL
+H Duquesne Dukes: 33 28
+H Wyoming Cowboys: 41 38
+
+GAME Evansville Purple Aces@Memphis Tigers
+H Memphis Tigers: 35 47
+H Evansville Purple Aces: 31 31
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
+
+GAME William & Mary Tribe@Youngstown State Penguins
+H Youngstown State Penguins: 27 36
+H William & Mary Tribe: 35 40
+RACE 5:H1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2
+
+GAME Fordham Rams@San Diego Toreros
+NEUTRAL
+H San Diego Toreros: 46 34
+H Fordham Rams: 32 26
+RACE 5:A1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2
+
+GAME Robert Morris Colonials@New Mexico State Aggies
+NEUTRAL
+H New Mexico State Aggies: 21 50 8
+H Robert Morris Colonials: 33 38 13
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A2 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A3 80:A3
+
+GAME Troy Trojans@Nicholls Colonels
+NEUTRAL
+H Nicholls Colonels: 39 38
+H Troy Trojans: 33 45
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:H2 50:A2 55:A2 60:A2 65:A2 70:H2 75:H2
+
+GAME West Florida Argonauts@South Alabama Jaguars
+H South Alabama Jaguars: 43 36
+H West Florida Argonauts: 28 38
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
+
+GAME McNeese Cowboys@Texas State Bobcats
+H Texas State Bobcats: 50 45
+H McNeese Cowboys: 27 42
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2
+
+GAME Mercyhurst Lakers@Albany Great Danes
+NEUTRAL
+H Albany Great Danes: 36 39
+H Mercyhurst Lakers: 39 39
+RACE 5:H1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2
+
+GAME Virginia Tech Hokies@Oklahoma State Cowboys
+NEUTRAL
+H Oklahoma State Cowboys: 41 65
+H Virginia Tech Hokies: 41 39
+RACE 5:H1 10:H1 15:A1 20:A1 25:A1 30:H1 35:H1 40:H1 45:A2 50:A2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2
+
+GAME Alice Lloyd Eagles@Eastern Kentucky Colonels
+H Eastern Kentucky Colonels: 61 53
+H Alice Lloyd Eagles: 40 45
+RACE 5:A1 10:A1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H1 60:H1 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2 95:H2 100:H2 105:H2 110:H2
+
+GAME Richmond Spiders@Liberty Flames
+NEUTRAL
+H Liberty Flames: 29 43 10 6
+H Richmond Spiders: 32 40 10 10
+RACE 5:A1 10:A1 15:A1 20:A1 25:H1 30:A1 35:A2 40:A2 45:A2 50:A2 55:A2 60:H2 65:H2 70:A2 75:H3 80:H3 85:A4 90:A4
+
+GAME IUPUI Jaguars@Maryland Eastern Shore Hawks
+NEUTRAL
+H Maryland Eastern Shore Hawks: 28 33
+H IUPUI Jaguars: 43 38
+RACE 5:H1 10:H1 15:H1 20:A1 25:H1 30:A1 35:A1 40:A1 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:A2 80:A2
+
+GAME Loyola Marymount Lions@UC Irvine Anteaters
+NEUTRAL
+H UC Irvine Anteaters: 33 35
+H Loyola Marymount Lions: 33 39
+
+GAME Rice Owls@Lamar Cardinals
+NEUTRAL
+H Lamar Cardinals: 32 49
+H Rice Owls: 43 42
+
+GAME North Carolina Asheville Bulldogs@Samford Bulldogs
+H Samford Bulldogs: 42 38
+H North Carolina Asheville Bulldogs: 40 37
+
+GAME Milligan Buffaloes@Lipscomb Bisons
+H Lipscomb Bisons: 43 49
+H Milligan Buffaloes: 28 39
+RACE 5:A1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
+
+GAME Cal State Fullerton Titans@Portland State Vikings
+H Portland State Vikings: 36 39
+H Cal State Fullerton Titans: 48 44
+
+GAME NJIT Highlanders@Boston College Eagles
+H Boston College Eagles: 41 38
+H NJIT Highlanders: 31 28
+
+GAME Temple Owls@SFA Lumberjacks
+NEUTRAL
+H SFA Lumberjacks: 38 34
+H Temple Owls: 33 37
+
+GAME Southern Miss Golden Eagles@Valparaiso Beacons
+NEUTRAL
+H Valparaiso Beacons: 35 54
+H Southern Miss Golden Eagles: 56 43
+
+GAME Utah Utes@Minnesota Golden Gophers
+NEUTRAL
+H Minnesota Golden Gophers: 25 52
+H Utah Utes: 28 34
+
+GAME Portland Pilots@California Baptist Lancers
+NEUTRAL
+H California Baptist Lancers: 43 22 14
+H Portland Pilots: 35 30 6
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H3 75:H3
+
+GAME Rhode Island Rams@UAB Blazers
+NEUTRAL
+H UAB Blazers: 29 35
+H Rhode Island Rams: 36 43
+
+GAME Menlo Oaks@Saint Mary's Gaels
+H Saint Mary's Gaels: 43 51
+H Menlo Oaks: 41 37
+
+GAME UT Martin Skyhawks@Utah Valley State Wolverines
+NEUTRAL
+H Utah Valley State Wolverines: 32 37 9
+H UT Martin Skyhawks: 37 32 7
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:A1 40:A2 45:H2 50:H2 55:H2 60:H2 65:H2 70:H3 75:H3
+
+GAME UC San Diego Tritons@Seattle U Redhawks
+NEUTRAL
+H Seattle U Redhawks: 46 44
+H UC San Diego Tritons: 23 41
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2 90:H2
+
+GAME Chicago Ramblers@San Jose State Spartans
+NEUTRAL
+H San Jose State Spartans: 31 32
+H Chicago Ramblers: 35 37
