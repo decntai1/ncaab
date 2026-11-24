@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 16:51Z
+# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 22:36Z
 
 GAME Winthrop Eagles@Illinois Fighting Illini
 H Illinois Fighting Illini: 62 71
@@ -140,6 +140,7 @@ RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H
 GAME North Carolina A&T Aggies@South Carolina State Bulldogs
 H South Carolina State Bulldogs: 32 28
 H North Carolina A&T Aggies: 32 30
+RACE 5:A1 10:H1 15:H1 20:H1 25:H1 30:H1 35:A2 40:A2 45:A2 50:A2 55:H2 60:H2
 
 GAME Georgia Southern Eagles@Northern Kentucky Norse
 H Northern Kentucky Norse: 29 44 6

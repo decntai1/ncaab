@@ -1,4 +1,40 @@
-# NCAAB slate 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 16:52Z
+# NCAAB slate 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 22:37Z
+
+GAME Providence Friars@Arizona Wildcats
+NEUTRAL
+
+GAME Arkansas State Red Wolves@Long Beach State Beach
+NEUTRAL
+
+GAME New Haven Chargers@Lindenwood Lions
+NEUTRAL
+
+GAME Illinois State Redbirds@Tulsa Golden Hurricane
+NEUTRAL
+
+GAME Penn State Berks PENN STATE-LEHIGH VALLEY@Navy Midshipmen
+
+GAME Bloomsburg Huskies@Wagner Seahawks
+
+GAME Emerson Lions@Quinnipiac Bobcats
+
+GAME Kent State Golden Flashes@Wyoming Cowboys
+NEUTRAL
+
+GAME San Diego State Aztecs@Iowa State Cyclones
+NEUTRAL
+
+GAME Creighton Bluejays@Michigan Wolverines
+NEUTRAL
+
+GAME Tennessee Volunteers@Maryland Terrapins
+NEUTRAL
+
+GAME Miami-Florida Hurricanes@TCU Horned Frogs
+NEUTRAL
+
+GAME Ole Miss Rebels@Brigham Young Cougars
+NEUTRAL
 
 GAME Wright State Raiders@St Bonaventure Bonnies
 NEUTRAL
@@ -22,49 +58,13 @@ NEUTRAL
 GAME Oklahoma Sooners@Pittsburgh Panthers
 NEUTRAL
 
-GAME Oregon State Beavers@San Francisco Dons
-NEUTRAL
-
-GAME Ole Miss Rebels@Brigham Young Cougars
-NEUTRAL
-
-GAME Tennessee Volunteers@Maryland Terrapins
-NEUTRAL
-
-GAME Miami-Florida Hurricanes@TCU Horned Frogs
+GAME San Francisco Dons@Oregon State Beavers
 NEUTRAL
 
 GAME Appalachian State Mountaineers@Yale Bulldogs
 NEUTRAL
 
 GAME North Dakota Fighting Hawks@Detroit Mercy Titans
-NEUTRAL
-
-GAME Long Beach State Beach@Arkansas State Red Wolves
-NEUTRAL
-
-GAME Lindenwood Lions@New Haven Chargers
-NEUTRAL
-
-GAME Tulsa Golden Hurricane@Illinois State Redbirds
-NEUTRAL
-
-GAME Penn State Berks Nittany Lions@Navy Midshipmen
-
-GAME Providence Friars@Arizona Wildcats
-NEUTRAL
-
-GAME Bloomsburg Huskies@Wagner Seahawks
-
-GAME Emerson Lions@Quinnipiac Bobcats
-
-GAME Wyoming Cowboys@Kent State Golden Flashes
-NEUTRAL
-
-GAME San Diego State Aztecs@Iowa State Cyclones
-NEUTRAL
-
-GAME Creighton Bluejays@Michigan Wolverines
 NEUTRAL
 
 GAME Sacred Heart Pioneers@Rutgers Scarlet Knights
@@ -104,7 +104,7 @@ GAME Coppin State Eagles@Villanova Wildcats
 
 GAME Rider Broncs@Loyola Maryland Greyhounds
 
-GAME Bellarmine Knights@Georgia Southern Eagles
+GAME Georgia Southern Eagles@Bellarmine Knights
 NEUTRAL
 
 GAME Delaware State Hornets@Chattanooga Mocs
