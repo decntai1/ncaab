@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 00:04Z
+# NCAAB results 2026-11-22 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 16:51Z
 
 GAME Southern Indiana Screaming Eagles@UT Austin Longhorns
 H UT Austin Longhorns: 45 52
