@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:07Z
+# NCAAB slate 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 00:05Z
 
 GAME Wright State Raiders@St Bonaventure Bonnies
 NEUTRAL
@@ -25,7 +25,7 @@ NEUTRAL
 GAME Oregon State Beavers@San Francisco Dons
 NEUTRAL
 
-GAME TBD@TBD
+GAME Ole Miss Rebels@TBD
 NEUTRAL
 
 GAME Tennessee Volunteers@Maryland Terrapins
@@ -56,15 +56,15 @@ GAME Bloomsburg Huskies@Wagner Seahawks
 GAME TBD@TBD
 NEUTRAL
 
-GAME Creighton Bluejays@Michigan Wolverines
-NEUTRAL
-
 GAME Emerson Lions@Quinnipiac Bobcats
 
 GAME Wyoming Cowboys@Kent State Golden Flashes
 NEUTRAL
 
 GAME San Diego State Aztecs@Iowa State Cyclones
+NEUTRAL
+
+GAME Creighton Bluejays@Michigan Wolverines
 NEUTRAL
 
 GAME Sacred Heart Pioneers@Rutgers Scarlet Knights
@@ -89,6 +89,8 @@ GAME Elon Phoenix@Furman Paladins
 GAME Milwaukee Panthers@Florida Gators
 
 GAME Vanderbilt Commodores@Ohio State Buckeyes
+
+GAME Jacksonville Dolphins@Indiana Hoosiers
 
 GAME Carolina Christian Centurions@Presbyterian Blue Hose
 
@@ -125,8 +127,6 @@ GAME SUNY Fredonia Blue Devils@Mercyhurst Lakers
 
 GAME Stetson Hatters@South Florida Bulls
 
-GAME Jacksonville Dolphins@Indiana Hoosiers
-
 GAME Nevada Wolf Pack@Santa Clara Broncos
 NEUTRAL
 
@@ -162,7 +162,7 @@ GAME Alabama A&M Bulldogs@North Alabama Lions
 
 GAME Bucknell Bison@Cornell Big Red
 
-GAME TBD@TBD
+GAME Clemson Tigers@TBD
 NEUTRAL
 
 GAME Drexel Dragons@Pennsylvania Quakers

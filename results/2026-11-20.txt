@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:06Z
+# NCAAB results 2026-11-20 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 00:04Z
 
 GAME Loyola Maryland Greyhounds@Virginia Cavaliers
 H Virginia Cavaliers: 50 53

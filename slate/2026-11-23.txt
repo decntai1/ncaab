@@ -1,4 +1,14 @@
-# NCAAB slate 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-23 16:07Z
+# NCAAB slate 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 00:05Z
+
+GAME Washington Huskies@Brigham Young Cougars
+NEUTRAL
+
+GAME Temple Owls@UT Martin Skyhawks
+NEUTRAL
+
+GAME Maryland Eastern Shore Hawks@Youngstown State Penguins
+
+GAME RIT Tigers@Buffalo Bulls
 
 GAME St Bonaventure Bonnies@Appalachian State Mountaineers
 NEUTRAL
@@ -30,30 +40,20 @@ GAME Ecclesia Royals@Grambling St Tigers
 GAME Middle Tennessee Blue Raiders@Southern Illinois Salukis
 NEUTRAL
 
-GAME Arkansas State Red Wolves@Southern Utah Thunderbirds
-NEUTRAL
-
 GAME William & Mary Tribe@IUPUI Jaguars
 NEUTRAL
 
-GAME Yale Bulldogs@Belmont Bruins
+GAME Southern Utah Thunderbirds@Arkansas State Red Wolves
 NEUTRAL
 
 GAME Tulane Green Waves@Georgia State Panthers
 NEUTRAL
 
-GAME Nevada Wolf Pack@San Francisco Dons
+GAME Yale Bulldogs@Belmont Bruins
 NEUTRAL
 
-GAME Washington Huskies@Brigham Young Cougars
+GAME San Francisco Dons@Nevada Wolf Pack
 NEUTRAL
-
-GAME Temple Owls@UT Martin Skyhawks
-NEUTRAL
-
-GAME Maryland Eastern Shore Hawks@Youngstown State Penguins
-
-GAME RIT Tigers@Buffalo Bulls
 
 GAME Notre Dame (MD) Gators@Howard Bison
 
@@ -73,7 +73,7 @@ GAME Fairleigh Dickinson Knights@Iona Gaels
 
 GAME Central Arkansas Bears@North Florida Ospreys
 
-GAME Illinois State Redbirds@Santa Clara Broncos
+GAME Santa Clara Broncos@Illinois State Redbirds
 NEUTRAL
 
 GAME Carolina University Bruins@NC Central Eagles
