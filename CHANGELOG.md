@@ -1,5 +1,10 @@
 # Changelog
 
+## workflow (2026-11-24)
+- The scrape is scheduled three times a day (09:41, 12:23, 16:17 UTC): the single 12:23 run was skipped by GitHub on
+  2026-11-23 and 2026-11-24. Reruns are harmless: finished days are not fetched again, the last 3 days are.
+- results_aliases.csv: 59 names.
+
 ## ncaab-0.10 (2026-11-20)
 - `lines`: betting lines (spread, total, moneylines, opening spread and total, by provider) from
   CollegeBasketballData.com into `lines/<YYYY-MM>.csv`, one API call per season month; the current and previous
