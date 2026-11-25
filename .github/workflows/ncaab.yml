@@ -3,7 +3,9 @@ name: ncaab
 # No pricing or grading happens here; that is done from a clone of this repo.
 on:
   schedule:
-    - cron: "23 12 * * *"            # 12:23 UTC = 07:23 US Eastern: last night's games are over
+    - cron: "41 9 * * *"             # 09:41 UTC: last night's games are over (they end by about 07:00 UTC)
+    - cron: "23 12 * * *"            # 12:23 UTC: second try - GitHub sometimes skips or delays scheduled runs
+    - cron: "17 16 * * *"            # 16:17 UTC: third try; a run that finds nothing new commits nothing
   workflow_dispatch:
     inputs:
       backfill_from:
@@ -61,3 +63,4 @@ jobs:
         run: |
           ls results/*.txt > /dev/null 2>&1 || { echo "::error::no results files at all: ESPN unreachable from GitHub?"; exit 1; }
           [[ "$FAILED" -eq 0 ]] || { echo "::error::$FAILED fetches failed, see the scrape step"; exit 1; }
+ 
