@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 22:37Z
+# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 12:45Z
 
 GAME St Bonaventure Bonnies@Belmont Bruins
 NEUTRAL
@@ -6,7 +6,7 @@ NEUTRAL
 GAME Rice Owls@Ohio Bobcats
 NEUTRAL
 
-GAME Northern Iowa Panthers@Charlotte 49ers
+GAME Northern Iowa Panthers@NC Charlotte 49ers
 NEUTRAL
 
 GAME Mercy Mavericks@Fordham Rams
@@ -21,7 +21,7 @@ GAME Vermont State Randolph Knights@Fairleigh Dickinson Knights
 GAME Yale Bulldogs@Wright State Raiders
 NEUTRAL
 
-GAME Northern Colorado Bears@TBD
+GAME Northern Colorado Bears@Detroit Mercy Titans
 NEUTRAL
 
 GAME Lindenwood Lions@Stony Brook Seawolves
@@ -31,7 +31,7 @@ NEUTRAL
 
 GAME American International Yellow Jackets@Rhode Island Rams
 
-GAME Eastern Kentucky Colonels@Miami (OH) RedHawks
+GAME Eastern Kentucky Colonels@Miami Ohio Redhawks
 
 GAME Tulane Green Waves@Davidson Wildcats
 NEUTRAL
@@ -55,7 +55,7 @@ GAME Abilene Christian Wildcats@South Dakota State Jackrabbits
 
 GAME Johnson & Wales Griffins@Brown Bears
 
-GAME Ole Miss Rebels@TBD
+GAME Ole Miss Rebels@Arizona Wildcats
 NEUTRAL
 
 GAME Texas A&M Aggies@Xavier Musketeers
@@ -64,12 +64,12 @@ NEUTRAL
 GAME Akron Zips@Appalachian State Mountaineers
 NEUTRAL
 
-GAME SE Louisiana Lions@TBD
+GAME SE Louisiana Lions@North Dakota Fighting Hawks
 NEUTRAL
 
 GAME Jackson State Tigers@Oklahoma State Cowboys
 
-GAME Arkansas State Red Wolves@Florida International Panthers
+GAME Arkansas State Red Wolves@FIU Panthers
 
 GAME Bethesda Flames@Utah Tech Trailblazers
 
@@ -86,7 +86,7 @@ GAME Prairie View A&M Panthers@Marshall Thundering Herd
 GAME South Carolina Gamecocks@USC Trojans
 NEUTRAL
 
-GAME Southern Jaguars@Nebraska Cornhuskers
+GAME Southern University Jaguars@Nebraska Cornhuskers
 
 GAME Memphis Tigers@Penn State Nittany Lions
 NEUTRAL
@@ -98,12 +98,12 @@ NEUTRAL
 
 GAME Holy Cross Crusaders@Dartmouth Big Green
 
-GAME Brigham Young Cougars@TBD
+GAME Brigham Young Cougars@Providence Friars
 NEUTRAL
 
 GAME West Florida Argonauts@Northwestern State Demons
 
-GAME TBD@TBD
+GAME Kennesaw State Owls@College of Charleston Cougars
 NEUTRAL
 
 GAME Cal St Northridge@Weber State Wildcats
@@ -134,15 +134,15 @@ GAME Norfolk State Spartans@North Carolina State Wolfpack
 
 GAME Northeastern Huskies@Wisconsin Badgers
 
-GAME Wake Forest Demon Deacons@Mississippi State Bulldogs
+GAME Wake Forest Deacons@Mississippi State Bulldogs
 NEUTRAL
 
 GAME Cal State Bakersfield@Pepperdine Waves
 
-GAME Omaha Mavericks@UC Davis Aggies
+GAME Nebraska-Omaha Mavericks@UC Davis Aggies
 NEUTRAL
 
-GAME TBD@TBD
+GAME Eastern Michigan Eagles@UTEP Miners
 NEUTRAL
 
 GAME Northwest Indian RedHawks@Montana State Bobcats
@@ -151,10 +151,10 @@ GAME Mississippi Valley Devils@New Mexico Lobos
 
 GAME Eastern Washington Eagles@Loyola Marymount Lions
 
-GAME TBD@TBD
+GAME Grand Canyon Antelopes@Colorado Buffaloes
 NEUTRAL
 
-GAME TBD@TBD
+GAME Washington Huskies@VCU Rams
 NEUTRAL
 
 GAME Pacific Tigers@Jacksonville State Gamecocks
@@ -162,8 +162,8 @@ NEUTRAL
 
 GAME Incarnate Word Cardinals@Hawai'i Rainbow Warriors
 
-GAME TBD@TBD
+GAME Stanford Cardinal@Saint Louis Billikens
 NEUTRAL
 
-GAME TBD@TBD
+GAME Clemson Tigers@Colorado State Rams
 NEUTRAL

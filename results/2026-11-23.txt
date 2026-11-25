@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-24 22:36Z
+# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 12:44Z
 
 GAME Winthrop Eagles@Illinois Fighting Illini
 H Illinois Fighting Illini: 62 71
@@ -40,8 +40,8 @@ GAME IU South Bend Titans@Eastern Illinois Panthers
 H Eastern Illinois Panthers: 39 44
 H IU South Bend Titans: 35 31
 
-GAME Long Beach State Beach@Florida International Panthers
-H Florida International Panthers: 45 34
+GAME Long Beach State Beach@FIU Panthers
+H FIU Panthers: 45 34
 H Long Beach State Beach: 42 33
 
 GAME Akron Zips@Wright State Raiders
@@ -50,10 +50,10 @@ H Wright State Raiders: 35 31
 H Akron Zips: 33 31
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:A2 45:H2 50:H2 55:H2 60:H2 65:H2
 
-GAME Charlotte 49ers@Florida Gulf Coast Eagles
+GAME NC Charlotte 49ers@Florida Gulf Coast Eagles
 NEUTRAL
 H Florida Gulf Coast Eagles: 29 29
-H Charlotte 49ers: 37 34
+H NC Charlotte 49ers: 37 34
 
 GAME Tulsa Golden Hurricane@Oregon State Beavers
 NEUTRAL
@@ -207,9 +207,9 @@ GAME North Carolina Greensboro Spartans@Pepperdine Waves
 H Pepperdine Waves: 36 53
 H North Carolina Greensboro Spartans: 28 34
 
-GAME Chicago Ramblers@Seattle U Redhawks
+GAME Chicago Ramblers@Seattle University Redhawks
 NEUTRAL
-H Seattle U Redhawks: 45 31
+H Seattle University Redhawks: 45 31
 H Chicago Ramblers: 31 32
 RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
 
