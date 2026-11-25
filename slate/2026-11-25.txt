@@ -1,64 +1,9 @@
-# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 12:45Z
-
-GAME St Bonaventure Bonnies@Belmont Bruins
-NEUTRAL
-
-GAME Rice Owls@Ohio Bobcats
-NEUTRAL
-
-GAME Northern Iowa Panthers@NC Charlotte 49ers
-NEUTRAL
-
-GAME Mercy Mavericks@Fordham Rams
-
-GAME Virginia Cavaliers@Marquette Golden Eagles
-NEUTRAL
-
-GAME Penn State Abington Nittany Lions@St. Joseph`s Hawks
-
-GAME Vermont State Randolph Knights@Fairleigh Dickinson Knights
-
-GAME Yale Bulldogs@Wright State Raiders
-NEUTRAL
-
-GAME Northern Colorado Bears@Detroit Mercy Titans
-NEUTRAL
-
-GAME Lindenwood Lions@Stony Brook Seawolves
-
-GAME Southern Utah Thunderbirds@Long Beach State Beach
-NEUTRAL
-
-GAME American International Yellow Jackets@Rhode Island Rams
-
-GAME Eastern Kentucky Colonels@Miami Ohio Redhawks
-
-GAME Tulane Green Waves@Davidson Wildcats
-NEUTRAL
-
-GAME Arizona State Sun Devils@LSU Tigers
-NEUTRAL
-
-GAME Arkansas-Pine Bluff Golden Lions@South Dakota Coyotes
-
-GAME Grace Christian Tigers@Western Michigan Broncos
-
-GAME Montreat Cavaliers@Western Carolina Catamounts
-
-GAME Saint Peter's Peacocks@Columbia Lions
-
-GAME Warner Royals@North Florida Ospreys
-
-GAME Manhattan Jaspers@NJIT Highlanders
-
-GAME Abilene Christian Wildcats@South Dakota State Jackrabbits
-
-GAME Johnson & Wales Griffins@Brown Bears
+# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 21:51Z
 
 GAME Ole Miss Rebels@Arizona Wildcats
 NEUTRAL
 
-GAME Texas A&M Aggies@Xavier Musketeers
+GAME South Carolina Gamecocks@USC Trojans
 NEUTRAL
 
 GAME Akron Zips@Appalachian State Mountaineers
@@ -83,8 +28,63 @@ NEUTRAL
 
 GAME Prairie View A&M Panthers@Marshall Thundering Herd
 
-GAME South Carolina Gamecocks@USC Trojans
+GAME Texas A&M Aggies@Xavier Musketeers
 NEUTRAL
+
+GAME Virginia Cavaliers@Marquette Golden Eagles
+NEUTRAL
+
+GAME LSU Tigers@Arizona State Sun Devils
+NEUTRAL
+
+GAME St Bonaventure Bonnies@Belmont Bruins
+NEUTRAL
+
+GAME Rice Owls@Ohio Bobcats
+NEUTRAL
+
+GAME Northern Iowa Panthers@NC Charlotte 49ers
+NEUTRAL
+
+GAME Mercy Mavericks@Fordham Rams
+
+GAME Penn State Abington Nittany Lions@St. Joseph`s Hawks
+
+GAME Vermont State Randolph Knights@Fairleigh Dickinson Knights
+
+GAME Northern Colorado Bears@Detroit Mercy Titans
+NEUTRAL
+
+GAME Yale Bulldogs@Wright State Raiders
+NEUTRAL
+
+GAME Lindenwood Lions@Stony Brook Seawolves
+
+GAME Southern Utah Thunderbirds@Long Beach State Beach
+NEUTRAL
+
+GAME American International Yellow Jackets@Rhode Island Rams
+
+GAME Eastern Kentucky Colonels@Miami Ohio Redhawks
+
+GAME Tulane Green Waves@Davidson Wildcats
+NEUTRAL
+
+GAME Arkansas-Pine Bluff Golden Lions@South Dakota Coyotes
+
+GAME Grace Christian Tigers@Western Michigan Broncos
+
+GAME Montreat Cavaliers@Western Carolina Catamounts
+
+GAME Saint Peter's Peacocks@Columbia Lions
+
+GAME Warner Royals@North Florida Ospreys
+
+GAME Manhattan Jaspers@NJIT Highlanders
+
+GAME Abilene Christian Wildcats@South Dakota State Jackrabbits
+
+GAME Johnson & Wales Griffins@Brown Bears
 
 GAME Southern University Jaguars@Nebraska Cornhuskers
 

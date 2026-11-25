@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 12:45Z
+# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 21:51Z
 
 GAME Georgia Bulldogs@Cincinnati Bearcats
 NEUTRAL
@@ -47,10 +47,10 @@ NEUTRAL
 GAME Jacksonville State Gamecocks@UC Davis Aggies
 NEUTRAL
 
-GAME St. John´s Red Storm@Louisville Cardinals
+GAME Louisville Cardinals@St. John´s Red Storm
 NEUTRAL
 
-GAME Kansas State Wildcats@Alabama Crimson Tide
+GAME Alabama Crimson Tide@Kansas State Wildcats
 NEUTRAL
 
 GAME Pacific Tigers@Nebraska-Omaha Mavericks
@@ -59,5 +59,5 @@ NEUTRAL
 GAME Texas Tech Red Raiders@Oregon Ducks
 NEUTRAL
 
-GAME Gonzaga Bulldogs@Baylor Bears
+GAME Baylor Bears@Gonzaga Bulldogs
 NEUTRAL
