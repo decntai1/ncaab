@@ -1,0 +1,139 @@
+# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 19:17Z
+
+GAME Virginia Cavaliers@Xavier Musketeers
+NEUTRAL
+
+GAME Liberty Flames@St. Thomas Tommies
+NEUTRAL
+
+GAME Vermont Catamounts@Merrimack Warriors
+NEUTRAL
+
+GAME Hampton Pirates@UMass Lowell River Hawks
+NEUTRAL
+
+GAME Bryant & Stratton (OH) Bobcats@Youngstown State Penguins
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Wake Forest Deacons@Memphis Tigers
+NEUTRAL
+
+GAME Southern University Jaguars@Vanderbilt Commodores
+
+GAME Clarke Pride@South Dakota Coyotes
+
+GAME South Alabama Jaguars@Fresno St Bulldogs
+NEUTRAL
+
+GAME Navy Midshipmen@Fairfield Stags
+
+GAME Maine Black Bears@Le Moyne Dolphins
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Texas State Bobcats@Louisiana Tech Bulldogs
+
+GAME Princeton Tigers@North Carolina Wilmington Seahawks
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Auburn Montgomery Senators@UAB Blazers
+
+GAME Bellarmine Knights@Butler Bulldogs
+
+GAME La Salle Explorers@Bucknell Bison
+NEUTRAL
+
+GAME Colgate Raiders@Hofstra Pride
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Arkansas-Pine Bluff Golden Lions@Missouri Tigers
+
+GAME Radford Highlanders@American Eagles
+
+GAME Maryland Baltimore@George Washington Revolutionaries
+
+GAME Cincinnati Bearcats@Boston College Eagles
+NEUTRAL
+
+GAME Niagara Purple Eagles@Lafayette College Leopards
+
+GAME Villanova Wildcats@Kansas Jayhawks
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Marquette Golden Eagles@Texas A&M Aggies
+NEUTRAL
+
+GAME Old Dominion Monarchs@Virginia Tech Hokies
+
+GAME Drake Bulldogs@Boise State Broncos
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Western Kentucky Hilltoppers@Illinois Fighting Illini
+
+GAME Bowling Green Falcons@Indiana Hoosiers
+
+GAME Southern Wesleyan Warriors@SC Upstate Spartans
+
+GAME Towson Tigers@Penn Quakers
+
+GAME Central Florida Knights@Georgia Bulldogs
+NEUTRAL
+
+GAME Lehigh Mountain Hawks@UC Santa Barbara Gauchos
+NEUTRAL
+
+GAME North Carolina Wesleyan Battling Bishops@East Carolina Pirates
+
+GAME West Virginia Mountaineers@North Carolina Tar Heels
+NEUTRAL
+
+GAME Charleston Southern Buccaneers@East Tennessee State Buccaneers
+
+GAME Oakland Golden Grizzlies@Houston Cougars
+
+GAME Penn State Nittany Lions@Mississippi State Bulldogs
+NEUTRAL
+
+GAME Lane College Dragons@Arkansas Little Rock Trojans
+
+GAME Missouri State Bears@Oral Roberts Golden Eagles
+
+GAME North Dakota State Bison@North Texas Mean Green
+NEUTRAL
+
+GAME Idaho Vandals@Washington State Cougars
+
+GAME Northeastern Huskies@Northwestern Wildcats
+
+GAME Pacific Tigers@UC Davis Aggies
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME Wichita State Shockers@Kentucky Wildcats
+
+GAME Jacksonville State Gamecocks@Nebraska-Omaha Mavericks
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL
+
+GAME TBD@TBD
+NEUTRAL

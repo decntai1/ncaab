@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 00:17Z
+# NCAAB results 2026-11-23 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 19:16Z
 
 GAME Winthrop Eagles@Illinois Fighting Illini
 H Illinois Fighting Illini: 62 71

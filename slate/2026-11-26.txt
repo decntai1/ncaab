@@ -1,4 +1,13 @@
-# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 00:18Z
+# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 19:17Z
+
+GAME Maryland Terrapins@San Diego State Aztecs
+NEUTRAL
+
+GAME Boston College Eagles@Central Florida Knights
+NEUTRAL
+
+GAME Arizona State Sun Devils@South Carolina Gamecocks
+NEUTRAL
 
 GAME Georgia Bulldogs@Cincinnati Bearcats
 NEUTRAL
@@ -6,15 +15,6 @@ NEUTRAL
 GAME Army Black Knights@UTSA Roadrunners
 
 GAME Oklahoma Sooners@Purdue Boilermakers
-NEUTRAL
-
-GAME San Diego State Aztecs@Maryland Terrapins
-NEUTRAL
-
-GAME Boston College Eagles@Central Florida Knights
-NEUTRAL
-
-GAME South Carolina Gamecocks@Arizona State Sun Devils
 NEUTRAL
 
 GAME Georgetown Hoyas@UT Austin Longhorns
