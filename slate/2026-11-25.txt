@@ -1,41 +1,54 @@
-# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 21:51Z
+# NCAAB slate 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 00:18Z
 
-GAME Ole Miss Rebels@Arizona Wildcats
+GAME Duke Blue Devils@Connecticut Huskies
 NEUTRAL
 
 GAME South Carolina Gamecocks@USC Trojans
 NEUTRAL
 
-GAME Akron Zips@Appalachian State Mountaineers
+GAME Brigham Young Cougars@Providence Friars
 NEUTRAL
 
-GAME SE Louisiana Lions@North Dakota Fighting Hawks
+GAME Memphis Tigers@Penn State Nittany Lions
 NEUTRAL
 
-GAME Jackson State Tigers@Oklahoma State Cowboys
+GAME West Florida Argonauts@Northwestern State Demons
 
-GAME Arkansas State Red Wolves@FIU Panthers
-
-GAME Bethesda Flames@Utah Tech Trailblazers
-
-GAME Grambling St Tigers@New Orleans Privateers
-
-GAME Princeton Tigers@Liberty Flames
+GAME Kennesaw State Owls@College of Charleston Cougars
 NEUTRAL
 
-GAME Georgia State Panthers@Florida Gulf Coast Eagles
-NEUTRAL
+GAME Cal St Northridge@Weber State Wildcats
 
-GAME Prairie View A&M Panthers@Marshall Thundering Herd
+GAME Bethune-Cookman Wildcats@Richmond Spiders
 
-GAME Texas A&M Aggies@Xavier Musketeers
-NEUTRAL
+GAME Albany Great Danes@Syracuse Orange
+
+GAME SC Upstate Spartans@Citadel Bulldogs
+
+GAME Case Western Reserve Spartans@Cleveland State Vikings
+
+GAME Bellarmine Knights@Northern Kentucky Norse
+
+GAME Northern Illinois Huskies@SIU Edwardsville Cougars
+
+GAME St. Thomas Tommies@North Carolina Wilmington Seahawks
+
+GAME Longwood Lancers@George Mason Patriots
+
+GAME Norfolk State Spartans@North Carolina State Wolfpack
+
+GAME Northeastern Huskies@Wisconsin Badgers
 
 GAME Virginia Cavaliers@Marquette Golden Eagles
 NEUTRAL
 
+GAME Ole Miss Rebels@Arizona Wildcats
+NEUTRAL
+
 GAME LSU Tigers@Arizona State Sun Devils
 NEUTRAL
+
+GAME Southern University Jaguars@Nebraska Cornhuskers
 
 GAME St Bonaventure Bonnies@Belmont Bruins
 NEUTRAL
@@ -86,9 +99,29 @@ GAME Abilene Christian Wildcats@South Dakota State Jackrabbits
 
 GAME Johnson & Wales Griffins@Brown Bears
 
-GAME Southern University Jaguars@Nebraska Cornhuskers
+GAME Akron Zips@Appalachian State Mountaineers
+NEUTRAL
 
-GAME Memphis Tigers@Penn State Nittany Lions
+GAME SE Louisiana Lions@North Dakota Fighting Hawks
+NEUTRAL
+
+GAME Jackson State Tigers@Oklahoma State Cowboys
+
+GAME Arkansas State Red Wolves@FIU Panthers
+
+GAME Bethesda Flames@Utah Tech Trailblazers
+
+GAME Grambling St Tigers@New Orleans Privateers
+
+GAME Princeton Tigers@Liberty Flames
+NEUTRAL
+
+GAME Georgia State Panthers@Florida Gulf Coast Eagles
+NEUTRAL
+
+GAME Prairie View A&M Panthers@Marshall Thundering Herd
+
+GAME Texas A&M Aggies@Xavier Musketeers
 NEUTRAL
 
 GAME Portland State Vikings@UC Riverside Highlanders
@@ -98,43 +131,10 @@ NEUTRAL
 
 GAME Holy Cross Crusaders@Dartmouth Big Green
 
-GAME Brigham Young Cougars@Providence Friars
+GAME Wake Forest Deacons@Mississippi State Bulldogs
 NEUTRAL
-
-GAME West Florida Argonauts@Northwestern State Demons
-
-GAME Kennesaw State Owls@College of Charleston Cougars
-NEUTRAL
-
-GAME Cal St Northridge@Weber State Wildcats
-
-GAME Bethune-Cookman Wildcats@Richmond Spiders
-
-GAME Albany Great Danes@Syracuse Orange
-
-GAME Connecticut Huskies@Duke Blue Devils
-NEUTRAL
-
-GAME SC Upstate Spartans@Citadel Bulldogs
-
-GAME Case Western Reserve Spartans@Cleveland State Vikings
-
-GAME Bellarmine Knights@Northern Kentucky Norse
-
-GAME Northern Illinois Huskies@SIU Edwardsville Cougars
-
-GAME St. Thomas Tommies@North Carolina Wilmington Seahawks
-
-GAME Longwood Lancers@George Mason Patriots
 
 GAME Southern Methodist Mustangs@Utah State Aggies
-NEUTRAL
-
-GAME Norfolk State Spartans@North Carolina State Wolfpack
-
-GAME Northeastern Huskies@Wisconsin Badgers
-
-GAME Wake Forest Deacons@Mississippi State Bulldogs
 NEUTRAL
 
 GAME Cal State Bakersfield@Pepperdine Waves

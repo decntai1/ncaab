@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 21:51Z
+# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 00:18Z
 
 GAME Georgia Bulldogs@Cincinnati Bearcats
 NEUTRAL

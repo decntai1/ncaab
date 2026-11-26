@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-25 21:50Z
+# NCAAB results 2026-11-24 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 00:17Z
 
 GAME Wisconsin Milwaukee Panthers@Florida Gators
 H Florida Gators: 37 39
