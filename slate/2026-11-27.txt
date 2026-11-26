@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 19:17Z
+# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 21:44Z
 
 GAME Virginia Cavaliers@Xavier Musketeers
 NEUTRAL
@@ -51,7 +51,7 @@ NEUTRAL
 
 GAME Colgate Raiders@Hofstra Pride
 
-GAME TBD@TBD
+GAME TBD@Maryland Terrapins
 NEUTRAL
 
 GAME Arkansas-Pine Bluff Golden Lions@Missouri Tigers
@@ -135,5 +135,5 @@ NEUTRAL
 GAME TBD@TBD
 NEUTRAL
 
-GAME TBD@TBD
+GAME TBD@San Diego State Aztecs
 NEUTRAL

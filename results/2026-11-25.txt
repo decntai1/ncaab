@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 19:16Z
+# NCAAB results 2026-11-25 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 21:43Z
 
 GAME Virginia Cavaliers@Marquette Golden Eagles
 NEUTRAL
