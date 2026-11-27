@@ -1,0 +1,115 @@
+# NCAAB results 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 19:10Z
+
+GAME Texas Tech Red Raiders@Oregon Ducks
+NEUTRAL
+H Oregon Ducks: 27 32
+H Texas Tech Red Raiders: 38 24
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A2 45:A2 50:H2 55:H2 60:A2
+
+GAME UCLA Bruins@Saint Mary's Gaels
+NEUTRAL
+H Saint Mary's Gaels: 45 40
+H UCLA Bruins: 35 35
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2 80:H2 85:H2
+
+GAME Georgetown Hoyas@UT Austin Longhorns
+NEUTRAL
+H UT Austin Longhorns: 41 51
+H Georgetown Hoyas: 30 53
+
+GAME Tennessee Volunteers@Iowa State Cyclones
+NEUTRAL
+H Iowa State Cyclones: 19 45
+H Tennessee Volunteers: 31 44
+
+GAME Arkansas Razorbacks@Michigan State Spartans
+NEUTRAL
+H Michigan State Spartans: 27 43
+H Arkansas Razorbacks: 31 36
+RACE 5:H1 10:A1 15:A1 20:A1 25:H1 30:A1 35:A2 40:A2 45:A2 50:H2 55:H2 60:H2 65:H2 70:H2
+
+GAME Louisville Cardinals@St. John´s Red Storm
+NEUTRAL
+H St. John´s Red Storm: 39 51
+H Louisville Cardinals: 57 36
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A1 40:A1 45:A1 50:A1 55:A1 60:A2 65:A2 70:A2 75:A2 80:A2 85:A2 90:A2
+
+GAME Alabama Crimson Tide@Kansas State Wildcats
+NEUTRAL
+H Kansas State Wildcats: 35 56
+H Alabama Crimson Tide: 51 53
+
+GAME Miami-Florida Hurricanes@Michigan Wolverines
+NEUTRAL
+H Michigan Wolverines: 45 25
+H Miami-Florida Hurricanes: 52 45
+
+GAME USC Trojans@Utah State Aggies
+NEUTRAL
+H Utah State Aggies: 41 37
+H USC Trojans: 34 40
+RACE 5:A1 10:A1 15:A1 20:A1 25:H1 30:H1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:H2 70:H2 75:H2
+
+GAME LSU Tigers@Southern Methodist Mustangs
+NEUTRAL
+H Southern Methodist Mustangs: 38 39 9
+H LSU Tigers: 36 41 18
+RACE 5:H1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2 75:H2 80:A3 85:A3 90:A3 95:A3
+
+GAME Baylor Bears@Gonzaga Bulldogs
+NEUTRAL
+H Gonzaga Bulldogs: 36 36
+H Baylor Bears: 32 32
+
+GAME Georgia Bulldogs@Cincinnati Bearcats
+NEUTRAL
+H Cincinnati Bearcats: 50 33
+H Georgia Bulldogs: 34 47
+RACE 5:A1 10:H1 15:H1 20:H1 25:H1 30:H1 35:H1 40:H1 45:H1 50:H1 55:H2 60:H2 65:H2 70:A2 75:H2 80:H2
+
+GAME Army Black Knights@UTSA Roadrunners
+H UTSA Roadrunners: 29 32
+H Army Black Knights: 45 34
+
+GAME Oklahoma Sooners@Purdue Boilermakers
+NEUTRAL
+H Purdue Boilermakers: 36 27
+H Oklahoma Sooners: 31 39
+RACE 5:A1 10:H1 15:A1 20:H1 25:H1 30:H1 35:H1 40:A2 45:H2 50:A2 55:A2 60:A2 65:A2 70:A2
+
+GAME Maryland Terrapins@San Diego State Aztecs
+NEUTRAL
+H San Diego State Aztecs: 34 41
+H Maryland Terrapins: 31 40
+
+GAME Boston College Eagles@Central Florida Knights
+NEUTRAL
+H Central Florida Knights: 24 49
+H Boston College Eagles: 27 48
+
+GAME Arizona State Sun Devils@South Carolina Gamecocks
+NEUTRAL
+H South Carolina Gamecocks: 39 41
+H Arizona State Sun Devils: 31 42
+
+GAME TCU Horned Frogs@Creighton Bluejays
+NEUTRAL
+H Creighton Bluejays: 44 51
+H TCU Horned Frogs: 35 52
+RACE 5:H1 10:H1 15:H1 20:H1 25:A1 30:A1 35:H1 40:H1 45:H2 50:H2 55:H2 60:H2 65:A2 70:A2 75:H2 80:A2 85:H2 90:H2 95:H2
+
+GAME DePaul Blue Demons@Pittsburgh Panthers
+NEUTRAL
+H Pittsburgh Panthers: 34 37
+H DePaul Blue Demons: 31 33
+
+GAME UC Davis Aggies@Jacksonville State Gamecocks
+NEUTRAL
+H Jacksonville State Gamecocks: 35 28
+H UC Davis Aggies: 26 42
+
+GAME Pacific Tigers@Nebraska-Omaha Mavericks
+NEUTRAL
+H Nebraska-Omaha Mavericks: 25 37
+H Pacific Tigers: 32 39
+RACE 5:A1 10:A1 15:A1 20:A1 25:A1 30:A1 35:A2 40:A2 45:A2 50:A2 55:A2 60:A2 65:A2 70:A2

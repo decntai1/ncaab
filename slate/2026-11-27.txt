@@ -1,23 +1,23 @@
-# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 00:35Z
+# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 19:10Z
 
-GAME Virginia Cavaliers@Xavier Musketeers
+GAME Iowa State Cyclones@St. John´s Red Storm
 NEUTRAL
 
-GAME Liberty Flames@St. Thomas Tommies
+GAME Memphis Tigers@Wake Forest Deacons
 NEUTRAL
 
-GAME Vermont Catamounts@Merrimack Warriors
+GAME Merrimack Warriors@Vermont Catamounts
 NEUTRAL
 
-GAME Hampton Pirates@UMass Lowell River Hawks
+GAME UMass Lowell River Hawks@Hampton Pirates
 NEUTRAL
 
 GAME Bryant & Stratton (OH) Bobcats@Youngstown State Penguins
 
-GAME TBD@TBD
+GAME Virginia Cavaliers@Xavier Musketeers
 NEUTRAL
 
-GAME Wake Forest Deacons@Memphis Tigers
+GAME St. Thomas Tommies@Liberty Flames
 NEUTRAL
 
 GAME Southern University Jaguars@Vanderbilt Commodores
@@ -32,14 +32,14 @@ GAME Navy Midshipmen@Fairfield Stags
 GAME Maine Black Bears@Le Moyne Dolphins
 NEUTRAL
 
-GAME TBD@Georgetown Hoyas
+GAME Georgetown Hoyas@UCLA Bruins
 NEUTRAL
 
 GAME Texas State Bobcats@Louisiana Tech Bulldogs
 
 GAME Princeton Tigers@North Carolina Wilmington Seahawks
 
-GAME TBD@TBD
+GAME TCU Horned Frogs@Baylor Bears
 NEUTRAL
 
 GAME Auburn Montgomery Senators@UAB Blazers
@@ -51,7 +51,7 @@ NEUTRAL
 
 GAME Colgate Raiders@Hofstra Pride
 
-GAME TBD@Maryland Terrapins
+GAME Maryland Terrapins@Oregon Ducks
 NEUTRAL
 
 GAME Arkansas-Pine Bluff Golden Lions@Missouri Tigers
@@ -65,7 +65,7 @@ NEUTRAL
 
 GAME Niagara Purple Eagles@Lafayette College Leopards
 
-GAME TBD@UT Austin Longhorns
+GAME UT Austin Longhorns@Saint Mary's Gaels
 NEUTRAL
 
 GAME Villanova Wildcats@Kansas Jayhawks
@@ -78,7 +78,7 @@ GAME Old Dominion Monarchs@Virginia Tech Hokies
 GAME Drake Bulldogs@Boise State Broncos
 NEUTRAL
 
-GAME TBD@TBD
+GAME Michigan Wolverines@Kansas State Wildcats
 NEUTRAL
 
 GAME Western Kentucky Hilltoppers@Illinois Fighting Illini
@@ -121,10 +121,10 @@ GAME Northeastern Huskies@Northwestern Wildcats
 GAME Pacific Tigers@UC Davis Aggies
 NEUTRAL
 
-GAME TBD@TBD
+GAME Miami-Florida Hurricanes@Alabama Crimson Tide
 NEUTRAL
 
-GAME TBD@TBD
+GAME Tennessee Volunteers@Louisville Cardinals
 NEUTRAL
 
 GAME Wichita State Shockers@Kentucky Wildcats
@@ -132,8 +132,8 @@ GAME Wichita State Shockers@Kentucky Wildcats
 GAME Jacksonville State Gamecocks@Nebraska-Omaha Mavericks
 NEUTRAL
 
-GAME TBD@TBD
+GAME Creighton Bluejays@Gonzaga Bulldogs
 NEUTRAL
 
-GAME TBD@San Diego State Aztecs
+GAME San Diego State Aztecs@Texas Tech Red Raiders
 NEUTRAL

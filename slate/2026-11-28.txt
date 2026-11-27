@@ -1,0 +1,166 @@
+# NCAAB slate 2026-11-28 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 19:10Z
+
+GAME Siena Saints@Seton Hall Pirates
+
+GAME Princeton Tigers@St. Thomas Tommies
+NEUTRAL
+
+GAME Elon Phoenix@North Carolina State Wolfpack
+
+GAME Robert Morris Colonials@Northern Iowa Panthers
+
+GAME IU Columbus Crimson Pride@Indiana State Sycamores
+
+GAME Wofford Terriers@Purdue Fort Wayne Mastodons
+
+GAME Hampton Pirates@Radford Highlanders
+NEUTRAL
+
+GAME Vermont Catamounts@Colgate Raiders
+NEUTRAL
+
+GAME Alcorn State Braves@Georgia Tech Yellow Jackets
+
+GAME NC Central Eagles@Gardner-Webb Runnin´Bulldogs
+
+GAME Lehigh Mountain Hawks@Pepperdine Waves
+NEUTRAL
+
+GAME Clinton Golden Bears@Winthrop Eagles
+
+GAME Manhattan Jaspers@Morgan State Bears
+
+GAME New College Mighty Banyans@Stetson Hatters
+
+GAME North Florida Ospreys@Columbia Lions
+
+GAME Central Connecticut Blue Devils@Navy Midshipmen
+NEUTRAL
+
+GAME Delaware State Hornets@North Carolina A&T Aggies
+
+GAME Georgia Southern Eagles@North Carolina Asheville Bulldogs
+
+GAME Troy Trojans@Chattanooga Mocs
+
+GAME Texas A&M–Commerce Lions@Marshall Thundering Herd
+
+GAME Prairie View A&M Panthers@Iowa Hawkeyes
+
+GAME Citadel Bulldogs@High Point Panthers
+
+GAME Sacramento State Hornets@Presbyterian Blue Hose
+
+GAME Marist Red Foxes@George Mason Patriots
+
+GAME Le Moyne Dolphins@Niagara Purple Eagles
+NEUTRAL
+
+GAME Chicago State Cougars@Bradley Braves
+
+GAME Southwestern Christian U Eagles@Central Arkansas Bears
+
+GAME Fordham Rams@Harvard Crimson
+
+GAME Ball State Cardinals@Southern Indiana Screaming Eagles
+
+GAME Western Illinois Leathernecks@C. Carolina Chanticleers
+
+GAME Toledo Rockets@Valparaiso Beacons
+
+GAME Liberty Flames@North Carolina Wilmington Seahawks
+
+GAME Kentucky Christian Knights@UT Martin Skyhawks
+
+GAME Denver Pioneers@New Mexico State Aggies
+
+GAME UT Rio Grande Valley Vaqueros@UNLV Runnin Rebels
+
+GAME Southeast Missouri State Redhawks@Kansas City Roos
+
+GAME Northern Illinois Huskies@Eastern Illinois Panthers
+
+GAME Brown Bears@Air Force Falcons
+
+GAME North Texas Mean Green@Boise State Broncos
+NEUTRAL
+
+GAME Paul Quinn Tigers@Sam Houston State Bearkats
+
+GAME Merrimack Warriors@Hofstra Pride
+
+GAME Buffalo Bulls@Towson Tigers
+NEUTRAL
+
+GAME Tennessee Tech Golden Eagles@Eastern Kentucky Colonels
+
+GAME McNeese State@Louisiana Lafayette Ragin Cajuns
+
+GAME Azusa Pacific Cougars@Idaho State Bengals
+
+GAME Drexel Dragons@Mount St. Mary`s Mountaineers
+
+GAME Delaware Fightin`Blue Hens@Stony Brook Seawolves
+
+GAME San Jose State Spartans@Utah Valley State Wolverines
+
+GAME Austin Peay Governors@Furman Paladins
+
+GAME Northern Colorado Bears@San Diego Toreros
+
+GAME UMass Lowell River Hawks@American Eagles
+
+GAME Maine Black Bears@Lafayette College Leopards
+
+GAME Lincoln (CA) Oaklanders@UC Riverside Highlanders
+
+GAME Weber State Wildcats@Cal State Fullerton Titans
+
+GAME Northern Arizona Lumberjacks@Cal State Bakersfield
+
+GAME UC Irvine Anteaters@Seattle University Redhawks
+
+GAME Cal Poly Humboldt Lumberjacks@Nevada Wolf Pack
+
+GAME South Alabama Jaguars@South Dakota State Jackrabbits
+NEUTRAL
+
+GAME Drake Bulldogs@North Dakota State Bison
+NEUTRAL
+
+GAME Bucknell Bison@Penn Quakers
+
+GAME Trinity College of Jacksonville Eagles@Jacksonville Dolphins
+
+GAME VMI Keydets@Richmond Spiders
+
+GAME Toccoa Falls Eagles@Middle Tennessee Blue Raiders
+
+GAME St. Lawrence Saints@Cornell Big Red
+
+GAME Bethune-Cookman Wildcats@San Francisco Dons
+
+GAME Portland State Vikings@Southern Illinois Salukis
+
+GAME St. Joseph`s Hawks@Monmouth Hawks
+
+GAME Utah Tech Trailblazers@Santa Clara Broncos
+
+GAME Rider Broncs@Army Black Knights
+
+GAME Morehead St Eagles@Charleston Southern Buccaneers
+NEUTRAL
+
+GAME South Carolina State Bulldogs@Duquesne Dukes
+
+GAME Stonehill Skyhawks@Notre Dame Fighting Irish
+
+GAME Dallas Crusaders@Abilene Christian Wildcats
+
+GAME California Golden Bears@Minnesota Golden Gophers
+NEUTRAL
+
+GAME Loyola Marymount Lions@UC San Diego Tritons
+
+GAME TBD@TBD
+NEUTRAL
