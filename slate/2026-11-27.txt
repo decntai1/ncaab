@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 21:44Z
+# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 00:35Z
 
 GAME Virginia Cavaliers@Xavier Musketeers
 NEUTRAL
@@ -32,7 +32,7 @@ GAME Navy Midshipmen@Fairfield Stags
 GAME Maine Black Bears@Le Moyne Dolphins
 NEUTRAL
 
-GAME TBD@TBD
+GAME TBD@Georgetown Hoyas
 NEUTRAL
 
 GAME Texas State Bobcats@Louisiana Tech Bulldogs
@@ -65,10 +65,10 @@ NEUTRAL
 
 GAME Niagara Purple Eagles@Lafayette College Leopards
 
-GAME Villanova Wildcats@Kansas Jayhawks
-
-GAME TBD@TBD
+GAME TBD@UT Austin Longhorns
 NEUTRAL
+
+GAME Villanova Wildcats@Kansas Jayhawks
 
 GAME Marquette Golden Eagles@Texas A&M Aggies
 NEUTRAL

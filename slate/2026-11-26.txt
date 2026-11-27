@@ -1,4 +1,13 @@
-# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-26 21:44Z
+# NCAAB slate 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 00:35Z
+
+GAME UCLA Bruins@Saint Mary's Gaels
+NEUTRAL
+
+GAME TCU Horned Frogs@Creighton Bluejays
+NEUTRAL
+
+GAME DePaul Blue Demons@Pittsburgh Panthers
+NEUTRAL
 
 GAME Georgetown Hoyas@UT Austin Longhorns
 NEUTRAL
@@ -6,7 +15,13 @@ NEUTRAL
 GAME Tennessee Volunteers@Iowa State Cyclones
 NEUTRAL
 
+GAME Arkansas Razorbacks@Michigan State Spartans
+NEUTRAL
+
 GAME Miami-Florida Hurricanes@Michigan Wolverines
+NEUTRAL
+
+GAME USC Trojans@Utah State Aggies
 NEUTRAL
 
 GAME Georgia Bulldogs@Cincinnati Bearcats
@@ -26,22 +41,7 @@ NEUTRAL
 GAME Arizona State Sun Devils@South Carolina Gamecocks
 NEUTRAL
 
-GAME Arkansas Razorbacks@Michigan State Spartans
-NEUTRAL
-
-GAME USC Trojans@Utah State Aggies
-NEUTRAL
-
-GAME Saint Mary's Gaels@UCLA Bruins
-NEUTRAL
-
-GAME TCU Horned Frogs@Creighton Bluejays
-NEUTRAL
-
-GAME Southern Methodist Mustangs@LSU Tigers
-NEUTRAL
-
-GAME DePaul Blue Demons@Pittsburgh Panthers
+GAME LSU Tigers@Southern Methodist Mustangs
 NEUTRAL
 
 GAME Jacksonville State Gamecocks@UC Davis Aggies
