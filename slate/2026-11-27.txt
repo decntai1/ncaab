@@ -1,7 +1,62 @@
-# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 21:28Z
+# NCAAB slate 2026-11-27 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 00:03Z
+
+GAME Western Kentucky Hilltoppers@Illinois Fighting Illini
+
+GAME UT Austin Longhorns@Saint Mary's Gaels
+NEUTRAL
+
+GAME Villanova Wildcats@Kansas Jayhawks
+
+GAME Bowling Green Falcons@Indiana Hoosiers
+
+GAME Niagara Purple Eagles@Lafayette College Leopards
+
+GAME Marquette Golden Eagles@Texas A&M Aggies
+NEUTRAL
+
+GAME Old Dominion Monarchs@Virginia Tech Hokies
+
+GAME Drake Bulldogs@Boise State Broncos
+NEUTRAL
+
+GAME Michigan Wolverines@Kansas State Wildcats
+NEUTRAL
+
+GAME Southern Wesleyan Warriors@SC Upstate Spartans
+
+GAME Towson Tigers@Penn Quakers
+
+GAME Virginia Cavaliers@Xavier Musketeers
+NEUTRAL
 
 GAME Georgetown Hoyas@UCLA Bruins
 NEUTRAL
+
+GAME Iowa State Cyclones@St. John´s Red Storm
+NEUTRAL
+
+GAME Southern University Jaguars@Vanderbilt Commodores
+
+GAME Memphis Tigers@Wake Forest Deacons
+NEUTRAL
+
+GAME St. Thomas Tommies@Liberty Flames
+NEUTRAL
+
+GAME Merrimack Warriors@Vermont Catamounts
+NEUTRAL
+
+GAME UMass Lowell River Hawks@Hampton Pirates
+NEUTRAL
+
+GAME Bryant & Stratton (OH) Bobcats@Youngstown State Penguins
+
+GAME Clarke Pride@South Dakota Coyotes
+
+GAME Fresno St Bulldogs@South Alabama Jaguars
+NEUTRAL
+
+GAME Navy Midshipmen@Fairfield Stags
 
 GAME Maine Black Bears@Le Moyne Dolphins
 NEUTRAL
@@ -31,63 +86,8 @@ GAME Radford Highlanders@American Eagles
 
 GAME Maryland Baltimore@George Washington Revolutionaries
 
-GAME Virginia Cavaliers@Xavier Musketeers
-NEUTRAL
-
-GAME Iowa State Cyclones@St. John´s Red Storm
-NEUTRAL
-
-GAME Southern University Jaguars@Vanderbilt Commodores
-
-GAME Memphis Tigers@Wake Forest Deacons
-NEUTRAL
-
-GAME St. Thomas Tommies@Liberty Flames
-NEUTRAL
-
-GAME Merrimack Warriors@Vermont Catamounts
-NEUTRAL
-
-GAME UMass Lowell River Hawks@Hampton Pirates
-NEUTRAL
-
-GAME Bryant & Stratton (OH) Bobcats@Youngstown State Penguins
-
-GAME Clarke Pride@South Dakota Coyotes
-
-GAME Fresno St Bulldogs@South Alabama Jaguars
-NEUTRAL
-
-GAME Navy Midshipmen@Fairfield Stags
-
 GAME Cincinnati Bearcats@Boston College Eagles
 NEUTRAL
-
-GAME Niagara Purple Eagles@Lafayette College Leopards
-
-GAME UT Austin Longhorns@Saint Mary's Gaels
-NEUTRAL
-
-GAME Villanova Wildcats@Kansas Jayhawks
-
-GAME Marquette Golden Eagles@Texas A&M Aggies
-NEUTRAL
-
-GAME Old Dominion Monarchs@Virginia Tech Hokies
-
-GAME Drake Bulldogs@Boise State Broncos
-NEUTRAL
-
-GAME Michigan Wolverines@Kansas State Wildcats
-NEUTRAL
-
-GAME Western Kentucky Hilltoppers@Illinois Fighting Illini
-
-GAME Bowling Green Falcons@Indiana Hoosiers
-
-GAME Southern Wesleyan Warriors@SC Upstate Spartans
-
-GAME Towson Tigers@Penn Quakers
 
 GAME Central Florida Knights@Georgia Bulldogs
 NEUTRAL

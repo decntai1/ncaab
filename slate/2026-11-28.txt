@@ -1,4 +1,4 @@
-# NCAAB slate 2026-11-28 (US Eastern date) from ESPN scoreboard, fetched 2026-11-27 21:28Z
+# NCAAB slate 2026-11-28 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 00:03Z
 
 GAME Siena Saints@Seton Hall Pirates
 
