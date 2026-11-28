@@ -1,0 +1,110 @@
+# NCAAB slate 2026-11-29 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 17:48Z
+
+GAME Niagara Purple Eagles@Maine Black Bears
+NEUTRAL
+
+GAME Merrimack Warriors@Colgate Raiders
+NEUTRAL
+
+GAME Memphis Tigers@Dayton Flyers
+NEUTRAL
+
+GAME Mitchell Mariners@New Haven Chargers
+
+GAME Chicago Ramblers@Massachusetts Minutemen
+
+GAME Radford Highlanders@UMass Lowell River Hawks
+NEUTRAL
+
+GAME Dartmouth Big Green@Appalachian State Mountaineers
+
+GAME Canisius Golden Griffins@Illinois Chicago Flames
+
+GAME Georgia Southern-East Georgia Golden Eagles@Mercer Bears
+
+GAME North Dakota Fighting Hawks@Wisconsin Green Bay Phoenix
+
+GAME Howard Bison@College of Charleston Cougars
+
+GAME IUPUI Jaguars@Tulsa Golden Hurricane
+
+GAME Utah State Aggies@New Mexico Lobos
+
+GAME Central Connecticut Blue Devils@Fairfield Stags
+
+GAME Quinnipiac Bobcats@Yale Bulldogs
+
+GAME Davidson Wildcats@Florida Atlantic Owls
+
+GAME New Hampshire Wildcats@Holy Cross Crusaders
+
+GAME Rice Owls@Arkansas State Red Wolves
+
+GAME NJIT Highlanders@Sacred Heart Pioneers
+
+GAME Louisiana–Monroe Warhawks@Tulane Green Waves
+
+GAME West Georgia Wolves@SC Upstate Spartans
+
+GAME Wisconsin Milwaukee Panthers@Oregon State Beavers
+
+GAME Vermont Catamounts@Hofstra Pride
+
+GAME Le Moyne Dolphins@Lafayette College Leopards
+
+GAME Malone Pioneers@Kent State Golden Flashes
+
+GAME Western Carolina Catamounts@NC Charlotte 49ers
+
+GAME West Florida Argonauts@Florida State Seminoles
+NEUTRAL
+
+GAME Maryland Eastern Shore Hawks@Longwood Lancers
+
+GAME Eastern Washington Eagles@Wyoming Cowboys
+
+GAME Tennessee State Tigers@Oklahoma State Cowboys
+
+GAME South Florida Bulls@Saint Louis Billikens
+NEUTRAL
+
+GAME Queens Royals@Houston Cougars
+
+GAME Tarleton State Texans@Texas Southern Tigers
+
+GAME Grambling St Tigers@Southern Miss Golden Eagles
+
+GAME UTSA Roadrunners@SIU Edwardsville Cougars
+
+GAME North Dakota State Bison@Boise State Broncos
+NEUTRAL
+
+GAME Arkansas Monticello Boll Weevils@Alabama State Hornets
+
+GAME Iona Gaels@Bryant Bulldogs
+
+GAME Morehead St Eagles@East Tennessee State Buccaneers
+
+GAME William & Mary Tribe@James Madison Dukes
+
+GAME Portland Pilots@Stanford Cardinal
+
+GAME Hampton Pirates@American Eagles
+
+GAME Drake Bulldogs@North Texas Mean Green
+NEUTRAL
+
+GAME Point Skyhawks@Samford Bulldogs
+
+GAME Nicholls State Colonels@Texas State Bobcats
+
+GAME Florida Gulf Coast Eagles@New Orleans Privateers
+
+GAME Lipscomb Bisons@Ohio State Buckeyes
+
+GAME South Dakota State Jackrabbits@Fresno St Bulldogs
+NEUTRAL
+
+GAME Norfolk State Spartans@Washington Huskies
+
+GAME Incarnate Word Cardinals@Grand Canyon Antelopes

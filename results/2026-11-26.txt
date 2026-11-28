@@ -1,4 +1,4 @@
-# NCAAB results 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 00:03Z
+# NCAAB results 2026-11-26 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 17:48Z
 
 GAME Texas Tech Red Raiders@Oregon Ducks
 NEUTRAL

@@ -1,8 +1,8 @@
-# NCAAB slate 2026-11-28 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 00:03Z
+# NCAAB slate 2026-11-28 (US Eastern date) from ESPN scoreboard, fetched 2026-11-28 17:48Z
 
 GAME Siena Saints@Seton Hall Pirates
 
-GAME Princeton Tigers@St. Thomas Tommies
+GAME St. Thomas Tommies@Princeton Tigers
 NEUTRAL
 
 GAME Elon Phoenix@North Carolina State Wolfpack
@@ -89,7 +89,7 @@ GAME Paul Quinn Tigers@Sam Houston State Bearkats
 
 GAME Merrimack Warriors@Hofstra Pride
 
-GAME Buffalo Bulls@Towson Tigers
+GAME Towson Tigers@Buffalo Bulls
 NEUTRAL
 
 GAME Tennessee Tech Golden Eagles@Eastern Kentucky Colonels
@@ -162,5 +162,5 @@ NEUTRAL
 
 GAME Loyola Marymount Lions@UC San Diego Tritons
 
-GAME TBD@TBD
+GAME Louisville Cardinals@Creighton Bluejays
 NEUTRAL
